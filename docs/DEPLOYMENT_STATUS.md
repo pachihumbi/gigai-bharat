@@ -17,11 +17,11 @@
 
 | Surface | URL |
 |---------|-----|
-| Marketing (latest) | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app |
-| Marketing `/join` | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app/join |
-| Marketing `/manifesto` | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app/manifesto |
-| Worker (latest) | https://gigai-bharat-worker-8q0jsz0b4-pachihumbis-projects.vercel.app |
-| Worker `/auth` | https://gigai-bharat-worker-8q0jsz0b4-pachihumbis-projects.vercel.app/auth |
+| Marketing (latest) | https://gigai-bharat.vercel.app |
+| Marketing `/join` | https://gigai-bharat.vercel.app/join |
+| Marketing `/manifesto` | https://gigai-bharat.vercel.app/manifesto |
+| Worker (latest) | https://gigai-bharat-worker.vercel.app |
+| Worker `/auth` | https://gigai-bharat-worker.vercel.app/auth |
 
 ---
 
