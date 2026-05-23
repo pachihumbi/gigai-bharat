@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/AppShell";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowUpRight, Camera, LogOut, ShieldAlert, Sparkles, TrendingUp, Zap } from "lucide-react";
+import { ArrowUpRight, BookOpen, Camera, LogOut, ShieldAlert, Sparkles, TrendingUp, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -10,6 +10,8 @@ import { useLedger } from "@/hooks/useLedger";
 import { useAuth } from "@/hooks/useAuth";
 import { useRestLock } from "@/hooks/useRestLock";
 import { RestLockModal } from "@/components/RestLockModal";
+import { useI18n } from "@/i18n/context";
+import { weekTotal } from "@/lib/ledger-utils";
 
 const DashboardSkeleton = () => (
   <div className="space-y-4">
@@ -49,7 +51,8 @@ const RestLockDial = ({ hours }: { hours: number }) => {
 };
 
 const Dashboard = () => {
-  const { worker, todayEarnings, tripsToday, loading } = useLedger();
+  const { t } = useI18n();
+  const { worker, earnings, todayEarnings, tripsToday, loading } = useLedger();
   const { signOut } = useAuth();
   const [online, setOnline] = useState(true);
   const [driveHours, setDriveHours] = useState(7.4);
@@ -64,7 +67,9 @@ const Dashboard = () => {
   // Demo helper: long-press hero to fast-forward to fatigue threshold
   const triggerFatigueDemo = () => setDriveHours(11.6);
 
-  const earnings = useCountUp(Math.round(todayEarnings), 1600);
+  const earningsDisplay = useCountUp(Math.round(todayEarnings), 1600);
+  const week = weekTotal(earnings);
+  const weekDelta = week > 0 && todayEarnings > 0 ? Math.round((todayEarnings / week) * 100) : null;
   if (loading) return <AppShell><DashboardSkeleton /></AppShell>;
 
   const restLockActive = driveHours >= 12;
@@ -80,8 +85,7 @@ const Dashboard = () => {
           <div className="w-11 h-11 rounded-full bg-gradient-saffron grid place-items-center font-bold text-accent-foreground">{initial}</div>
           <div>
             <p className="text-xs font-mono-tech text-muted-foreground">{firstName.toUpperCase()} • BENGALURU</p>
-            <p className="font-semibold leading-tight">Namaste, {firstName} 👋</p>
-            <p className="text-[11px] font-kannada text-muted-foreground">ಶುಭೋದಯ</p>
+            <p className="font-semibold leading-tight">{t.dashboard.greeting}, {firstName} 👋</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -91,7 +95,7 @@ const Dashboard = () => {
               onCheckedChange={(v) => { setOnline(v); toast.success(v ? "You're Online" : "Shift Ended"); }}
             />
             <span className={`text-[10px] font-mono-tech ${online ? "text-secondary" : "text-muted-foreground"}`}>
-              {online ? "● ONLINE" : "○ OFFLINE"}
+              {online ? `● ${t.dashboard.online}` : `○ ${t.dashboard.offline}`}
             </span>
           </label>
           <button
@@ -110,20 +114,23 @@ const Dashboard = () => {
         className="relative glass-card overflow-hidden p-5 mb-4 animate-scale-in" style={{ boxShadow: "0 0 0 1px hsl(var(--secondary)/0.4), 0 0 30px hsl(var(--secondary)/0.25)" }}>
         <div className="absolute -top-12 -right-12 w-40 h-40 bg-secondary/30 rounded-full blur-3xl" />
         <div className="relative">
-          <p className="text-[10px] uppercase tracking-[0.25em] text-secondary font-mono-tech">Today's Earnings • ಇಂದಿನ ಆದಾಯ</p>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-secondary font-mono-tech">{t.dashboard.todayEarnings}</p>
           <div className="flex items-end gap-2 mt-2">
-            <span className="text-5xl font-extrabold tracking-tight text-gradient-neon tabular-nums">₹{Math.round(earnings)}</span>
-            <span className="mb-2 flex items-center text-xs font-semibold text-secondary">
-              <ArrowUpRight className="h-3 w-3" />+18%
-            </span>
+            <span className="text-5xl font-extrabold tracking-tight text-gradient-neon tabular-nums">₹{Math.round(earningsDisplay)}</span>
+            {weekDelta !== null && weekDelta > 0 && (
+              <span className="mb-2 flex items-center text-xs font-semibold text-secondary">
+                <ArrowUpRight className="h-3 w-3" />{weekDelta}% of week
+              </span>
+            )}
           </div>
-          <p className="text-sm font-semibold text-secondary mt-1">100% Kept • Zero Commission</p>
-          <p className="text-[11px] font-kannada text-muted-foreground">ಶೇಕಡಾ ೧೦೦ ನಿಮ್ಮದು • ಯಾವುದೇ ಕಮಿಷನ್ ಇಲ್ಲ</p>
+          <p className="text-sm font-semibold text-secondary mt-1">{t.dashboard.kept}</p>
           <div className="flex items-center gap-4 mt-3 text-[11px] text-muted-foreground">
-            <span>{tripsToday} trips</span><span className="w-1 h-1 rounded-full bg-muted-foreground" />
-            <span>{driveHours.toFixed(1)}h driving</span><span className="w-1 h-1 rounded-full bg-muted-foreground" />
-            <span className="text-secondary">Goal 68%</span>
+            <span>{tripsToday} {t.dashboard.trips}</span><span className="w-1 h-1 rounded-full bg-muted-foreground" />
+            <span>{driveHours.toFixed(1)}{t.dashboard.driving}</span>
           </div>
+          <Link to="/ledger" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+            <BookOpen className="h-3.5 w-3.5" /> {t.dashboard.viewLedger} →
+          </Link>
         </div>
       </div>
 
@@ -157,8 +164,8 @@ const Dashboard = () => {
         >
           <span className="absolute inset-0 bg-[linear-gradient(110deg,transparent_40%,hsl(var(--primary)/0.15)_50%,transparent_60%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
           <Camera className="h-5 w-5 text-primary mb-2 relative" />
-          <p className="text-sm font-semibold relative">Upload Screenshot</p>
-          <p className="text-[10px] text-muted-foreground relative">OCR multi-app parser</p>
+          <p className="text-sm font-semibold relative">{t.dashboard.uploadScreenshot}</p>
+          <p className="text-[10px] text-muted-foreground relative">{t.dashboard.ocrParser}</p>
         </Link>
         <Link to="/heatmap" className="glass-card p-4 active:scale-95 transition-transform animate-fade-in" style={{ animationDelay: "0.05s" }}>
           <Sparkles className="h-5 w-5 text-accent mb-2" />
@@ -204,7 +211,7 @@ const Dashboard = () => {
       </div>
 
       <p className="text-center text-[10px] font-mono-tech tracking-[0.25em] text-muted-foreground mt-6">
-        POWERED BY <span className="text-gradient-neon font-bold">GIGAI BHARAT</span>
+        {t.common.powered}
       </p>
     </AppShell>
   );

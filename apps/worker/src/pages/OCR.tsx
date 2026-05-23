@@ -4,6 +4,7 @@ import { Camera, CheckCircle2, FileImage, Loader2, Sparkles } from "lucide-react
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useI18n } from "@/i18n/context";
 
 const STAGES = [
   { label: "Reading screenshot", kn: "ಚಿತ್ರ ಓದಲಾಗುತ್ತಿದೆ" },
@@ -34,16 +35,21 @@ const fileToDataUrl = (f: File) =>
   });
 
 const OCR = () => {
+  const { t } = useI18n();
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [stage, setStage] = useState(-1);
   const [done, setDone] = useState(false);
   const [rows, setRows] = useState<Row[]>([]);
+  const [pendingRows, setPendingRows] = useState<Row[]>([]);
   const [confidence, setConfidence] = useState(0);
+  const [reviewing, setReviewing] = useState(false);
 
   const handleFile = async (file: File) => {
     setDone(false);
     setRows([]);
+    setPendingRows([]);
+    setReviewing(false);
     const dataUrl = await fileToDataUrl(file);
     setPreview(dataUrl);
 
@@ -64,9 +70,22 @@ const OCR = () => {
       );
       if (parsed.length === 0) throw new Error("No earnings detected in screenshot");
 
-      setStage(3);
+      setPendingRows(parsed);
+      setConfidence(Number(data.confidence) || 0.95);
+      setReviewing(true);
+      setStage(STAGES.length - 1);
+    } catch (e: unknown) {
+      console.error(e);
+      toast.error(e instanceof Error ? e.message : "Failed to parse screenshot");
+      setStage(-1);
+    }
+  };
 
-      // Look up worker_id
+  const confirmSave = async () => {
+    if (pendingRows.length === 0) return;
+    setStage(3);
+    setReviewing(false);
+    try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not signed in");
       const { data: worker, error: wErr } = await supabase
@@ -76,7 +95,7 @@ const OCR = () => {
         .maybeSingle();
       if (wErr || !worker) throw new Error("Worker profile missing");
 
-      const inserts = parsed.map((r) => ({
+      const inserts = pendingRows.map((r) => ({
         worker_id: worker.id,
         date: r.date,
         amount_earned: r.amount_earned,
@@ -85,22 +104,21 @@ const OCR = () => {
       const { error: insErr } = await supabase.from("earnings_ledger").insert(inserts);
       if (insErr) throw insErr;
 
-      // Bump wallet via validated RPC (consistent 403 if ownership fails)
-      const total = parsed.reduce((a, b) => a + Number(b.amount_earned), 0);
+      const total = pendingRows.reduce((a, b) => a + Number(b.amount_earned), 0);
       if (total > 0) {
         const { walletRpc } = await import("@/lib/walletAuth");
         await walletRpc.incrementBalance(worker.id, total);
       }
 
-      setRows(parsed);
-      setConfidence(Number(data.confidence) || 0.95);
+      setRows(pendingRows);
+      setPendingRows([]);
       setDone(true);
       setStage(STAGES.length);
       toast.success(`₹${total} added to your ledger`);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      toast.error(e?.message || "Failed to parse screenshot");
-      setStage(-1);
+      toast.error(e instanceof Error ? e.message : "Failed to save");
+      setReviewing(true);
     }
   };
 
@@ -111,11 +129,11 @@ const OCR = () => {
     e.target.value = "";
   };
 
-  const total = rows.reduce((a, b) => a + Number(b.amount_earned), 0);
-  const busy = stage >= 0 && !done;
+  const total = (reviewing ? pendingRows : rows).reduce((a, b) => a + Number(b.amount_earned), 0);
+  const busy = stage >= 0 && stage < STAGES.length - 1 && !reviewing && !done;
 
   return (
-    <AppShell title="Screenshot OCR" kn="ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ವಿಶ್ಲೇಷಣೆ">
+    <AppShell title={t.ocr.title}>
       <input ref={inputRef} type="file" accept="image/*" hidden onChange={onChange} />
 
       {/* Upload pane */}
@@ -161,7 +179,7 @@ const OCR = () => {
           {stage === -1 && !preview && (
             <div className="relative z-10 text-center px-6">
               <FileImage className="h-10 w-10 text-primary mx-auto mb-2" />
-              <p className="text-sm font-semibold">Tap to upload screenshot</p>
+              <p className="text-sm font-semibold">{t.ocr.upload}</p>
               <p className="text-[11px] text-muted-foreground mt-1">Swiggy • Rapido • Uber • Zomato</p>
             </div>
           )}
@@ -178,7 +196,7 @@ const OCR = () => {
           ) : done ? (
             <><Sparkles className="h-4 w-4 relative" /><span className="relative">Parse Another</span></>
           ) : (
-            <><Camera className="h-4 w-4 relative" /><span className="relative">Upload & Parse</span></>
+            <><Camera className="h-4 w-4 relative" /><span className="relative">{t.ocr.parse}</span></>
           )}
         </button>
       </div>
@@ -207,7 +225,30 @@ const OCR = () => {
         </div>
       )}
 
-      {/* Results */}
+      {/* Review before save */}
+      {reviewing && pendingRows.length > 0 && (
+        <div className="glass-card p-4 mb-4 animate-scale-in border-primary/40">
+          <p className="text-[10px] font-mono-tech uppercase tracking-widest text-primary mb-3">{t.ocr.review}</p>
+          <div className="space-y-2 mb-4">
+            {pendingRows.map((r, i) => (
+              <div key={i} className="flex justify-between p-2 rounded-xl bg-muted/30 border border-border/60">
+                <span className="text-sm font-semibold">{r.platform}</span>
+                <span className="text-sm font-bold tabular-nums text-secondary">₹{Number(r.amount_earned).toFixed(0)}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-2xl font-extrabold text-gradient-neon tabular-nums mb-4">₹{total.toFixed(0)}</p>
+          <button
+            type="button"
+            onClick={confirmSave}
+            className="w-full min-h-[48px] rounded-2xl bg-gradient-neon text-primary-foreground font-bold active:scale-95 transition"
+          >
+            {t.ocr.confirm}
+          </button>
+        </div>
+      )}
+
+      {/* Results after save */}
       {done && rows.length > 0 && (
         <div className="glass-card p-4 mb-4 animate-scale-in" style={{ boxShadow: "0 0 0 1px hsl(var(--secondary)/0.5), 0 0 40px hsl(var(--secondary)/0.3)" }}>
           <div className="flex items-center justify-between mb-3">
@@ -235,8 +276,8 @@ const OCR = () => {
               <p className="text-[10px] text-muted-foreground">Added to Ledger</p>
               <p className="text-3xl font-extrabold text-gradient-neon tabular-nums">₹{total.toFixed(0)}</p>
             </div>
-            <Link to="/gigpay" className="px-3 py-2 rounded-xl bg-secondary text-secondary-foreground text-xs font-bold active:scale-95 transition">
-              View in GigPay →
+            <Link to="/ledger" className="px-3 py-2 rounded-xl bg-secondary text-secondary-foreground text-xs font-bold active:scale-95 transition">
+              View ledger →
             </Link>
           </div>
         </div>

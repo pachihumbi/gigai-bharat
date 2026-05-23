@@ -2,8 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AudienceCTASection } from "@/components/landing/audience-cta-section";
 import { ChapterIndex } from "@/components/landing/chapter-index";
 import { CommandCenterSection } from "@/components/landing/command-center-section";
+import { DemoFlowSection } from "@/components/landing/demo-flow-section";
 import { FounderSection } from "@/components/landing/founder-section";
 import { HeroSection } from "@/components/landing/hero-section";
+import { InvestorMetricsSection } from "@/components/landing/investor-metrics-section";
 import { ModulesGrid } from "@/components/landing/modules-grid";
 import { ProblemSection } from "@/components/landing/problem-section";
 import { SolutionSection } from "@/components/landing/solution-section";
@@ -60,6 +62,8 @@ function HomePage() {
       <ThesisSection />
       <ProblemSection />
       <SolutionSection />
+      <InvestorMetricsSection />
+      <DemoFlowSection />
       <ModulesGrid />
       <AudienceCTASection />
       <TrustLayersSection />

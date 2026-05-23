@@ -97,8 +97,11 @@ export const trustSignals = [
 
 export const investorMetrics = [
   { value: "₹6.2L Cr", label: "Mobility GMV by 2030", sub: "Bharat TAM" },
+  { value: "23.5M", label: "Gig workers addressable", sub: "Mobility & delivery" },
   { value: "38%", label: "Earnings opacity gap", sub: "vs transparent OS" },
-  { value: "168h", label: "Avg. unpaid idle / yr", sub: "per driver target" },
+  { value: "T+0", label: "OCR → ledger latency", sub: "Screenshot to credit" },
+  { value: "14", label: "Pilot city nodes", sub: "Tier 1–3 expansion" },
+  { value: "168h", label: "Unpaid idle / yr", sub: "Per driver (target)" },
 ] as const;
 
 export type NavLink = { to: ChapterPath | "/" | "/join" | "/hiring"; label: string; short?: string };
@@ -118,7 +121,7 @@ export const founderQuote =
 export const contactLinks = {
   github: "https://github.com/pachihumbi/gigai-bharat",
   email: "hello@bharatgig.live",
-  app: "https://app.bharatgig.live",
+  app: "https://app.bharatgig.live/auth",
   investors: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Investor%20Intro",
   fleet: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Fleet%20Partnership",
 } as const;
