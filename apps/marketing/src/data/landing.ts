@@ -77,7 +77,7 @@ export const coreModules = [
   {
     icon: "dpi",
     title: "Digital ShramSetu",
-    status: "Roadmap",
+    status: "Live",
     body: "90-day engagement tracking toward Social Security Code via DigiLocker & UMANG APIs.",
   },
   {
@@ -104,15 +104,19 @@ export const investorMetrics = [
   { value: "168h", label: "Unpaid idle / yr", sub: "Per driver (target)" },
 ] as const;
 
-export type NavLink = { to: ChapterPath | "/" | "/join" | "/hiring"; label: string; short?: string };
+export type NavLink = {
+  to: ChapterPath | "/" | "/join" | "/hiring" | "/roi" | "/smart-hub" | "/shramsetu";
+  label: string;
+  short?: string;
+};
 
 export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
-  { to: "/manifesto", label: "Manifesto", short: "Manifesto" },
+  { to: "/shramsetu", label: "ShramSetu", short: "ShramSetu" },
+  { to: "/roi", label: "Investors", short: "ROI" },
+  { to: "/smart-hub", label: "Smart Hub", short: "Hub" },
   { to: "/join", label: "Join", short: "Join" },
-  { to: "/workers", label: "Workers", short: "Workers" },
   { to: "/infrastructure", label: "Demo", short: "Demo" },
-  { to: "/hiring", label: "Hiring", short: "Hiring" },
 ];
 
 export const founderQuote =

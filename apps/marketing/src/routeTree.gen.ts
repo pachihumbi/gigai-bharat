@@ -10,6 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkersRouteImport } from './routes/workers'
+import { Route as SmartHubRouteImport } from './routes/smart-hub'
+import { Route as ShramsetuRouteImport } from './routes/shramsetu'
+import { Route as RoiRouteImport } from './routes/roi'
 import { Route as ManifestoRouteImport } from './routes/manifesto'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InfrastructureRouteImport } from './routes/infrastructure'
@@ -21,6 +24,21 @@ import { Route as IndexRouteImport } from './routes/index'
 const WorkersRoute = WorkersRouteImport.update({
   id: '/workers',
   path: '/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmartHubRoute = SmartHubRouteImport.update({
+  id: '/smart-hub',
+  path: '/smart-hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShramsetuRoute = ShramsetuRouteImport.update({
+  id: '/shramsetu',
+  path: '/shramsetu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoiRoute = RoiRouteImport.update({
+  id: '/roi',
+  path: '/roi',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ManifestoRoute = ManifestoRouteImport.update({
@@ -67,6 +85,9 @@ export interface FileRoutesByFullPath {
   '/infrastructure': typeof InfrastructureRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roi': typeof RoiRoute
+  '/shramsetu': typeof ShramsetuRoute
+  '/smart-hub': typeof SmartHubRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +98,9 @@ export interface FileRoutesByTo {
   '/infrastructure': typeof InfrastructureRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roi': typeof RoiRoute
+  '/shramsetu': typeof ShramsetuRoute
+  '/smart-hub': typeof SmartHubRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRoutesById {
@@ -88,6 +112,9 @@ export interface FileRoutesById {
   '/infrastructure': typeof InfrastructureRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roi': typeof RoiRoute
+  '/shramsetu': typeof ShramsetuRoute
+  '/smart-hub': typeof SmartHubRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +127,9 @@ export interface FileRouteTypes {
     | '/infrastructure'
     | '/join'
     | '/manifesto'
+    | '/roi'
+    | '/shramsetu'
+    | '/smart-hub'
     | '/workers'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +140,9 @@ export interface FileRouteTypes {
     | '/infrastructure'
     | '/join'
     | '/manifesto'
+    | '/roi'
+    | '/shramsetu'
+    | '/smart-hub'
     | '/workers'
   id:
     | '__root__'
@@ -120,6 +153,9 @@ export interface FileRouteTypes {
     | '/infrastructure'
     | '/join'
     | '/manifesto'
+    | '/roi'
+    | '/shramsetu'
+    | '/smart-hub'
     | '/workers'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +167,9 @@ export interface RootRouteChildren {
   InfrastructureRoute: typeof InfrastructureRoute
   JoinRoute: typeof JoinRoute
   ManifestoRoute: typeof ManifestoRoute
+  RoiRoute: typeof RoiRoute
+  ShramsetuRoute: typeof ShramsetuRoute
+  SmartHubRoute: typeof SmartHubRoute
   WorkersRoute: typeof WorkersRoute
 }
 
@@ -141,6 +180,27 @@ declare module '@tanstack/react-router' {
       path: '/workers'
       fullPath: '/workers'
       preLoaderRoute: typeof WorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/smart-hub': {
+      id: '/smart-hub'
+      path: '/smart-hub'
+      fullPath: '/smart-hub'
+      preLoaderRoute: typeof SmartHubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shramsetu': {
+      id: '/shramsetu'
+      path: '/shramsetu'
+      fullPath: '/shramsetu'
+      preLoaderRoute: typeof ShramsetuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roi': {
+      id: '/roi'
+      path: '/roi'
+      fullPath: '/roi'
+      preLoaderRoute: typeof RoiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/manifesto': {
@@ -203,6 +263,9 @@ const rootRouteChildren: RootRouteChildren = {
   InfrastructureRoute: InfrastructureRoute,
   JoinRoute: JoinRoute,
   ManifestoRoute: ManifestoRoute,
+  RoiRoute: RoiRoute,
+  ShramsetuRoute: ShramsetuRoute,
+  SmartHubRoute: SmartHubRoute,
   WorkersRoute: WorkersRoute,
 }
 export const routeTree = rootRouteImport

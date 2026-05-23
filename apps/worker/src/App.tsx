@@ -39,6 +39,7 @@ const App = () => (
             <Route path="/map" element={<RequireAuth><MapPage /></RequireAuth>} />
             <Route path="/gigpay" element={<RequireAuth><GigPay /></RequireAuth>} />
             <Route path="/welfare" element={<RequireAuth><Welfare /></RequireAuth>} />
+            <Route path="/shramsetu" element={<RequireAuth><Welfare /></RequireAuth>} />
             <Route path="/ocr" element={<RequireAuth><OCR /></RequireAuth>} />
             <Route path="/pitch" element={<RequireAuth><Pitch /></RequireAuth>} />
             <Route path="*" element={<NotFound />} />

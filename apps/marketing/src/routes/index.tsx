@@ -3,6 +3,7 @@ import { AudienceCTASection } from "@/components/landing/audience-cta-section";
 import { ChapterIndex } from "@/components/landing/chapter-index";
 import { CommandCenterSection } from "@/components/landing/command-center-section";
 import { DemoFlowSection } from "@/components/landing/demo-flow-section";
+import { FlagshipModulesSection } from "@/components/landing/flagship-modules-section";
 import { FounderSection } from "@/components/landing/founder-section";
 import { HeroSection } from "@/components/landing/hero-section";
 import { InvestorMetricsSection } from "@/components/landing/investor-metrics-section";
@@ -63,6 +64,7 @@ function HomePage() {
       <ProblemSection />
       <SolutionSection />
       <InvestorMetricsSection />
+      <FlagshipModulesSection />
       <DemoFlowSection />
       <ModulesGrid />
       <AudienceCTASection />

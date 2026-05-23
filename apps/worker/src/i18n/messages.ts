@@ -7,7 +7,7 @@ export const locales: { id: Locale; label: string }[] = [
 ];
 
 const en = {
-  nav: { home: "Home", ledger: "Ledger", map: "Map", gigpay: "GigPay", welfare: "Welfare" },
+  nav: { home: "Home", ledger: "Ledger", map: "Map", gigpay: "GigPay", welfare: "ShramSetu" },
   dashboard: {
     greeting: "Namaste",
     todayEarnings: "Today's Earnings",

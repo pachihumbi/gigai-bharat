@@ -1,3 +1,5 @@
 # App-level ignores — root .gitignore covers secrets, node_modules, dist.
 # Keep only app-specific entries here.
 .lovable/
+
+.vercel

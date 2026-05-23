@@ -42,6 +42,9 @@ export const publicRoutes = [
   "/cities",
   "/infrastructure",
   "/future",
+  "/roi",
+  "/smart-hub",
+  "/shramsetu",
 ] as const;
 
 export function absoluteUrl(path: string) {

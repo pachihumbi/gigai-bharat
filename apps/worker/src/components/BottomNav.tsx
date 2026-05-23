@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, Map, Wallet, BookOpen, Camera } from "lucide-react";
+import { Home, Wallet, BookOpen, Camera, Landmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n/context";
 
@@ -11,7 +11,7 @@ export const BottomNav = () => {
     { to: "/dashboard", label: t.nav.home, icon: Home },
     { to: "/ledger", label: t.nav.ledger, icon: BookOpen },
     { to: "/ocr", label: "OCR", icon: Camera },
-    { to: "/map", label: t.nav.map, icon: Map },
+    { to: "/welfare", label: t.nav.welfare, icon: Landmark },
     { to: "/gigpay", label: t.nav.gigpay, icon: Wallet },
   ];
 
