@@ -1,94 +1,57 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-23 (DNS cleanup complete)  
-**Status:** ✅ FULLY OPERATIONAL
+**Verified:** 2026-05-23  
+**Status:** ✅ FULLY OPERATIONAL — Flagship modules live  
+**Commit:** `5132974`
 
 ---
 
 ## Live URLs
 
-| Surface | URL | Status |
-|---------|-----|--------|
-| Marketing | https://www.bharatgig.live | ✅ 200 |
-| Apex redirect | https://bharatgig.live → www | ✅ 200 |
-| Worker app | https://app.bharatgig.live | ✅ 200 |
+| Surface | URL |
+|---------|-----|
+| Marketing | https://www.bharatgig.live |
+| **ShramSetu (marketing)** | https://www.bharatgig.live/shramsetu |
+| **Investor ROI Calculator** | https://www.bharatgig.live/roi |
+| **Smart Hub Blueprint** | https://www.bharatgig.live/smart-hub |
+| Worker app | https://app.bharatgig.live |
+| **ShramSetu dashboard** | https://app.bharatgig.live/welfare |
+| Worker `/shramsetu` alias | https://app.bharatgig.live/shramsetu |
 
 ---
 
-## Vercel production deployments
+## Flagship modules (production)
 
-| Project | Production deployment | State |
-|---------|----------------------|-------|
-| `gigai-bharat` | `gigai-bharat-opofz01wp` | READY |
-| `gigai-bharat-worker` | `gigai-bharat-worker-phm7cnfcs` | READY |
+### 1. Digital ShramSetu — Welfare Intelligence
+- **Marketing:** `/shramsetu` — regulatory narrative + CTA to worker app
+- **Worker:** `/welfare`, `/shramsetu` — full GovTech dashboard with charts, SSC tracker, ESIC/PF, audit logs, AI insights
+- **Nav:** Bottom nav "ShramSetu" tab in worker app
 
-Dashboard:
-- https://vercel.com/pachihumbis-projects/gigai-bharat
-- https://vercel.com/pachihumbis-projects/gigai-bharat-worker
+### 2. Investor ROI Calculator
+- **Route:** `/roi` — live simulator with sliders, GMV/lending/insurance/valuation outputs, 5-year charts, data moat flywheel
+
+### 3. Smart Hub Blueprint
+- **Route:** `/smart-hub` — 11 infrastructure modules, sustainability dashboards, state readiness, cinematic hero
+
+---
+
+## Route health (verified)
+
+### Marketing — all ✅ 200
+`/`, `/shramsetu`, `/roi`, `/smart-hub`, `/join`, `/manifesto`, `/infrastructure`, `/future`, `/robots.txt`, `/sitemap.xml`
+
+### Worker — all ✅ 200
+`/`, `/auth`, `/welfare`, `/shramsetu`, `/ledger`, `/ocr`, `/gigpay`, `/dashboard`
 
 ---
 
 ## DNS & SSL
-
-| Host | Resolves to | Vercel configured | SSL |
-|------|-------------|-------------------|-----|
-| `www.bharatgig.live` | `76.76.21.21` | ✅ | ✅ HSTS active |
-| `app.bharatgig.live` | `76.76.21.21` | ✅ | ✅ HSTS active |
-| `bharatgig.live` | `76.76.21.21` | ✅ | ✅ |
+- All domains → `76.76.21.21` ✅
+- HSTS active ✅
+- No Lovable stale content ✅
 
 ---
 
-## Route verification — www.bharatgig.live
-
-| Route | Status | Notes |
-|-------|--------|-------|
-| `/` | ✅ 200 | Investor section, demo flow, command center |
-| `/join` | ✅ 200 | Worker onboarding |
-| `/hiring` | ✅ 200 | Careers page |
-| `/manifesto` | ✅ 200 | Chapter 01 |
-| `/workers` | ✅ 200 | Chapter 02 |
-| `/cities` | ✅ 200 | Chapter 03 |
-| `/infrastructure` | ✅ 200 | Command center |
-| `/future` | ✅ 200 | Chapter 05 |
-| `/robots.txt` | ✅ 200 | |
-| `/sitemap.xml` | ✅ 200 | |
-
-No Lovable routes. No 404/500.
-
----
-
-## Route verification — app.bharatgig.live
-
-| Route | Status | Notes |
-|-------|--------|-------|
-| `/` | ✅ 200 | Splash |
-| `/auth` | ✅ 200 | Sign in / sign up |
-| `/onboarding` | ✅ 200 | SPA rewrite |
-| `/dashboard` | ✅ 200 | SPA rewrite |
-| `/ledger` | ✅ 200 | Driver Ledger |
-| `/ocr` | ✅ 200 | OCR upload |
-| `/gigpay` | ✅ 200 | GigPay wallet |
-| `/map` | ✅ 200 | Map view |
-
-Bundle: `index-BDlfOalT.js` (Worker OS prototype). No Lovable badge.
-
----
-
-## Fixes applied
-
-1. Re-attached custom domains to Vercel projects (were detached → `DEPLOYMENT_NOT_FOUND`)
-2. Redeployed marketing prebuilt to `gigai-bharat` (linked project correctly)
-3. Redeployed worker prebuilt with SPA routing to `gigai-bharat-worker`
-4. Cleared doubled `rootDirectory` path causing deploy failures
-5. Cache-free deploy (`--force`) on both projects
-
----
-
-## Redeploy command
-
-```powershell
-$env:VERCEL_TOKEN = "<token>"
-.\scripts\deploy-vercel.ps1 -Target all -SkipCache
-```
-
-Or link + prebuilt deploy from each app folder per `docs/DEPLOY_APP_BHARATGIG.md`.
+## Vercel production
+- `gigai-bharat` — marketing (Nitro SSR) — READY
+- `gigai-bharat-worker` — worker SPA — READY
