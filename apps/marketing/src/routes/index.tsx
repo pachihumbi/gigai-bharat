@@ -4,6 +4,8 @@ import { ChapterIndex } from "@/components/landing/chapter-index";
 import { CommandCenterSection } from "@/components/landing/command-center-section";
 import { DemoFlowSection } from "@/components/landing/demo-flow-section";
 import { FlagshipModulesSection } from "@/components/landing/flagship-modules-section";
+import { MediaShowcaseSection } from "@/components/landing/media-showcase-section";
+import { MultilingualSection } from "@/components/landing/multilingual-section";
 import { FounderSection } from "@/components/landing/founder-section";
 import { HeroSection } from "@/components/landing/hero-section";
 import { InvestorMetricsSection } from "@/components/landing/investor-metrics-section";
@@ -65,6 +67,8 @@ function HomePage() {
       <SolutionSection />
       <InvestorMetricsSection />
       <FlagshipModulesSection />
+      <MediaShowcaseSection />
+      <MultilingualSection />
       <DemoFlowSection />
       <ModulesGrid />
       <AudienceCTASection />

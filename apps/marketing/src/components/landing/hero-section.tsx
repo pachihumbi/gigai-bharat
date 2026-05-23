@@ -49,11 +49,11 @@ export function HeroSection() {
           </FadeInHero>
 
           <FadeInHero delay={0.24} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ButtonLink href={contactLinks.investors} variant="primary" className="min-w-[200px]">
-              Investor intro →
+            <ButtonLink href="/investors" variant="primary" className="min-w-[200px]">
+              Investor ROI engine →
             </ButtonLink>
-            <ButtonLink to="/join" variant="secondary">
-              Join as worker →
+            <ButtonLink to="/shramsetu" variant="secondary">
+              ShramSetu →
             </ButtonLink>
             <a
               href="#command-center"

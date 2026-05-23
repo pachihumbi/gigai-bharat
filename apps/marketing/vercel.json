@@ -6,10 +6,15 @@
   "build": {
     "env": {
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-23-worker-os"
+      "DEPLOY_REVISION": "2026-05-23-sovereign-os"
     }
   },
   "redirects": [
+    {
+      "source": "/roi",
+      "destination": "https://www.bharatgig.live/investors",
+      "permanent": true
+    },
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "bharatgig.live" }],

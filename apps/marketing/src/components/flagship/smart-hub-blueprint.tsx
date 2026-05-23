@@ -30,7 +30,7 @@ export function SmartHubBlueprint() {
             <ButtonLink href={contactLinks.investors} variant="primary">
               Infrastructure investment intro →
             </ButtonLink>
-            <ButtonLink href="/roi" variant="ghost">
+            <ButtonLink href="/investors" variant="ghost">
               View ROI simulator
             </ButtonLink>
           </div>

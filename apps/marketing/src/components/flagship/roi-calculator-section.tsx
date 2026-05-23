@@ -73,6 +73,7 @@ export function RoiCalculatorSection() {
     { label: "Lending Opportunity", value: fmtCr(out.lendingOpportunityCr), icon: Shield },
     { label: "Insurance Revenue", value: fmtCr(out.insuranceRevenueCr), icon: Shield },
     { label: "AI Underwriting Value", value: fmtCr(out.aiUnderwritingCr), icon: Database },
+    { label: "Data moat strength", value: `${out.dataMoatStrength}/99`, icon: Database },
     { label: "Worker Identity Score", value: `${out.identityScore}/99`, icon: Database },
     { label: "Y5 Revenue Run-Rate", value: fmtCr(out.revenueYear5Cr), icon: TrendingUp },
     { label: "Valuation Projection", value: fmtCr(out.valuationCr), icon: TrendingUp },

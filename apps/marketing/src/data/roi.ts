@@ -31,6 +31,7 @@ export type RoiOutputs = {
   valuationCr: number;
   networkMultiplier: number;
   ocrVolumeM: number;
+  dataMoatStrength: number;
   walletUsers: number;
 };
 
@@ -63,6 +64,7 @@ export function computeRoi(i: RoiInputs): RoiOutputs {
     networkMultiplier,
     ocrVolumeM: ocrVolume / 1e6,
     walletUsers,
+    dataMoatStrength: Math.min(99, Math.round(identityScore * 0.6 + i.walletAdoption * 0.35 + i.states * 1.2)),
   };
 }
 

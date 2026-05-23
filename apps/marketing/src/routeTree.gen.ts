@@ -10,20 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkersRouteImport } from './routes/workers'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as SmartHubRouteImport } from './routes/smart-hub'
 import { Route as ShramsetuRouteImport } from './routes/shramsetu'
 import { Route as RoiRouteImport } from './routes/roi'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as ManifestoRouteImport } from './routes/manifesto'
 import { Route as JoinRouteImport } from './routes/join'
+import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as InfrastructureRouteImport } from './routes/infrastructure'
 import { Route as HiringRouteImport } from './routes/hiring'
 import { Route as FutureRouteImport } from './routes/future'
+import { Route as FounderRouteImport } from './routes/founder'
 import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WorkersRoute = WorkersRouteImport.update({
   id: '/workers',
   path: '/workers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SmartHubRoute = SmartHubRouteImport.update({
@@ -41,6 +50,11 @@ const RoiRoute = RoiRouteImport.update({
   path: '/roi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ManifestoRoute = ManifestoRouteImport.update({
   id: '/manifesto',
   path: '/manifesto',
@@ -49,6 +63,11 @@ const ManifestoRoute = ManifestoRouteImport.update({
 const JoinRoute = JoinRouteImport.update({
   id: '/join',
   path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorsRoute = InvestorsRouteImport.update({
+  id: '/investors',
+  path: '/investors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InfrastructureRoute = InfrastructureRouteImport.update({
@@ -66,6 +85,11 @@ const FutureRoute = FutureRouteImport.update({
   path: '/future',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FounderRoute = FounderRouteImport.update({
+  id: '/founder',
+  path: '/founder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitiesRoute = CitiesRouteImport.update({
   id: '/cities',
   path: '/cities',
@@ -80,41 +104,53 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
+  '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
+  '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
+  '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
+  '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
+  '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
+  '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
 }
 export interface FileRouteTypes {
@@ -122,54 +158,70 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cities'
+    | '/founder'
     | '/future'
     | '/hiring'
     | '/infrastructure'
+    | '/investors'
     | '/join'
     | '/manifesto'
+    | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
+    | '/status'
     | '/workers'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cities'
+    | '/founder'
     | '/future'
     | '/hiring'
     | '/infrastructure'
+    | '/investors'
     | '/join'
     | '/manifesto'
+    | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
+    | '/status'
     | '/workers'
   id:
     | '__root__'
     | '/'
     | '/cities'
+    | '/founder'
     | '/future'
     | '/hiring'
     | '/infrastructure'
+    | '/investors'
     | '/join'
     | '/manifesto'
+    | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
+    | '/status'
     | '/workers'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CitiesRoute: typeof CitiesRoute
+  FounderRoute: typeof FounderRoute
   FutureRoute: typeof FutureRoute
   HiringRoute: typeof HiringRoute
   InfrastructureRoute: typeof InfrastructureRoute
+  InvestorsRoute: typeof InvestorsRoute
   JoinRoute: typeof JoinRoute
   ManifestoRoute: typeof ManifestoRoute
+  RoadmapRoute: typeof RoadmapRoute
   RoiRoute: typeof RoiRoute
   ShramsetuRoute: typeof ShramsetuRoute
   SmartHubRoute: typeof SmartHubRoute
+  StatusRoute: typeof StatusRoute
   WorkersRoute: typeof WorkersRoute
 }
 
@@ -180,6 +232,13 @@ declare module '@tanstack/react-router' {
       path: '/workers'
       fullPath: '/workers'
       preLoaderRoute: typeof WorkersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/smart-hub': {
@@ -203,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/manifesto': {
       id: '/manifesto'
       path: '/manifesto'
@@ -215,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/join'
       fullPath: '/join'
       preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investors': {
+      id: '/investors'
+      path: '/investors'
+      fullPath: '/investors'
+      preLoaderRoute: typeof InvestorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/infrastructure': {
@@ -238,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FutureRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/founder': {
+      id: '/founder'
+      path: '/founder'
+      fullPath: '/founder'
+      preLoaderRoute: typeof FounderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cities': {
       id: '/cities'
       path: '/cities'
@@ -258,14 +338,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CitiesRoute: CitiesRoute,
+  FounderRoute: FounderRoute,
   FutureRoute: FutureRoute,
   HiringRoute: HiringRoute,
   InfrastructureRoute: InfrastructureRoute,
+  InvestorsRoute: InvestorsRoute,
   JoinRoute: JoinRoute,
   ManifestoRoute: ManifestoRoute,
+  RoadmapRoute: RoadmapRoute,
   RoiRoute: RoiRoute,
   ShramsetuRoute: ShramsetuRoute,
   SmartHubRoute: SmartHubRoute,
+  StatusRoute: StatusRoute,
   WorkersRoute: WorkersRoute,
 }
 export const routeTree = rootRouteImport

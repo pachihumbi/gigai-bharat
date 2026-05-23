@@ -105,7 +105,7 @@ export const investorMetrics = [
 ] as const;
 
 export type NavLink = {
-  to: ChapterPath | "/" | "/join" | "/hiring" | "/roi" | "/smart-hub" | "/shramsetu";
+  to: ChapterPath | "/" | "/join" | "/hiring" | "/investors" | "/smart-hub" | "/shramsetu" | "/founder" | "/roadmap" | "/status";
   label: string;
   short?: string;
 };
@@ -113,10 +113,11 @@ export type NavLink = {
 export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
   { to: "/shramsetu", label: "ShramSetu", short: "ShramSetu" },
-  { to: "/roi", label: "Investors", short: "ROI" },
+  { to: "/investors", label: "Investors", short: "ROI" },
   { to: "/smart-hub", label: "Smart Hub", short: "Hub" },
+  { to: "/founder", label: "Founder", short: "Founder" },
+  { to: "/roadmap", label: "Roadmap", short: "Roadmap" },
   { to: "/join", label: "Join", short: "Join" },
-  { to: "/infrastructure", label: "Demo", short: "Demo" },
 ];
 
 export const founderQuote =

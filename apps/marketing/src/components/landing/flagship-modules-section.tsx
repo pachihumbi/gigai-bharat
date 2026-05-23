@@ -20,7 +20,7 @@ const modules = [
     kicker: "Investor moat engine",
     title: "ROI Calculator",
     body: "Live financial simulator — GMV, lending, insurance, valuation, and 5-year network effect projections.",
-    href: "/roi",
+    href: "/investors",
     cta: "Run simulator",
     accent: "var(--neon)",
   },
