@@ -43,9 +43,9 @@ export const dispatchZones: SurgeZone[] = [
 ];
 
 export const evHubs = [
-  { name: "Sun Mobility — Indiranagar", slots: 4, waitMin: 6 },
-  { name: "Bounce Infinity — Koramangala", slots: 8, waitMin: 3 },
-  { name: "Ather Grid — Whitefield", slots: 6, waitMin: 5 },
+  { name: "VinFast × GigAI — Indiranagar", slots: 12, waitMin: 4 },
+  { name: "VinFast Solar Hub — Koramangala", slots: 16, waitMin: 3 },
+  { name: "VinFast Grid — Whitefield", slots: 24, waitMin: 5 },
 ];
 
 export function computeCreditFactors(score: number, tripCount: number, dayCount: number): CreditFactor[] {

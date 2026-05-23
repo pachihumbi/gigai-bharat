@@ -4,17 +4,24 @@ import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/Logo";
 import { PlacePicker, type PickedPlace } from "@/components/PlacePicker";
 import { toast } from "sonner";
-import { Loader2, ArrowRight, Bike, Car, Truck, Check } from "lucide-react";
+import { Loader2, ArrowRight, Check, Car, Truck, Zap } from "lucide-react";
 import { useI18n } from "@/i18n/context";
 import { z } from "zod";
+import { fleetVehicleOptions } from "@/data/ev-fleet";
 
-const VEHICLES = [
-  { id: "EV_Bike", label: "EV Bike", kn: "ಇವಿ ಬೈಕ್", icon: Bike },
-  { id: "Bike", label: "Petrol Bike", kn: "ಪೆಟ್ರೋಲ್ ಬೈಕ್", icon: Bike },
-  { id: "Auto", label: "Auto", kn: "ಆಟೋ", icon: Car },
-  { id: "Car", label: "Car", kn: "ಕಾರ್", icon: Car },
-  { id: "Truck", label: "Mini Truck", kn: "ಮಿನಿ ಟ್ರಕ್", icon: Truck },
-];
+const vehicleIcons = {
+  mpv: Car,
+  bike: Zap,
+  shuttle: Car,
+  cargo: Truck,
+} as const;
+
+const VEHICLES = fleetVehicleOptions.map((v) => ({
+  id: v.id,
+  label: v.label,
+  kn: v.sub,
+  icon: vehicleIcons[v.icon],
+}));
 
 const PLATFORMS = ["Swiggy", "Zomato", "Uber", "Ola", "Rapido", "Dunzo", "BluSmart", "Porter"];
 
@@ -36,7 +43,7 @@ const Onboarding = () => {
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [vehicle, setVehicle] = useState("EV_Bike");
+  const [vehicle, setVehicle] = useState("VinFast_MPV7");
   const [platforms, setPlatforms] = useState<string[]>([]);
   const [place, setPlace] = useState<PickedPlace | null>(null);
   const [busy, setBusy] = useState(false);
@@ -56,7 +63,7 @@ const Onboarding = () => {
         if (data.onboarded) { nav("/dashboard", { replace: true }); return; }
         setName(data.name && data.name !== "Driver" ? data.name : "");
         setPhone(data.phone_number || "");
-        setVehicle(data.vehicle_type || "EV_Bike");
+        setVehicle(data.vehicle_type || "VinFast_MPV7");
         setPlatforms((data.platforms as string[]) || []);
         if (data.home_lat && data.home_lng) {
           setPlace({ lat: Number(data.home_lat), lng: Number(data.home_lng), address: data.home_address || "" });
@@ -142,7 +149,8 @@ const Onboarding = () => {
 
           {step === 1 && (
             <div className="space-y-3">
-              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 2 / 4 • VEHICLE</p>
+              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 2 / 4 • VINFAST EV FLEET</p>
+              <p className="text-xs text-muted-foreground">{t.onboarding.vehicleSub}</p>
               <div className="grid grid-cols-2 gap-2">
                 {VEHICLES.map((v) => {
                   const Icon = v.icon;

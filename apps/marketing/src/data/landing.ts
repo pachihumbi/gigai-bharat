@@ -1,10 +1,10 @@
 import type { ChapterPath } from "./chapters";
 
 export const heroStats = [
-  { k: "Gig workers", v: "23.5M", sub: "India mobility & delivery" },
-  { k: "Pilot cities", v: "14", sub: "Tier 1–3 live nodes" },
-  { k: "Earnings OCR", v: "T+0", sub: "Screenshot → ledger" },
-  { k: "Dispatch p50", v: "1.8s", sub: "Mumbai mesh" },
+  { k: "VinFast EV fleet", v: "MPV7", sub: "Workforce mobility platform" },
+  { k: "Smart charge hubs", v: "72", sub: "Solar + wind integrated" },
+  { k: "Fleet SOC avg", v: "74%", sub: "AI battery intelligence" },
+  { k: "Security SOC", v: "24/7", sub: "AI-verified workforce" },
 ] as const;
 
 export const problemPoints = [
@@ -105,7 +105,7 @@ export const investorMetrics = [
 ] as const;
 
 export type NavLink = {
-  to: ChapterPath | "/" | "/join" | "/hiring" | "/investors" | "/smart-hub" | "/shramsetu" | "/founder" | "/roadmap" | "/status";
+  to: ChapterPath | "/" | "/join" | "/hiring" | "/investors" | "/smart-hub" | "/shramsetu" | "/founder" | "/roadmap" | "/status" | "/ev-infrastructure";
   label: string;
   short?: string;
 };
@@ -114,6 +114,7 @@ export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
   { to: "/shramsetu", label: "ShramSetu", short: "ShramSetu" },
   { to: "/investors", label: "Investors", short: "ROI" },
+  { to: "/ev-infrastructure", label: "EV Fleet", short: "EV" },
   { to: "/smart-hub", label: "Smart Hub", short: "Hub" },
   { to: "/founder", label: "Founder", short: "Founder" },
   { to: "/roadmap", label: "Roadmap", short: "Roadmap" },
@@ -155,9 +156,9 @@ export const audienceCTAs = [
   {
     audience: "fleet" as const,
     kicker: "For fleet owners",
-    title: "Coordinate EV fleets at city scale.",
-    body: "Demand-aware dispatch, SOC optimization, insurance-grade fatigue data, and transparent settlement rails.",
-    bullets: ["Live demand heatmaps", "Rest-Lock compliance", "API-first fleet dashboard"],
+    title: "VinFast EV fleet at city scale.",
+    body: "AI dispatch, SOC optimization, security command center, and smart charging — workforce mobility infrastructure, not ride-hail.",
+    bullets: ["VinFast MPV7 platform", "24/7 security SOC", "Solar + wind charge hubs"],
     ctaLabel: "Partner with us",
     href: contactLinks.fleet,
     primary: false,

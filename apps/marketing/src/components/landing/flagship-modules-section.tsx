@@ -25,6 +25,15 @@ const modules = [
     accent: "var(--neon)",
   },
   {
+    id: "ev",
+    kicker: "EV workforce infrastructure",
+    title: "VinFast EV Fleet",
+    body: "MPV7 platform, smart charging analytics, battery intelligence, and AI fleet dispatch — India's sustainable worker transport layer.",
+    href: "/ev-infrastructure",
+    cta: "Explore EV infrastructure",
+    accent: "var(--neon)",
+  },
+  {
     id: "hub",
     kicker: "Civilization infrastructure",
     title: "Smart Hub Blueprint",
@@ -50,7 +59,7 @@ export function FlagshipModulesSection() {
         </p>
       </FadeIn>
 
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
+      <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
         {modules.map((m, i) => (
           <FadeIn key={m.id} delay={i * 0.06}>
             <GlassPanel glow className="flex h-full flex-col p-8">

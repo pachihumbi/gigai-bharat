@@ -1,4 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { EvCommandCenterSection } from "@/components/flagship/ev-command-center-section";
+import { SecurityMobilitySection } from "@/components/flagship/security-mobility-section";
+import { VinfastShowcaseSection } from "@/components/flagship/vinfast-showcase";
 import { AudienceCTASection } from "@/components/landing/audience-cta-section";
 import { ChapterIndex } from "@/components/landing/chapter-index";
 import { CommandCenterSection } from "@/components/landing/command-center-section";
@@ -43,7 +46,7 @@ function ThesisSection() {
             <p>
               It needs a{" "}
               <span className="text-[color:var(--neon)]">nervous system</span> — routing millions of
-              drivers, charging a national EV fleet, settling earnings in seconds, and treating worker
+              drivers, charging a national VinFast EV fleet, settling earnings in seconds, and treating worker
               data as sovereign infrastructure rather than private rent.
             </p>
             <p className="text-base text-foreground/55 md:text-xl">
@@ -61,7 +64,10 @@ function HomePage() {
   return (
     <main className="page-main">
       <HeroSection />
+      <VinfastShowcaseSection />
       <CommandCenterSection />
+      <SecurityMobilitySection />
+      <EvCommandCenterSection />
       <ThesisSection />
       <ProblemSection />
       <SolutionSection />

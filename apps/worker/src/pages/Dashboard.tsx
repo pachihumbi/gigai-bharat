@@ -12,6 +12,7 @@ import { MetricHero } from "@/os/MetricHero";
 import { OsCard, HudLabel } from "@/os/OsCard";
 import { SystemGrid } from "@/os/SystemGrid";
 import { coachingTips } from "@/data/worker-os";
+import { vinfastFleet } from "@/data/ev-fleet";
 import {
   ArrowUpRight,
   LogOut,
@@ -183,12 +184,20 @@ const Dashboard = () => {
             <p className="text-[10px] text-muted-foreground">SSC tracker</p>
           </OsCard>
         </Link>
-        <Link to="/dispatch">
+        <Link to="/ev-command">
           <OsCard className="h-full hover:border-accent/40">
             <Map className="mb-2 h-5 w-5 text-accent" />
-            <HudLabel className="text-accent">{t.systems.dispatch}</HudLabel>
-            <p className="text-sm font-semibold">{os.topZone.multiplier}x surge</p>
-            <p className="text-[10px] text-muted-foreground">{os.topZone.distanceKm} km away</p>
+            <HudLabel className="text-accent">{t.home.vinfastFleet}</HudLabel>
+            <p className="text-sm font-semibold">SOC {vinfastFleet.soc}% · ₹{vinfastFleet.operatingCostPerKm}/km</p>
+            <p className="text-[10px] text-muted-foreground">{vinfastFleet.rangeKm} km range</p>
+          </OsCard>
+        </Link>
+        <Link to="/security">
+          <OsCard className="h-full hover:border-primary/40">
+            <Shield className="mb-2 h-5 w-5 text-primary" />
+            <HudLabel>{t.systems.security}</HudLabel>
+            <p className="text-sm font-semibold">SOC live</p>
+            <p className="text-[10px] text-muted-foreground">AI-verified shift</p>
           </OsCard>
         </Link>
       </div>

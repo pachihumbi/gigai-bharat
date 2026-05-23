@@ -8,10 +8,10 @@ export const siteUrl = (
 
 export const siteName = "GigAI Bharat";
 
-export const siteTagline = "Mobility OS for India";
+export const siteTagline = "EV Workforce Infrastructure for India";
 
 export const siteDescription =
-  "Worker-owned AI infrastructure for India's gig economy. Unified ledger, GigPay, vernacular coach, and city-scale dispatch — built for Bharat.";
+  "AI-powered EV workforce mobility infrastructure for India. VinFast fleet intelligence, security command centers, smart charging, and worker-owned dispatch.";
 
 export const siteKeywords = [
   "GigAI Bharat",
@@ -47,6 +47,7 @@ export const publicRoutes = [
   "/shramsetu",
   "/founder",
   "/roadmap",
+  "/ev-infrastructure",
   "/status",
 ] as const;
 

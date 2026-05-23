@@ -72,12 +72,12 @@ export const infrastructureModules = [
     carbon: "—",
   },
   {
-    id: "fleet",
-    title: "Autonomous Fleet Center",
-    icon: "🚗",
-    metric: "Phase 2 ready",
-    sub: "Human-in-loop dispatch",
-    carbon: "−25% per trip",
+    id: "vinfast",
+    title: "VinFast EV Fleet Hub",
+    icon: "🚐",
+    metric: "MPV7 platform",
+    sub: "Worker mobility + AI dispatch",
+    carbon: "−25% per trip vs ICE",
   },
   {
     id: "recreation",

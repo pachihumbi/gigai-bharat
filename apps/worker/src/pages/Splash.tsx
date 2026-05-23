@@ -45,7 +45,7 @@ const Splash = () => {
               ನಿಮ್ಮ ದುಡಿಮೆ ಈಗ <span className="text-gradient-neon">AI</span> ಜೊತೆ.
             </p>
             <p className="text-sm text-muted-foreground">
-              The economic operating system for India&apos;s <span className="text-secondary font-semibold">23.5M</span> workers
+              The economic operating system for India&apos;s <span className="text-secondary font-semibold">EV workforce</span> — VinFast fleet intelligence, security SOC, smart charging
             </p>
           </div>
 

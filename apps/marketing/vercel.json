@@ -6,7 +6,7 @@
   "build": {
     "env": {
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-23-sovereign-os"
+      "DEPLOY_REVISION": "2026-05-23-ev-fleet"
     }
   },
   "redirects": [

@@ -15,25 +15,24 @@ const demoSteps = [
   },
   {
     step: "02",
+    title: "EV infrastructure",
+    body: "VinFast fleet showcase, security SOC, and AI EV command center.",
+    href: "/ev-infrastructure",
+    cta: "EV fleet",
+  },
+  {
+    step: "03",
     title: "Worker onboarding",
-    body: "3-step flow: profile → OCR ledger → Gig Credit Score.",
+    body: "VinFast EV fleet selection → OCR ledger → Gig Credit Score.",
     href: "/join",
     cta: "Join flow",
   },
   {
-    step: "03",
-    title: "Manifesto",
-    body: "Founder narrative — worker sovereignty as public infrastructure.",
-    href: "/manifesto",
-    cta: "Read manifesto",
-  },
-  {
     step: "04",
-    title: "Worker app",
-    body: "Driver ledger, OCR upload, GigPay wallet — prototype on Android.",
-    href: contactLinks.app,
-    cta: "Open app",
-    external: true,
+    title: "Investor ROI",
+    body: "Financial simulator with EV fleet expansion and embedded finance moat.",
+    href: "/investors",
+    cta: "Run simulator",
   },
 ] as const;
 

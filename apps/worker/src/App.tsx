@@ -8,6 +8,8 @@ import Splash from "./pages/Splash.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Dispatch from "./pages/Dispatch.tsx";
 import Credit from "./pages/Credit.tsx";
+import EvCommand from "./pages/EvCommand.tsx";
+import SecurityMobility from "./pages/SecurityMobility.tsx";
 import GigPay from "./pages/GigPay.tsx";
 import Welfare from "./pages/Welfare.tsx";
 import OCR from "./pages/OCR.tsx";
@@ -36,6 +38,8 @@ const App = () => (
             <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
             <Route path="/home" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dispatch" element={<RequireAuth><Dispatch /></RequireAuth>} />
+            <Route path="/ev-command" element={<RequireAuth><EvCommand /></RequireAuth>} />
+            <Route path="/security" element={<RequireAuth><SecurityMobility /></RequireAuth>} />
             <Route path="/credit" element={<RequireAuth><Credit /></RequireAuth>} />
             <Route path="/ledger" element={<RequireAuth><Ledger /></RequireAuth>} />
             <Route path="/hub" element={<RequireAuth><SmartHub /></RequireAuth>} />

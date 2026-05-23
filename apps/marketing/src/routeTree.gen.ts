@@ -22,6 +22,7 @@ import { Route as InfrastructureRouteImport } from './routes/infrastructure'
 import { Route as HiringRouteImport } from './routes/hiring'
 import { Route as FutureRouteImport } from './routes/future'
 import { Route as FounderRouteImport } from './routes/founder'
+import { Route as EvInfrastructureRouteImport } from './routes/ev-infrastructure'
 import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -90,6 +91,11 @@ const FounderRoute = FounderRouteImport.update({
   path: '/founder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EvInfrastructureRoute = EvInfrastructureRouteImport.update({
+  id: '/ev-infrastructure',
+  path: '/ev-infrastructure',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitiesRoute = CitiesRouteImport.update({
   id: '/cities',
   path: '/cities',
@@ -104,6 +110,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
   '/hiring': typeof HiringRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cities'
+    | '/ev-infrastructure'
     | '/founder'
     | '/future'
     | '/hiring'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cities'
+    | '/ev-infrastructure'
     | '/founder'
     | '/future'
     | '/hiring'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/cities'
+    | '/ev-infrastructure'
     | '/founder'
     | '/future'
     | '/hiring'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CitiesRoute: typeof CitiesRoute
+  EvInfrastructureRoute: typeof EvInfrastructureRoute
   FounderRoute: typeof FounderRoute
   FutureRoute: typeof FutureRoute
   HiringRoute: typeof HiringRoute
@@ -318,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FounderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ev-infrastructure': {
+      id: '/ev-infrastructure'
+      path: '/ev-infrastructure'
+      fullPath: '/ev-infrastructure'
+      preLoaderRoute: typeof EvInfrastructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cities': {
       id: '/cities'
       path: '/cities'
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CitiesRoute: CitiesRoute,
+  EvInfrastructureRoute: EvInfrastructureRoute,
   FounderRoute: FounderRoute,
   FutureRoute: FutureRoute,
   HiringRoute: HiringRoute,

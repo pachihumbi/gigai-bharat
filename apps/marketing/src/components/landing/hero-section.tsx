@@ -20,7 +20,7 @@ export function HeroSection() {
         <div className="md:col-span-6 lg:col-span-7">
           <FadeInHero>
             <div className="flex flex-wrap items-center gap-3">
-              <Kicker>Bharat Mobility OS</Kicker>
+              <Kicker>EV Workforce Infrastructure</Kicker>
               <span className="inline-flex items-center gap-2 border border-border bg-card/50 px-3 py-1.5">
                 <LiveDot />
                 <span className="font-mono text-label uppercase tracking-[0.18em] text-foreground/70">
@@ -32,28 +32,27 @@ export function HeroSection() {
 
           <FadeInHero delay={0.08} className="mt-7 md:mt-9">
             <h1 className="font-serif text-[2.65rem] leading-[0.9] tracking-tight sm:text-display-lg md:text-[4.25rem] lg:text-[5.25rem]">
-              The operating system
+              India&apos;s AI-powered
               <br />
-              for{" "}
               <span className="bg-gradient-to-r from-[color:var(--saffron)] via-[color:var(--neon)] to-[color:var(--neon)] bg-clip-text italic text-transparent">
-                India's working class.
+                EV workforce layer.
               </span>
             </h1>
           </FadeInHero>
 
           <FadeInHero delay={0.16} className="mt-6 max-w-xl md:mt-8">
             <p className="text-base leading-relaxed text-foreground/78 md:text-body-lg">
-              Worker-owned AI infrastructure — unified earnings ledger, GigPay credit, vernacular
-              shift coach, and city-scale dispatch. Built for 23.5M gig workers, not platform rent.
+              VinFast EV fleet intelligence, security command centers, smart charging ecosystems, and worker-owned
+              AI dispatch — sustainable mobility infrastructure for 23.5M workers. Not a taxi company.
             </p>
           </FadeInHero>
 
           <FadeInHero delay={0.24} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <ButtonLink href="/investors" variant="primary" className="min-w-[200px]">
-              Investor ROI engine →
+            <ButtonLink href="/ev-infrastructure" variant="primary" className="min-w-[200px]">
+              EV infrastructure →
             </ButtonLink>
-            <ButtonLink to="/shramsetu" variant="secondary">
-              ShramSetu →
+            <ButtonLink to="/investors" variant="secondary">
+              Investor ROI →
             </ButtonLink>
             <a
               href="#command-center"
@@ -64,7 +63,7 @@ export function HeroSection() {
           </FadeInHero>
 
           <FadeInHero delay={0.32} className="mt-8 flex flex-wrap gap-2">
-            {["MIT open core", "Supabase RLS", "DPDP-first", "Kannada roadmap"].map((tag) => (
+            {["VinFast EV fleet", "Security SOC", "Smart charging", "AI dispatch"].map((tag) => (
               <span
                 key={tag}
                 className="border border-border/80 bg-background/60 px-3 py-1.5 font-mono text-label uppercase tracking-[0.14em] text-muted-foreground"
