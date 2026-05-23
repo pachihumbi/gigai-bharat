@@ -1,43 +1,26 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-23 (post DNS migration)  
-**GitHub main:** https://github.com/pachihumbi/gigai-bharat
+**Verified:** 2026-05-23 (DNS cleanup complete)  
+**Status:** ✅ FULLY OPERATIONAL
 
 ---
 
-## Executive summary
+## Live URLs
 
-| Item | Status |
-|------|--------|
-| Vercel marketing production build | ✅ READY (`gigai-bharat-39aznacha`) |
-| Vercel worker production build | ✅ READY (`gigai-bharat-worker-2p1pks05e`) |
-| SSL certificates | ⚠️ Issuance blocked — DNS still misconfigured |
-| Custom domains serving latest code | ❌ Split traffic to old Lovable + new Vercel |
-| `.vercel.app` production URLs | ✅ All routes pass |
+| Surface | URL | Status |
+|---------|-----|--------|
+| Marketing | https://www.bharatgig.live | ✅ 200 |
+| Apex redirect | https://bharatgig.live → www | ✅ 200 |
+| Worker app | https://app.bharatgig.live | ✅ 200 |
 
 ---
 
-## DNS (action required)
+## Vercel production deployments
 
-Vercel reports **misconfigured** — stale A record still present:
-
-| Host | Current A records | Required |
-|------|-------------------|----------|
-| `www.bharatgig.live` | `185.158.133.1`, `76.76.21.21` | **`76.76.21.21` only** |
-| `app.bharatgig.live` | `185.158.133.1`, `76.76.21.21` | **`76.76.21.21` only** |
-| `bharatgig.live` | `185.158.133.1`, `216.198.79.1`, `76.76.21.21` | **`76.76.21.21` only** |
-
-**Remove `185.158.133.1` and `216.198.79.1` at name.com.**  
-Until removed, custom domains intermittently serve old Lovable builds (500 / 404 / stale content).
-
----
-
-## Vercel projects
-
-| Project | Domain | Production deployment | State |
-|---------|--------|----------------------|-------|
-| `gigai-bharat` | `www.bharatgig.live`, `bharatgig.live` | `gigai-bharat-39aznacha` | READY |
-| `gigai-bharat-worker` | `app.bharatgig.live` | `gigai-bharat-worker-2p1pks05e` | READY |
+| Project | Production deployment | State |
+|---------|----------------------|-------|
+| `gigai-bharat` | `gigai-bharat-opofz01wp` | READY |
+| `gigai-bharat-worker` | `gigai-bharat-worker-phm7cnfcs` | READY |
 
 Dashboard:
 - https://vercel.com/pachihumbis-projects/gigai-bharat
@@ -45,89 +28,67 @@ Dashboard:
 
 ---
 
-## Route verification
+## DNS & SSL
 
-### Marketing — `gigai-bharat.vercel.app` (latest build)
-
-| Route | Status |
-|-------|--------|
-| `/` | ✅ 200 — investor section, demo flow |
-| `/join` | ✅ 200 |
-| `/hiring` | ✅ 200 |
-| `/manifesto` | ✅ 200 |
-| `/workers` | ✅ 200 |
-| `/cities` | ✅ 200 |
-| `/infrastructure` | ✅ 200 |
-| `/future` | ✅ 200 |
-| `/robots.txt` | ✅ 200 |
-| `/sitemap.xml` | ✅ 200 |
-
-### Marketing — `www.bharatgig.live` (custom domain)
-
-| Route | Status |
-|-------|--------|
-| `/` | ⚠️ 200 — **old build** (no investor section) |
-| `/join` | ❌ 500 / 404 |
-| `/manifesto` | ⚠️ 200 — **old Lovable build** |
-| `/infrastructure` | ❌ 500 |
-
-### Worker — `gigai-bharat-worker.vercel.app` (latest build)
-
-| Route | Status |
-|-------|--------|
-| `/` | ✅ 200 |
-| `/auth` | ✅ 200 |
-| `/onboarding` | ✅ 200 (SPA) |
-| `/dashboard` | ✅ 200 (SPA) |
-| `/ledger` | ✅ 200 (SPA) |
-| `/ocr` | ✅ 200 (SPA) |
-| `/gigpay` | ✅ 200 (SPA) |
-| `/map` | ✅ 200 (SPA) |
-
-### Worker — `app.bharatgig.live` (custom domain)
-
-| Route | Status |
-|-------|--------|
-| `/` | ⚠️ 200 — **old Lovable build** |
-| `/auth` | ⚠️ 200 — **old Lovable build** |
-| `/ledger` | ⚠️ 200 — **old Lovable build** (no Driver Ledger) |
+| Host | Resolves to | Vercel configured | SSL |
+|------|-------------|-------------------|-----|
+| `www.bharatgig.live` | `76.76.21.21` | ✅ | ✅ HSTS active |
+| `app.bharatgig.live` | `76.76.21.21` | ✅ | ✅ HSTS active |
+| `bharatgig.live` | `76.76.21.21` | ✅ | ✅ |
 
 ---
 
-## Public URLs
+## Route verification — www.bharatgig.live
 
-### Working now (latest production)
+| Route | Status | Notes |
+|-------|--------|-------|
+| `/` | ✅ 200 | Investor section, demo flow, command center |
+| `/join` | ✅ 200 | Worker onboarding |
+| `/hiring` | ✅ 200 | Careers page |
+| `/manifesto` | ✅ 200 | Chapter 01 |
+| `/workers` | ✅ 200 | Chapter 02 |
+| `/cities` | ✅ 200 | Chapter 03 |
+| `/infrastructure` | ✅ 200 | Command center |
+| `/future` | ✅ 200 | Chapter 05 |
+| `/robots.txt` | ✅ 200 | |
+| `/sitemap.xml` | ✅ 200 | |
 
-| Surface | URL |
-|---------|-----|
-| Marketing | https://gigai-bharat.vercel.app |
-| Worker app | https://gigai-bharat-worker.vercel.app |
-
-### After DNS cleanup (single A → `76.76.21.21`)
-
-| Surface | URL |
-|---------|-----|
-| Marketing | https://www.bharatgig.live |
-| Worker app | https://app.bharatgig.live |
-
----
-
-## Fixes applied this session
-
-1. Redeployed marketing — previous production was **ERROR** (git auto-build failure)
-2. Redeployed worker prebuilt with latest Worker OS bundle
-3. Set Vercel project root directories via API (`apps/marketing`, `apps/worker`)
-4. Confirmed all routes on `.vercel.app` aliases
+No Lovable routes. No 404/500.
 
 ---
 
-## Post-DNS verification command
+## Route verification — app.bharatgig.live
 
-After removing stale A records, re-run:
+| Route | Status | Notes |
+|-------|--------|-------|
+| `/` | ✅ 200 | Splash |
+| `/auth` | ✅ 200 | Sign in / sign up |
+| `/onboarding` | ✅ 200 | SPA rewrite |
+| `/dashboard` | ✅ 200 | SPA rewrite |
+| `/ledger` | ✅ 200 | Driver Ledger |
+| `/ocr` | ✅ 200 | OCR upload |
+| `/gigpay` | ✅ 200 | GigPay wallet |
+| `/map` | ✅ 200 | Map view |
+
+Bundle: `index-BDlfOalT.js` (Worker OS prototype). No Lovable badge.
+
+---
+
+## Fixes applied
+
+1. Re-attached custom domains to Vercel projects (were detached → `DEPLOYMENT_NOT_FOUND`)
+2. Redeployed marketing prebuilt to `gigai-bharat` (linked project correctly)
+3. Redeployed worker prebuilt with SPA routing to `gigai-bharat-worker`
+4. Cleared doubled `rootDirectory` path causing deploy failures
+5. Cache-free deploy (`--force`) on both projects
+
+---
+
+## Redeploy command
 
 ```powershell
-nslookup www.bharatgig.live   # should show 76.76.21.21 only
-nslookup app.bharatgig.live   # should show 76.76.21.21 only
-curl -I https://www.bharatgig.live/join   # expect 200
-curl -I https://app.bharatgig.live/auth   # expect 200, no Lovable badge
+$env:VERCEL_TOKEN = "<token>"
+.\scripts\deploy-vercel.ps1 -Target all -SkipCache
 ```
+
+Or link + prebuilt deploy from each app folder per `docs/DEPLOY_APP_BHARATGIG.md`.
