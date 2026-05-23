@@ -1,8 +1,9 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-23  
+**Verified:** 2026-05-23 (post-deploy)  
 **Status:** ✅ SOVEREIGN OS — Flagship modules + global site live  
-**Revision:** `2026-05-23-sovereign-os`
+**Commit:** `5fd60fa`  
+**Deployment:** `dpl_7miaa7cDEWFx9Jz9mwMDXMzahyYs`
 
 ---
 
