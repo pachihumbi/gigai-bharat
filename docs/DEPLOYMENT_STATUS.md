@@ -1,61 +1,93 @@
 # Production deployment status — GigAI Bharat
 
-**Last verified:** 2026-05-23  
-**Repo:** https://github.com/pachihumbi/gigai-bharat  
-**Latest commit:** see `git log -1`
+**Last updated:** 2026-05-23  
+**GitHub main:** `eca6904` → https://github.com/pachihumbi/gigai-bharat
 
 ---
 
-## Public URLs
+## Deployment status
 
-| Surface | URL | Project root |
-|---------|-----|--------------|
-| Marketing | https://www.bharatgig.live | `apps/marketing` |
-| Apex redirect | https://bharatgig.live → www | same project |
-| Worker app | https://app.bharatgig.live | `apps/worker` |
+| Surface | Custom domain | Production build | Status |
+|---------|---------------|------------------|--------|
+| Marketing | www.bharatgig.live | `gigai-bharat-5vd4iviyk` | **DNS misconfigured** — serving stale build |
+| Marketing | bharatgig.live | same | **DNS misconfigured** |
+| Worker | app.bharatgig.live | `gigai-bharat-worker-8q0jsz0b4` | **DNS misconfigured** — serving stale Lovable build |
 
----
+### Live production URLs (working now)
 
-## DNS (verified)
-
-| Host | Record | Resolves to |
-|------|--------|-------------|
-| `www.bharatgig.live` | A | `185.158.133.1` |
-| `bharatgig.live` | A | `185.158.133.1`, `216.198.79.1` |
-| `app.bharatgig.live` | A | `185.158.133.1` |
-
-Expected CNAME: `app` → `cname.vercel-dns.com` (or Vercel A record via proxy)
+| Surface | URL |
+|---------|-----|
+| Marketing (latest) | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app |
+| Marketing `/join` | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app/join |
+| Marketing `/manifesto` | https://gigai-bharat-5vd4iviyk-pachihumbis-projects.vercel.app/manifesto |
+| Worker (latest) | https://gigai-bharat-worker-8q0jsz0b4-pachihumbis-projects.vercel.app |
+| Worker `/auth` | https://gigai-bharat-worker-8q0jsz0b4-pachihumbis-projects.vercel.app/auth |
 
 ---
 
-## Vercel projects (two required)
+## Vercel projects
 
-| Project | Root Directory | Domain |
-|---------|----------------|--------|
-| Marketing | `apps/marketing` | `www.bharatgig.live` |
-| Worker | `apps/worker` | `app.bharatgig.live` |
+| Project | Root | Domains assigned |
+|---------|------|------------------|
+| `gigai-bharat` | `apps/marketing` (via prebuilt deploy) | `www.bharatgig.live`, `bharatgig.live` |
+| `gigai-bharat-worker` | `apps/worker` | `app.bharatgig.live` |
 
-Runbooks: [DEPLOY_VERCEL.md](./DEPLOY_VERCEL.md), [DEPLOY_APP_BHARATGIG.md](./DEPLOY_APP_BHARATGIG.md), [BHARATGIG_LIVE.md](./BHARATGIG_LIVE.md)
+Dashboard:
+- https://vercel.com/pachihumbis-projects/gigai-bharat
+- https://vercel.com/pachihumbis-projects/gigai-bharat-worker
 
 ---
 
-## Route verification checklist
+## DNS fix required (name.com)
 
-| Route | Expected |
-|-------|----------|
-| https://www.bharatgig.live | 200 — hero + investor sections |
-| https://www.bharatgig.live/manifesto | 200 — chapter content |
-| https://www.bharatgig.live/join | 200 — worker onboarding CTA |
-| https://app.bharatgig.live | 200 — splash |
-| https://app.bharatgig.live/auth | 200 — sign in |
-| https://app.bharatgig.live/onboarding | 302/200 — auth gate |
+Current A records point to `185.158.133.1` (wrong). Update at **name.com** DNS:
+
+| Type | Name | Value |
+|------|------|-------|
+| A | `@` | `76.76.21.21` |
+| A | `www` | `76.76.21.21` |
+| A | `app` | `76.76.21.21` |
+
+**Or** switch nameservers to Vercel:
+- `ns1.vercel-dns.com`
+- `ns2.vercel-dns.com`
+
+After DNS propagates (5–30 min), custom domains will serve the latest production deployments.
+
+Verify:
+```powershell
+nslookup www.bharatgig.live
+nslookup app.bharatgig.live
+# Both should resolve to 76.76.21.21
+```
+
+---
+
+## Route verification (latest builds)
+
+| Route | Expected | Verified on deployment URL |
+|-------|----------|----------------------------|
+| `/` marketing | Investor signal section | ✅ |
+| `/join` | Worker onboarding page | ✅ |
+| `/manifesto` | Chapter content | ✅ |
+| `/` worker | Splash + auth CTA | ✅ |
+| `/auth` | Sign in | ✅ |
+| `/onboarding` | Auth-gated | ✅ (SPA) |
+| `/ledger` | Driver Ledger | ✅ (SPA, post-auth) |
 
 ---
 
 ## Redeploy without cache
 
-**Vercel Dashboard:** Deployments → ⋮ → Redeploy → **Redeploy without Build Cache**
+```powershell
+$env:VERCEL_TOKEN = "<from vercel.com/account/tokens>"
+.\scripts\deploy-vercel.ps1 -Target all -SkipCache
+```
 
-**CLI:** `.\scripts\deploy-vercel.ps1 -Target all -SkipCache` (requires `VERCEL_TOKEN`)
+Or Vercel Dashboard → Deployments → ⋮ → **Redeploy without Build Cache**
 
-**GitHub Actions:** Actions → Deploy Production → Run workflow (requires repo secrets)
+---
+
+## Worker env vars (set on Vercel)
+
+`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`, Google Maps keys — configured on `gigai-bharat-worker` project.
