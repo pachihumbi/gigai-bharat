@@ -14,7 +14,7 @@ const STORAGE_KEY = "gigai-locale";
 function readStoredLocale(): Locale {
   if (typeof window === "undefined") return "en";
   const v = localStorage.getItem(STORAGE_KEY);
-  return v === "kn" || v === "hi" || v === "en" ? v : "en";
+  return v === "kn" || v === "hi" || v === "ta" || v === "te" || v === "en" ? v : "en";
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {

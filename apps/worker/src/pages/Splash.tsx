@@ -26,7 +26,7 @@ const Splash = () => {
 
       <div className="relative z-10 mx-auto max-w-md min-h-screen flex flex-col items-center justify-between px-6 py-12 text-center">
         <div className="font-mono-tech text-[10px] tracking-[0.3em] text-primary/70 animate-fade-in-slow">
-          BENGALURU • 2026 • HACKATHON EDITION
+          WORKER OS • INDIA • 2026
         </div>
 
         <div className="flex flex-col items-center gap-6 animate-fade-in">
@@ -45,7 +45,7 @@ const Splash = () => {
               ನಿಮ್ಮ ದುಡಿಮೆ ಈಗ <span className="text-gradient-neon">AI</span> ಜೊತೆ.
             </p>
             <p className="text-sm text-muted-foreground">
-              AI Co-Pilot for India's <span className="text-secondary font-semibold">23.5M</span> Gig Workers
+              The economic operating system for India&apos;s <span className="text-secondary font-semibold">23.5M</span> workers
             </p>
           </div>
 

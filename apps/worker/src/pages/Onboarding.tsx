@@ -5,6 +5,7 @@ import { Logo } from "@/components/Logo";
 import { PlacePicker, type PickedPlace } from "@/components/PlacePicker";
 import { toast } from "sonner";
 import { Loader2, ArrowRight, Bike, Car, Truck, Check } from "lucide-react";
+import { useI18n } from "@/i18n/context";
 import { z } from "zod";
 
 const VEHICLES = [
@@ -31,6 +32,7 @@ const onboardSchema = z.object({
 
 const Onboarding = () => {
   const nav = useNavigate();
+  const { t } = useI18n();
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -104,8 +106,8 @@ const Onboarding = () => {
       <div className="relative z-10 mx-auto w-full max-w-md flex-1 flex flex-col px-6 py-8">
         <div className="flex flex-col items-center text-center mb-6 animate-fade-in">
           <Logo size={48} />
-          <h1 className="mt-2 text-2xl font-extrabold text-gradient-neon">Let's set you up</h1>
-          <p className="font-kannada text-xs text-muted-foreground">ನಿಮ್ಮ ಪ್ರೊಫೈಲ್ ಪೂರ್ಣಗೊಳಿಸಿ</p>
+          <h1 className="mt-2 text-2xl font-extrabold text-gradient-neon">{t.onboarding.welcome}</h1>
+          <p className="mt-2 text-sm text-muted-foreground max-w-xs">{t.onboarding.welcomeSub}</p>
         </div>
 
         {/* Progress */}
@@ -214,7 +216,7 @@ const Onboarding = () => {
                 disabled={busy}
                 className="flex-1 h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 disabled:opacity-60"
               >
-                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Finish setup <ArrowRight className="h-4 w-4" /></>}
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <>{t.onboarding.finish} <ArrowRight className="h-4 w-4" /></>}
               </button>
             )}
           </div>

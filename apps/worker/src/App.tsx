@@ -1,12 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/i18n/context";
 import Splash from "./pages/Splash.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-import Heatmap from "./pages/Heatmap.tsx";
+import Dispatch from "./pages/Dispatch.tsx";
+import Credit from "./pages/Credit.tsx";
 import GigPay from "./pages/GigPay.tsx";
 import Welfare from "./pages/Welfare.tsx";
 import OCR from "./pages/OCR.tsx";
@@ -33,9 +34,12 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
             <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="/home" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dispatch" element={<RequireAuth><Dispatch /></RequireAuth>} />
+            <Route path="/credit" element={<RequireAuth><Credit /></RequireAuth>} />
             <Route path="/ledger" element={<RequireAuth><Ledger /></RequireAuth>} />
             <Route path="/hub" element={<RequireAuth><SmartHub /></RequireAuth>} />
-            <Route path="/heatmap" element={<RequireAuth><Heatmap /></RequireAuth>} />
+            <Route path="/heatmap" element={<Navigate to="/dispatch" replace />} />
             <Route path="/map" element={<RequireAuth><MapPage /></RequireAuth>} />
             <Route path="/gigpay" element={<RequireAuth><GigPay /></RequireAuth>} />
             <Route path="/welfare" element={<RequireAuth><Welfare /></RequireAuth>} />

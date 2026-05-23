@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/AppShell";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useLedger } from "@/hooks/useLedger";
+import { useWorkerOs } from "@/hooks/useWorkerOs";
 import { useI18n } from "@/i18n/context";
 import {
   exportLedgerCsv,
@@ -10,7 +10,8 @@ import {
   weekTotal,
 } from "@/lib/ledger-utils";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Camera, Download, TrendingUp } from "lucide-react";
+import { HudLabel } from "@/os/OsCard";
+import { Fuel, Zap, Download, TrendingUp, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const PLATFORM_COLOR: Record<string, string> = {
@@ -24,7 +25,7 @@ const PLATFORM_COLOR: Record<string, string> = {
 
 const Ledger = () => {
   const { t } = useI18n();
-  const { earnings, loading, wallet } = useLedger();
+  const { earnings, loading, wallet, os } = useWorkerOs();
 
   if (loading) {
     return (
@@ -67,7 +68,7 @@ const Ledger = () => {
       </div>
 
       {wallet && (
-        <div className="glass-card p-4 mb-4 flex items-center justify-between">
+        <Link to="/credit" className="glass-card p-4 mb-4 flex items-center justify-between hover:border-secondary/40 transition">
           <div>
             <p className="text-[10px] font-mono-tech text-muted-foreground">Gig Credit Score</p>
             <p className="text-2xl font-bold text-secondary tabular-nums">{wallet.gig_credit_score}</p>
@@ -75,6 +76,28 @@ const Ledger = () => {
           <div className="text-right">
             <p className="text-[10px] font-mono-tech text-muted-foreground">GigPay balance</p>
             <p className="text-2xl font-bold tabular-nums">₹{Number(wallet.wallet_balance).toFixed(0)}</p>
+          </div>
+        </Link>
+      )}
+
+      {week > 0 && (
+        <div className="glass-card p-4 mb-4">
+          <HudLabel className="mb-3 block">{t.ledger.expenses}</HudLabel>
+          <div className="grid grid-cols-2 gap-2">
+            {os.expenses.map((e) => (
+              <div key={e.id} className="rounded-xl border border-border/50 bg-background/40 p-3">
+                <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
+                  {e.icon === "fuel" ? <Fuel className="h-3 w-3" /> : <Zap className="h-3 w-3" />}
+                  {e.label}
+                </div>
+                <p className="mt-1 text-lg font-bold tabular-nums">₹{e.amount}</p>
+                <p className="text-[10px] text-muted-foreground">{e.pct}% of week</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-3 py-2 text-xs">
+            <span className="text-muted-foreground">{t.ledger.projection}</span>
+            <span className="font-bold tabular-nums text-primary">₹{os.projection.monthPredicted.toLocaleString("en-IN")}</span>
           </div>
         </div>
       )}

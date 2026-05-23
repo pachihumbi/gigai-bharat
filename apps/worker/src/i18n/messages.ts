@@ -1,13 +1,143 @@
-export type Locale = "en" | "kn" | "hi";
+export type Locale = "en" | "kn" | "hi" | "ta" | "te";
 
 export const locales: { id: Locale; label: string }[] = [
   { id: "en", label: "EN" },
   { id: "kn", label: "KN" },
   { id: "hi", label: "HI" },
+  { id: "ta", label: "TA" },
+  { id: "te", label: "TE" },
 ];
 
 const en = {
-  nav: { home: "Home", ledger: "Ledger", map: "Map", gigpay: "GigPay", welfare: "ShramSetu" },
+  nav: { home: "Command", dispatch: "Dispatch", ledger: "Ledger", gigpay: "GigPay", welfare: "ShramSetu" },
+  home: {
+    tagline: "Your economic operating system",
+    greeting: "Namaste",
+    todayEarnings: "Today's earnings",
+    predicted: "AI predicted by midnight",
+    kept: "100% yours • zero commission",
+    trips: "trips",
+    driving: "h active",
+    online: "ONLINE",
+    offline: "OFFLINE",
+    viewLedger: "Full ledger",
+    fatigue: "Fatigue monitor",
+    fatigueSub: "12h safety lock protects you and your family",
+    coaching: "AI shift coach",
+    systems: "Worker OS modules",
+    creditSnippet: "Gig Credit",
+    welfareSnippet: "Welfare days",
+  },
+  dispatch: {
+    title: "AI Dispatch",
+    subtitle: "Demand intelligence & route optimization",
+    surgeZones: "Live surge zones",
+    evHubs: "EV swap & charge",
+    airport: "Airport queue intel",
+    route: "Optimal route",
+    idle: "Idle reduction",
+    map: "Open live map",
+    moveTo: "Move to",
+    est: "est.",
+  },
+  credit: {
+    title: "Gig Credit Score",
+    subtitle: "Your sovereign financial identity",
+    gigCredit: "GIG CREDIT",
+    excellent: "Excellent",
+    good: "Good",
+    fair: "Fair",
+    building: "Building",
+    factors: "Score factors",
+    lending: "Lending readiness",
+    insurance: "Insurance eligibility",
+    reliability: "Reliability index",
+    preApproved: "Pre-approved micro-loan",
+    eligible: "Eligible for lending",
+    keepEarning: "Keep building your score",
+  },
+  ledger: {
+    title: "Gig Ledger",
+    subtitle: "Unified earnings — owned by you",
+    thisWeek: "This week",
+    allTime: "All time",
+    byPlatform: "By platform",
+    export: "Export CSV",
+    addEarnings: "OCR upload",
+    noEntries: "No earnings yet. Upload a screenshot to start.",
+    entries: "entries",
+    expenses: "Expense intelligence",
+    fuel: "Fuel analytics",
+    ev: "EV charging",
+    projection: "Month projection",
+    taxReady: "Tax-ready export",
+  },
+  gigpay: {
+    title: "GigPay Neobank",
+    subtitle: "Wallet • credit • micro-finance",
+    balance: "Wallet balance",
+    savings: "Auto-savings",
+    invest: "Micro-invest",
+    emi: "EMI tracker",
+    advisor: "AI financial advisor",
+    bills: "Smart bills",
+    loan: "Instant micro-loan",
+  },
+  welfare: {
+    title: "ShramSetu",
+    subtitle: "Worker welfare intelligence",
+  },
+  ocr: {
+    title: "Screenshot OCR",
+    upload: "Tap to upload screenshot",
+    parse: "Upload & Parse",
+    confirm: "Confirm & save to ledger",
+    review: "Review before saving",
+  },
+  systems: {
+    title: "Worker OS",
+    ledger: "Gig Ledger",
+    ledgerDesc: "Multi-platform earnings",
+    credit: "Credit Score",
+    creditDesc: "Lending & trust engine",
+    dispatch: "AI Dispatch",
+    dispatchDesc: "Surge & route intel",
+    welfare: "ShramSetu",
+    welfareDesc: "SSC & welfare tracking",
+    gigpay: "GigPay",
+    gigpayDesc: "Neobank & wallet",
+    ocr: "OCR Upload",
+    ocrDesc: "Screenshot parser",
+  },
+  voice: {
+    title: "GigAI Voice",
+    subtitle: "Jarvis for India's working class",
+    tapToSpeak: "Tap the mic and speak in your language",
+    aiResponse: "GigAI says",
+    noSpeech: "Voice not supported on this browser. Try Chrome.",
+    defaultReply: "I'm your GigAI assistant. Ask about earnings, surge zones, credit, or welfare.",
+    promptEarnings: "How much will I earn today?",
+    promptSurge: "Best surge zone now?",
+    promptCredit: "Am I loan ready?",
+    promptWelfare: "Welfare days status?",
+    replyEarnings: "Based on your ledger, you're projected to earn ₹{pred} by midnight. Whitefield peak adds ₹680 this week.",
+    replySurge: "Indiranagar is surging 2.4x in 8 minutes. Estimated +₹420. EV swap at Sun Mobility nearby.",
+    replyCredit: "Your Gig Credit is building. Consistent OCR uploads and bill payments boost lending readiness.",
+    replyWelfare: "You're tracking toward 90-day Social Security Code eligibility. Keep logging active days.",
+  },
+  onboarding: {
+    welcome: "Welcome to your Worker OS",
+    welcomeSub: "Not a gig app. Your economic operating system.",
+    step: "Step",
+    of: "of",
+    name: "Your name",
+    phone: "Phone number",
+    vehicle: "Your vehicle",
+    platforms: "Platforms you work on",
+    home: "Home base location",
+    finish: "Launch my OS",
+  },
+  common: { powered: "GIGAI BHARAT — WORKER OS" },
   dashboard: {
     greeting: "Namaste",
     todayEarnings: "Today's Earnings",
@@ -21,98 +151,72 @@ const en = {
     online: "ONLINE",
     offline: "OFFLINE",
   },
-  ledger: {
-    title: "Driver Ledger",
-    subtitle: "Your earnings graph — owned by you",
-    thisWeek: "This week",
-    allTime: "All time",
-    byPlatform: "By platform",
-    export: "Export CSV",
-    addEarnings: "Add earnings",
-    noEntries: "No earnings yet. Upload a screenshot to start.",
-    entries: "entries",
-  },
-  ocr: {
-    title: "Screenshot OCR",
-    upload: "Tap to upload screenshot",
-    parse: "Upload & Parse",
-    confirm: "Confirm & save to ledger",
-    review: "Review before saving",
-  },
-  common: { powered: "POWERED BY GIGAI BHARAT" },
 } as const;
 
-const kn: typeof en = {
-  nav: { home: "ಮನೆ", ledger: "ಲೆಡ್ಜರ್", map: "ನಕ್ಷೆ", gigpay: "ಗಿಗ್‌ಪೇ", welfare: "ಸುರಕ್ಷೆ" },
-  dashboard: {
+export type Messages = typeof en;
+
+function patch(base: Messages, overrides: Partial<Messages>): Messages {
+  return { ...base, ...overrides } as Messages;
+}
+
+const kn = patch(en, {
+  nav: { home: "ಕಮಾಂಡ್", dispatch: "ಡಿಸ್ಪ್ಯಾಚ್", ledger: "ಲೆಡ್ಜರ್", gigpay: "ಗಿಗ್‌ಪೇ", welfare: "ಶ್ರಮಸೇತು" },
+  home: {
+    ...en.home,
+    tagline: "ನಿಮ್ಮ ಆರ್ಥಿಕ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್",
     greeting: "ನಮಸ್ಕಾರ",
     todayEarnings: "ಇಂದಿನ ಆದಾಯ",
+    predicted: "AI ಮಧ್ಯರಾತ್ರಿಯ ವರೆಗೆ ಅಂದಾಜು",
     kept: "ಶೇ ೧೦೦ ನಿಮ್ಮದು • ಕಮಿಷನ್ ಇಲ್ಲ",
-    trips: "ಪ್ರವಾಸಗಳು",
-    driving: "ಗಂಟೆ ಡ್ರೈವ್",
-    uploadScreenshot: "ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಅಪ್‌ಲೋಡ್",
-    ocrParser: "ಬಹು-ಅಪ್ಲಿ OCR",
-    viewLedger: "ಪೂರ್ಣ ಲೆಡ್ಜರ್ ನೋಡಿ",
-    smartRouting: "ಸ್ಮಾರ್ಟ್ ರೂಟಿಂಗ್",
     online: "ಆನ್‌ಲೈನ್",
     offline: "ಆಫ್‌ಲೈನ್",
   },
-  ledger: {
-    title: "ಚಾಲಕ ಲೆಡ್ಜರ್",
-    subtitle: "ನಿಮ್ಮ ಆದಾಯ ಗ್ರಾಫ್ — ನಿಮ್ಮದು",
-    thisWeek: "ಈ ವಾರ",
-    allTime: "ಒಟ್ಟು",
-    byPlatform: "ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಪ್ರಕಾರ",
-    export: "CSV ರಫ್ತು",
-    addEarnings: "ಆದಾಯ ಸೇರಿಸಿ",
-    noEntries: "ಇನ್ನೂ ಆದಾಯ ಇಲ್ಲ. ಪ್ರಾರಂಭಿಸಲು ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.",
-    entries: "ನಮೂದುಗಳು",
-  },
-  ocr: {
-    title: "ಸ್ಕ್ರೀನ್‌ಶಾಟ್ OCR",
-    upload: "ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
-    parse: "ಅಪ್‌ಲೋಡ್ ಮತ್ತು ವಿಶ್ಲೇಷಣೆ",
-    confirm: "ಲೆಡ್ಜರ್‌ಗೆ ಉಳಿಸಿ",
-    review: "ಉಳಿಸುವ ಮೊದಲು ಪರಿಶೀಲಿಸಿ",
-  },
-  common: { powered: "GIGAI BHARAT ನಿಂದ" },
-};
+  common: { powered: "GIGAI BHARAT — ವರ್ಕರ್ OS" },
+});
 
-const hi: typeof en = {
-  nav: { home: "होम", ledger: "लेजर", map: "मानचित्र", gigpay: "गिगपे", welfare: "कल्याण" },
-  dashboard: {
+const hi = patch(en, {
+  nav: { home: "कमांड", dispatch: "डिस्पैच", ledger: "लेजर", gigpay: "गिगपे", welfare: "श्रमसेतु" },
+  home: {
+    ...en.home,
+    tagline: "आपका आर्थिक ऑपरेटिंग सिस्टम",
     greeting: "नमस्ते",
     todayEarnings: "आज की कमाई",
+    predicted: "AI अनुमान — आज रात तक",
     kept: "100% आपकी • कोई कमीशन नहीं",
-    trips: "ट्रिप",
-    driving: "घंटे ड्राइविंग",
-    uploadScreenshot: "स्क्रीनशॉट अपलोड",
-    ocrParser: "मल्टी-ऐप OCR",
-    viewLedger: "पूरा लेजर देखें",
-    smartRouting: "स्मार्ट रूटिंग",
     online: "ऑनलाइन",
     offline: "ऑफलाइन",
   },
-  ledger: {
-    title: "ड्राइवर लेजर",
-    subtitle: "आपका कमाई ग्राफ — आपका डेटा",
-    thisWeek: "इस सप्ताह",
-    allTime: "कुल",
-    byPlatform: "प्लेटफॉर्म के अनुसार",
-    export: "CSV निर्यात",
-    addEarnings: "कमाई जोड़ें",
-    noEntries: "अभी कोई कमाई नहीं। शुरू करने के लिए स्क्रीनशॉट अपलोड करें।",
-    entries: "प्रविष्टियाँ",
-  },
-  ocr: {
-    title: "स्क्रीनशॉट OCR",
-    upload: "अपलोड के लिए टैप करें",
-    parse: "अपलोड और विश्लेषण",
-    confirm: "लेजर में सहेजें",
-    review: "सहेजने से पहले जांचें",
-  },
-  common: { powered: "GIGAI BHARAT द्वारा" },
-};
+  common: { powered: "GIGAI BHARAT — वर्कर OS" },
+});
 
-export const messages = { en, kn, hi } as const;
-export type Messages = typeof en;
+const ta = patch(en, {
+  nav: { home: "கட்டளை", dispatch: "அனுப்பு", ledger: "பேடை", gigpay: "கிக்பே", welfare: "தொழிலாளர்" },
+  home: {
+    ...en.home,
+    tagline: "உங்கள் பொருளாதார இயக்க முறைமை",
+    greeting: "வணக்கம்",
+    todayEarnings: "இன்றைய வருமானம்",
+    predicted: "AI மதிப்பீடு — நள்ளிரவு வரை",
+    kept: "100% உங்களுடையது • கமிஷன் இல்லை",
+    online: "ஆன்லைன்",
+    offline: "ஆஃப்லைன்",
+  },
+  common: { powered: "GIGAI BHARAT — தொழிலாளர் OS" },
+});
+
+const te = patch(en, {
+  nav: { home: "కమాండ్", dispatch: "డిస్పాచ్", ledger: "లెడ్జర్", gigpay: "గిగ్‌పే", welfare: "శ్రమసేతు" },
+  home: {
+    ...en.home,
+    tagline: "మీ ఆర్థిక ఆపరేటింగ్ సిస్టమ్",
+    greeting: "నమస్కారం",
+    todayEarnings: "నేటి ఆదాయం",
+    predicted: "AI అంచనా — అర్ధరాత్రి వరకు",
+    kept: "100% మీది • కమిషన్ లేదు",
+    online: "ఆన్‌లైన్",
+    offline: "ఆఫ్‌లైన్",
+  },
+  common: { powered: "GIGAI BHARAT — వర్కర్ OS" },
+});
+
+export const messages: Record<Locale, Messages> = { en, kn, hi, ta, te };
