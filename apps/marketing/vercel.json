@@ -5,7 +5,8 @@
   "framework": null,
   "build": {
     "env": {
-      "VITE_SITE_URL": "https://www.bharatgig.live"
+      "VITE_SITE_URL": "https://www.bharatgig.live",
+      "DEPLOY_REVISION": "2026-05-23-worker-os"
     }
   },
   "redirects": [

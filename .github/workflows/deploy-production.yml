@@ -1,0 +1,88 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_cache:
+        description: "Redeploy without build cache"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+  push:
+    branches: [main]
+    paths:
+      - "apps/marketing/**"
+      - "apps/worker/**"
+      - "package-lock.json"
+      - ".github/workflows/deploy-production.yml"
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy-marketing:
+    name: Marketing → www.bharatgig.live
+    runs-on: ubuntu-latest
+    if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_MARKETING_PROJECT_ID != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build marketing (Nitro Vercel)
+        run: npm run build -w @gigai/marketing
+        env:
+          VERCEL: "1"
+          VITE_SITE_URL: https://www.bharatgig.live
+
+      - name: Deploy marketing
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_MARKETING_PROJECT_ID }}
+          working-directory: apps/marketing
+          vercel-args: ${{ github.event.inputs.skip_cache == 'true' && '--prebuilt --prod --force' || '--prebuilt --prod' }}
+
+  deploy-worker:
+    name: Worker → app.bharatgig.live
+    runs-on: ubuntu-latest
+    if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_WORKER_PROJECT_ID != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Build worker
+        run: npm run build -w @gigai/worker
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+          VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.VITE_GOOGLE_MAPS_KEY }}
+          VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID: ${{ secrets.VITE_GOOGLE_MAPS_TRACKING_ID }}
+
+      - name: Deploy worker
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_WORKER_PROJECT_ID }}
+          working-directory: apps/worker
+          vercel-args: ${{ github.event.inputs.skip_cache == 'true' && '--prod --force' || '--prod' }}
