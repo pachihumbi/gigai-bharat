@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* GigAI Bharat — Cyberpunk India palette (HSL) */
+    --background: 210 80% 3%;          /* #020810 navy */
+    --foreground: 200 100% 96%;
+
+    --card: 215 60% 6%;
+    --card-foreground: 200 100% 96%;
+
+    --popover: 215 60% 6%;
+    --popover-foreground: 200 100% 96%;
+
+    --primary: 200 100% 50%;            /* neon blue #00AAFF */
+    --primary-foreground: 210 80% 3%;
+    --primary-glow: 200 100% 65%;
+
+    --secondary: 111 100% 54%;          /* electric neon green #39FF14 */
+    --secondary-foreground: 210 80% 3%;
+
+    --accent: 33 100% 50%;              /* saffron #FF8C00 */
+    --accent-foreground: 210 80% 3%;
+
+    --muted: 215 40% 12%;
+    --muted-foreground: 210 25% 65%;
+
+    --destructive: 0 90% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 200 60% 18%;
+    --input: 215 40% 12%;
+    --ring: 200 100% 50%;
+
+    --radius: 1.25rem;
+
+    /* Gradients */
+    --gradient-hero: radial-gradient(ellipse at top, hsl(200 100% 50% / 0.25), transparent 60%), radial-gradient(ellipse at bottom right, hsl(33 100% 50% / 0.18), transparent 50%), linear-gradient(180deg, hsl(210 80% 3%), hsl(215 70% 5%));
+    --gradient-neon: linear-gradient(135deg, hsl(200 100% 50%), hsl(150 100% 50%));
+    --gradient-saffron: linear-gradient(135deg, hsl(33 100% 50%), hsl(15 100% 55%));
+    --gradient-card: linear-gradient(145deg, hsl(215 60% 8% / 0.9), hsl(215 60% 5% / 0.7));
+    --gradient-glow: radial-gradient(circle, hsl(200 100% 50% / 0.4), transparent 70%);
+
+    /* Shadows / Glows */
+    --shadow-neon: 0 0 30px hsl(200 100% 50% / 0.5), 0 0 60px hsl(200 100% 50% / 0.25);
+    --shadow-green: 0 0 24px hsl(150 100% 50% / 0.45);
+    --shadow-saffron: 0 0 30px hsl(33 100% 50% / 0.5);
+    --shadow-card: 0 8px 32px hsl(210 80% 0% / 0.5), inset 0 1px 0 hsl(200 100% 50% / 0.08);
+
+    --sidebar-background: 215 60% 6%;
+    --sidebar-foreground: 200 100% 96%;
+    --sidebar-primary: 200 100% 50%;
+    --sidebar-primary-foreground: 210 80% 3%;
+    --sidebar-accent: 215 40% 12%;
+    --sidebar-accent-foreground: 200 100% 96%;
+    --sidebar-border: 200 60% 18%;
+    --sidebar-ring: 200 100% 50%;
+  }
+
+  .dark { /* keep dark same as root — this app is always dark */ }
+
+  /* Sunlight Readability Mode — boosted contrast & weight for outdoor use */
+  .sunlight {
+    --foreground: 0 0% 100%;
+    --muted-foreground: 200 30% 85%;
+    --border: 200 80% 40%;
+    --primary: 195 100% 60%;
+    --secondary: 111 100% 60%;
+    --accent: 33 100% 60%;
+  }
+  .sunlight body { font-weight: 500; }
+  .sunlight .glass-card { background: hsl(215 60% 8% / 0.95); border-color: hsl(200 80% 35% / 0.7); }
+  .sunlight button, .sunlight a[class*="rounded"] { font-weight: 700; }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html, body, #root { @apply min-h-screen; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, hsl(200 100% 50% / 0.12), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, hsl(33 100% 50% / 0.10), transparent 50%);
+    background-attachment: fixed;
+  }
+  .font-kannada { font-family: 'Noto Sans Kannada', 'Space Grotesk', sans-serif; }
+  .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--gradient-card);
+    @apply backdrop-blur-xl border border-border/60 rounded-3xl;
+    box-shadow: var(--shadow-card);
+  }
+  .neon-border {
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.4), 0 0 24px hsl(var(--primary) / 0.25);
+  }
+  .text-gradient-neon {
+    background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-saffron {
+    background: var(--gradient-saffron);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(200 100% 50% / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(200 100% 50% / 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
+
+@layer utilities {
+  .glow-blue { box-shadow: var(--shadow-neon); }
+  .glow-green { box-shadow: var(--shadow-green); }
+  .glow-saffron { box-shadow: var(--shadow-saffron); }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; }
+}

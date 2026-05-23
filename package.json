@@ -1,0 +1,39 @@
+{
+  "name": "gigai-bharat",
+  "version": "0.1.0",
+  "private": true,
+  "description": "India's worker-owned AI operating system for mobility and gig workforce infrastructure",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:worker": "npm run dev -w @gigai/worker",
+    "dev:marketing": "npm run dev -w @gigai/marketing",
+    "dev:admin": "npm run dev -w @gigai/admin",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "db:types": "supabase gen types typescript --local > packages/types/src/database.ts",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "functions:serve": "supabase functions serve",
+    "functions:deploy": "supabase functions deploy",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .gitignore"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "packageManager": "npm@10.9.2",
+  "overrides": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.7.3",
+    "turbo": "^2.5.4"
+  }
+}

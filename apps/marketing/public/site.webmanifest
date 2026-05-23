@@ -1,0 +1,19 @@
+{
+  "name": "GigAI Bharat",
+  "short_name": "GigAI",
+  "description": "Worker-owned AI infrastructure for India's gig economy.",
+  "start_url": "https://www.bharatgig.live/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0c10",
+  "theme_color": "#0a0c10",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

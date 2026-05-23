@@ -1,0 +1,8 @@
+node_modules
+dist
+.output
+.turbo
+supabase/.temp
+**/routeTree.gen.ts
+package-lock.json
+bun.lock
