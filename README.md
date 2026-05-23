@@ -2,7 +2,9 @@
 
 **India's worker-owned AI operating system** for mobility and gig workforce infrastructure.
 
-[![CI](https://github.com/YOUR_ORG/gigai-bharat/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/gigai-bharat/actions/workflows/ci.yml)
+**Live:** [www.bharatgig.live](https://www.bharatgig.live)
+
+[![CI](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml/badge.svg)](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml)
 
 ---
 
@@ -59,7 +61,7 @@ Full system design → **[ARCHITECTURE.md](./ARCHITECTURE.md)**
 ### Install
 
 ```bash
-git clone https://github.com/YOUR_ORG/gigai-bharat.git
+git clone https://github.com/pachihumbi/gigai-bharat.git
 cd gigai-bharat
 npm install
 ```
