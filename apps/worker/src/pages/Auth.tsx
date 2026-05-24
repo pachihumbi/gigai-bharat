@@ -88,8 +88,9 @@ const Auth = () => {
         return;
       }
       nav(await resolvePostAuthPath());
-    } catch (err: any) {
-      toast.error(formatAuthError(err.message || "Authentication failed"));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Authentication failed";
+      toast.error(formatAuthError(message));
     } finally {
       setBusy(false);
     }
