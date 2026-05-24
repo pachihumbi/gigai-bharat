@@ -214,6 +214,46 @@
     pointer-events: none;
     opacity: 0.4;
   }
+
+  .glass-panel {
+    border: 1px solid color-mix(in oklch, var(--foreground) 10%, transparent);
+    background: color-mix(in oklch, var(--card) 60%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .cinematic-cta-primary {
+    border: 1px solid color-mix(in oklch, var(--saffron) 60%, transparent);
+    background: color-mix(in oklch, var(--saffron) 12%, transparent);
+    color: var(--saffron);
+    transition: all 0.3s ease;
+  }
+  .cinematic-cta-primary:hover {
+    background: var(--saffron);
+    color: var(--background);
+    transform: scale(1.02);
+  }
+
+  .cinematic-cta-secondary {
+    border: 1px solid color-mix(in oklch, var(--foreground) 12%, transparent);
+    background: color-mix(in oklch, var(--foreground) 5%, transparent);
+    color: var(--foreground);
+    transition: all 0.3s ease;
+  }
+  .cinematic-cta-secondary:hover {
+    background: color-mix(in oklch, var(--foreground) 10%, transparent);
+    transform: scale(1.02);
+  }
+
+  .cinematic-cta-ghost {
+    border: 1px solid color-mix(in oklch, var(--neon) 30%, transparent);
+    background: color-mix(in oklch, var(--neon) 8%, transparent);
+    transition: all 0.3s ease;
+  }
+  .cinematic-cta-ghost:hover {
+    background: var(--neon);
+    color: var(--background);
+    transform: scale(1.02);
+  }
 }
 
 @media (max-width: 768px) {

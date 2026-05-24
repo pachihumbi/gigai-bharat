@@ -8,10 +8,10 @@ export const siteUrl = (
 
 export const siteName = "GigAI Bharat";
 
-export const siteTagline = "EV Workforce Infrastructure for India";
+export const siteTagline = "India's Worker-Owned Mobility Operating System";
 
 export const siteDescription =
-  "AI-powered EV workforce mobility infrastructure for India. VinFast fleet intelligence, security command centers, smart charging, and worker-owned dispatch.";
+  "AI-powered infrastructure for gig workers, EV fleets, mobility finance, and digital labor ecosystems. GigPay, GigEV, GigPods, FleetOS, and ShramSetu — the digital public infrastructure layer for India's workforce economy.";
 
 export const siteKeywords = [
   "GigAI Bharat",

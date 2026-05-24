@@ -5,12 +5,13 @@ import { primaryNav, contactLinks } from "@/data/landing";
 import { ButtonLink } from "@/components/ui/button-link";
 
 const tickerItems = [
-  "23.5M gig workers in India",
-  "Worker-owned data · RLS architecture",
-  "Bengaluru pilot · Tier-2 expansion",
-  "OCR earnings → Gig Credit Score",
-  "DPDP-aligned by design",
-  "Vernacular AI · Kannada & Hindi roadmap",
+  "India's Worker-Owned Mobility Operating System",
+  "GigPay · Instant UPI payouts · Worker wallet",
+  "GigEV · VinFast · Tata · Mahindra fleet intelligence",
+  "GigPods · Smart pods · EV hubs · Gurukul AI",
+  "FleetOS · Real-time dispatch · Demand heatmaps",
+  "ShramSetu · Welfare · Insurance · Pension eligibility",
+  "23.5M gig workers · DPDP-aligned by design",
 ];
 
 export function Ticker() {
