@@ -24,6 +24,9 @@ import {
   Flag,
   Globe,
   ExternalLink,
+  KeyRound,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 type WorkerRole = "driver" | "delivery" | "fleet";
@@ -40,6 +43,11 @@ const ROLES: { id: WorkerRole; label: string; sub: string; icon: typeof Car }[] 
   { id: "delivery", label: "Delivery", sub: "Last-mile ops", icon: Package },
   { id: "fleet", label: "Fleet Partner", sub: "Multi-vehicle", icon: Building2 },
 ];
+
+const DEMO_CREDENTIALS = {
+  email: "demo.driver@bharatgig.test",
+  password: "DemoDriver#2026",
+} as const;
 
 const Auth = () => {
   const nav = useNavigate();
@@ -86,9 +94,18 @@ const Auth = () => {
     }
   };
 
-  const exploreDemo = () => {
+  const useDemoCredentials = () => {
+    setRole("driver");
+    setEmail(DEMO_CREDENTIALS.email);
+    setPassword(DEMO_CREDENTIALS.password);
+    toast.message("Demo credentials loaded", {
+      description: "Preview-only credentials are ready in the sign-in form.",
+    });
+  };
+
+  const openPreview = (path: "/dashboard" | "/pitch") => {
     enterDemoWorkspace();
-    nav("/dashboard");
+    nav(path);
   };
 
   return (
@@ -110,7 +127,7 @@ const Auth = () => {
       <div className="pointer-events-none absolute -bottom-32 left-1/4 h-96 w-96 rounded-full bg-cyan-400/10 blur-[120px] animate-pulse-soft" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-scan-line opacity-30" />
 
-      <div className="relative z-10 mx-auto w-full max-w-md flex-1 flex flex-col justify-center px-5 sm:px-6 py-8 sm:py-12">
+      <div className="relative z-10 mx-auto w-full max-w-lg flex-1 flex flex-col justify-center px-5 sm:px-6 py-8 sm:py-12">
         {isLocalDevHost() && (
           <a
             href={workerAuthUrl}
@@ -123,19 +140,32 @@ const Auth = () => {
         )}
 
         <div className="auth-glass-card relative p-6 sm:p-8 animate-scale-in overflow-hidden">
-          <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-cyan-400/20 via-transparent to-emerald-400/15" />
+          <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-cyan-400/25 via-transparent to-emerald-400/20" />
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-cyan-400/15 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -left-16 h-52 w-52 rounded-full bg-emerald-400/10 blur-3xl" />
           <div className="relative">
-            <div className="flex justify-center mb-6">
-              <div className="animate-float" style={{ animationDuration: "5s" }}>
-                <Logo size={72} />
+            <div className="mb-6 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="animate-float" style={{ animationDuration: "5s" }}>
+                  <Logo size={64} />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 rounded-full border border-cyan-300/25 bg-cyan-400/10 px-2.5 py-1 text-[10px] font-mono-tech uppercase tracking-[0.22em] text-cyan-200">
+                    <Sparkles className="h-3 w-3 text-emerald-300" />
+                    Auth Portal
+                  </div>
+                  <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight leading-none">
+                    <span className="text-gradient-neon">GigAI Bharat</span>
+                  </h1>
+                </div>
+              </div>
+              <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-300/25 bg-emerald-400/10 text-emerald-300 shadow-[0_0_30px_hsl(150_100%_50%/0.14)]">
+                <ShieldCheck className="h-6 w-6" />
               </div>
             </div>
 
-            <h1 className="text-center text-3xl sm:text-4xl font-extrabold tracking-tight leading-none">
-              <span className="text-gradient-neon">GigAI Bharat</span>
-            </h1>
-
-            <p className="mt-3 text-center text-base sm:text-lg font-semibold leading-snug text-foreground/90">
+            <p className="text-center text-base sm:text-lg font-semibold leading-snug text-foreground/90">
               India&apos;s Worker-Owned{" "}
               <span className="text-gradient-neon">Mobility OS</span>
             </p>
@@ -205,10 +235,41 @@ const Auth = () => {
                 />
               </div>
 
+              <div className="rounded-2xl border border-cyan-300/20 bg-black/35 p-3.5 shadow-[inset_0_1px_0_hsl(200_100%_80%/0.08)]">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <span className="grid h-8 w-8 place-items-center rounded-xl border border-emerald-300/25 bg-emerald-400/10 text-emerald-300">
+                      <KeyRound className="h-4 w-4" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-semibold text-cyan-100">Fake demo credentials</p>
+                      <p className="text-[10px] text-muted-foreground">Use for UI walkthroughs only</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={useDemoCredentials}
+                    className="rounded-lg border border-cyan-300/25 bg-cyan-400/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-cyan-200 transition-colors hover:bg-cyan-400/15"
+                  >
+                    Fill
+                  </button>
+                </div>
+                <div className="mt-3 grid gap-2 text-[11px] sm:grid-cols-2">
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
+                    <span className="block text-muted-foreground">Email</span>
+                    <code className="font-mono-tech text-cyan-200">{DEMO_CREDENTIALS.email}</code>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
+                    <span className="block text-muted-foreground">Password</span>
+                    <code className="font-mono-tech text-emerald-200">{DEMO_CREDENTIALS.password}</code>
+                  </div>
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={busy}
-                className="group relative w-full h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 overflow-hidden disabled:opacity-60 transition-transform active:scale-[0.98]"
+                className="group relative w-full h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 overflow-hidden disabled:opacity-60 transition-transform active:scale-[0.98] shadow-[0_0_30px_hsl(200_100%_50%/0.28)]"
               >
                 <span className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,hsl(0_0%_100%/0.25)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
                 {busy ? (
@@ -223,22 +284,51 @@ const Auth = () => {
             </form>
 
             {allowInvestorDemo() && (
-              <>
-                <div className="flex items-center gap-3 my-5">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
-                  <span className="text-[10px] font-mono-tech text-muted-foreground tracking-widest">OR</span>
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
+              <div className="mt-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+                  <span className="text-[10px] font-mono-tech text-cyan-200/70 tracking-widest">
+                    PREVIEW MODE
+                  </span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent" />
                 </div>
 
-                <button
-                  type="button"
-                  onClick={exploreDemo}
-                  className="group w-full h-11 rounded-xl border border-emerald-400/35 bg-emerald-400/5 hover:bg-emerald-400/10 hover:border-emerald-400/55 flex items-center justify-center gap-2 text-sm font-semibold text-emerald-300 transition-all duration-300 active:scale-[0.98]"
-                >
-                  <LayoutGrid className="h-4 w-4 text-emerald-400 transition-transform group-hover:scale-110" />
-                  Demo Access
-                </button>
-              </>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => openPreview("/dashboard")}
+                    className="group rounded-2xl border border-emerald-400/35 bg-emerald-400/5 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300/65 hover:bg-emerald-400/10 hover:shadow-[0_0_30px_hsl(150_100%_50%/0.18)] active:scale-[0.98]"
+                  >
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-400/10 text-emerald-300 ring-1 ring-emerald-300/25 transition-transform group-hover:scale-105">
+                        <Car className="h-5 w-5" />
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-emerald-300/70 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                    <span className="mt-3 block text-sm font-bold text-emerald-100">Demo Driver</span>
+                    <span className="mt-1 block text-xs leading-snug text-muted-foreground">
+                      Enter the worker cockpit with seeded earnings and ledger views.
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => openPreview("/pitch")}
+                    className="group rounded-2xl border border-cyan-400/35 bg-cyan-400/5 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-300/65 hover:bg-cyan-400/10 hover:shadow-[0_0_30px_hsl(200_100%_50%/0.18)] active:scale-[0.98]"
+                  >
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="grid h-10 w-10 place-items-center rounded-xl bg-cyan-400/10 text-cyan-300 ring-1 ring-cyan-300/25 transition-transform group-hover:scale-105">
+                        <LayoutGrid className="h-5 w-5" />
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-cyan-300/70 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                    <span className="mt-3 block text-sm font-bold text-cyan-100">Investor Preview</span>
+                    <span className="mt-1 block text-xs leading-snug text-muted-foreground">
+                      Launch pitch mode for the command center product tour.
+                    </span>
+                  </button>
+                </div>
+              </div>
             )}
 
             <p className="text-[10px] text-center text-muted-foreground mt-5 leading-relaxed">
