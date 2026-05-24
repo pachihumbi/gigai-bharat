@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { authCallbackUrl, postAuthPath, signInWithGoogle } from "@/lib/auth";
+import { authCallbackUrl, signInWithGoogle } from "@/lib/auth";
+import { PostAuthRedirect } from "@/components/PostAuthRedirect";
+import { resolvePostAuthPath } from "@/lib/worker-profile";
 import { Logo } from "@/components/Logo";
 import { toast } from "sonner";
 import { Loader2, Mail, Lock, ArrowRight } from "lucide-react";
@@ -21,7 +23,7 @@ const Auth = () => {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  if (hasSession) return <Navigate to={postAuthPath} replace />;
+  if (hasSession) return <PostAuthRedirect />;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,11 +40,11 @@ const Auth = () => {
         });
         if (error) throw error;
         toast.success("Welcome to GigAI Bharat", { description: "Setting up your ledger..." });
-        nav(postAuthPath);
+        nav("/onboarding");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        nav(postAuthPath);
+        nav(await resolvePostAuthPath());
       }
     } catch (err: any) {
       toast.error(err.message || "Authentication failed");

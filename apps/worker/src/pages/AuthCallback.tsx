@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { postAuthPath, resolveAuthFromUrl } from "@/lib/auth";
+import { clearAuthParamsFromUrl, resolveAuthFromUrl } from "@/lib/auth";
+import { resolvePostAuthPath } from "@/lib/worker-profile";
 import { toast } from "sonner";
 
 const AuthCallback = () => {
@@ -12,7 +13,9 @@ const AuthCallback = () => {
     (async () => {
       try {
         await resolveAuthFromUrl();
-        if (!cancelled) setTarget(postAuthPath);
+        clearAuthParamsFromUrl();
+        const path = await resolvePostAuthPath();
+        if (!cancelled) setTarget(path);
       } catch (err) {
         console.error("OAuth callback failed:", err);
         toast.error("Sign-in could not be completed. Please try again.");

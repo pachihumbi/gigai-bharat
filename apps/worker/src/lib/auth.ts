@@ -6,7 +6,18 @@ export const AUTH_CALLBACK_PATH = "/auth/callback";
 export const authCallbackUrl = () =>
   `${window.location.origin}${AUTH_CALLBACK_PATH}`;
 
+/** @deprecated Use resolvePostAuthPath() for session-aware routing */
 export const postAuthPath = "/dashboard";
+
+/** Strip OAuth tokens from the URL after session is established. */
+export function clearAuthParamsFromUrl() {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has("code") && !url.hash.includes("access_token")) return;
+  url.searchParams.delete("code");
+  url.searchParams.delete("error");
+  url.searchParams.delete("error_description");
+  window.history.replaceState({}, document.title, `${url.pathname}${url.search}`);
+}
 
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({

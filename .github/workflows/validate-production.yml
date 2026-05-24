@@ -1,0 +1,35 @@
+name: Validate Production
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "apps/worker/**"
+      - ".github/workflows/validate-production.yml"
+
+jobs:
+  smoke-test:
+    name: Production URL smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check worker SPA routes
+        run: |
+          set -e
+          BASE="https://app.bharatgig.live"
+          for path in "/" "/auth" "/auth/callback" "/dashboard" "/gurukul" "/onboarding" "/welfare" "/dispatch"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$path")
+            echo "$path -> $code"
+            test "$code" = "200"
+          done
+
+      - name: Check marketing site
+        run: |
+          set -e
+          for url in "https://www.bharatgig.live" "https://www.bharatgig.live/investors" "https://www.bharatgig.live/gurukul"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+            echo "$url -> $code"
+            test "$code" = "200"
+          done

@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { allowInvestorDemo } from "@/lib/app-config";
+import { buildDemoEarnings, DEMO_WALLET, DEMO_WELFARE, DEMO_WORKER } from "@/lib/demo-data";
 
 export type WorkerProfile = {
   id: string;
@@ -28,6 +30,20 @@ export type EarningRow = {
   source_platform: string;
 };
 
+function applyDemoState(
+  setIsDemo: (v: boolean) => void,
+  setWorker: (v: WorkerProfile) => void,
+  setWallet: (v: Wallet) => void,
+  setWelfare: (v: Welfare) => void,
+  setEarnings: (v: EarningRow[]) => void,
+) {
+  setIsDemo(true);
+  setWorker(DEMO_WORKER);
+  setWallet(DEMO_WALLET);
+  setWelfare(DEMO_WELFARE);
+  setEarnings(buildDemoEarnings());
+}
+
 export const useLedger = () => {
   const [worker, setWorker] = useState<WorkerProfile | null>(null);
   const [wallet, setWallet] = useState<Wallet | null>(null);
@@ -40,42 +56,15 @@ export const useLedger = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        // Load high-fidelity investor demo fallback telemetry
-        setIsDemo(true);
-        setWorker({
-          id: "demo-worker-101",
-          name: "Prashanth Gowda",
-          phone_number: "+91 98450 12345",
-          vehicle_type: "VinFast MPV7",
-          home_lat: 12.9716,
-          home_lng: 77.5946,
-          home_address: "Indiranagar, Bengaluru"
-        });
-        setWallet({
-          wallet_balance: 14250,
-          gig_credit_score: 742,
-          active_loan_amount: 0
-        });
-        setWelfare({
-          active_working_days: 68,
-          is_eligible_for_state_benefits: true
-        });
-
-        const today = new Date().toISOString().slice(0, 10);
-        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-        const twoDaysAgo = new Date(Date.now() - 172800000).toISOString().slice(0, 10);
-        const threeDaysAgo = new Date(Date.now() - 259200000).toISOString().slice(0, 10);
-        const fourDaysAgo = new Date(Date.now() - 345600000).toISOString().slice(0, 10);
-
-        setEarnings([
-          { date: today, amount_earned: 1250, source_platform: "Swiggy" },
-          { date: today, amount_earned: 1600, source_platform: "Rapido" },
-          { date: yesterday, amount_earned: 1800, source_platform: "Uber" },
-          { date: yesterday, amount_earned: 1400, source_platform: "Zomato" },
-          { date: twoDaysAgo, amount_earned: 2200, source_platform: "Swiggy" },
-          { date: threeDaysAgo, amount_earned: 1950, source_platform: "Uber" },
-          { date: fourDaysAgo, amount_earned: 2500, source_platform: "Rapido" }
-        ]);
+        if (allowInvestorDemo()) {
+          applyDemoState(setIsDemo, setWorker, setWallet, setWelfare, setEarnings);
+        } else {
+          setIsDemo(false);
+          setWorker(null);
+          setWallet(null);
+          setWelfare(null);
+          setEarnings([]);
+        }
         setLoading(false);
         return;
       }
@@ -92,40 +81,12 @@ export const useLedger = () => {
       setWallet(wa.data as Wallet | null);
       setWelfare(wf.data as Welfare | null);
       setEarnings((e.data || []) as EarningRow[]);
-      setLoading(false);
     } catch (err) {
-      console.error("Error loading auth in useLedger, loading demo fallback:", err);
-      setIsDemo(true);
-      setWorker({
-        id: "demo-worker-101",
-        name: "Prashanth Gowda",
-        phone_number: "+91 98450 12345",
-        vehicle_type: "VinFast MPV7",
-        home_lat: 12.9716,
-        home_lng: 77.5946,
-        home_address: "Indiranagar, Bengaluru"
-      });
-      setWallet({
-        wallet_balance: 14250,
-        gig_credit_score: 742,
-        active_loan_amount: 0
-      });
-      setWelfare({
-        active_working_days: 68,
-        is_eligible_for_state_benefits: true
-      });
-
-      const today = new Date().toISOString().slice(0, 10);
-      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-      const twoDaysAgo = new Date(Date.now() - 172800000).toISOString().slice(0, 10);
-
-      setEarnings([
-        { date: today, amount_earned: 1250, source_platform: "Swiggy" },
-        { date: today, amount_earned: 1600, source_platform: "Rapido" },
-        { date: yesterday, amount_earned: 1800, source_platform: "Uber" },
-        { date: yesterday, amount_earned: 1400, source_platform: "Zomato" },
-        { date: twoDaysAgo, amount_earned: 2200, source_platform: "Swiggy" }
-      ]);
+      console.error("useLedger load failed:", err);
+      if (allowInvestorDemo()) {
+        applyDemoState(setIsDemo, setWorker, setWallet, setWelfare, setEarnings);
+      }
+    } finally {
       setLoading(false);
     }
   }, []);

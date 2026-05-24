@@ -1,31 +1,40 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { I18nProvider } from "@/i18n/context";
+import { RequireAuth } from "./components/RequireAuth";
+import { RouteLoader } from "./components/RouteLoader";
 import Splash from "./pages/Splash.tsx";
-import Dashboard from "./pages/Dashboard.tsx";
-import Dispatch from "./pages/Dispatch.tsx";
-import Credit from "./pages/Credit.tsx";
-import Gurukul from "./pages/Gurukul.tsx";
-import EvCommand from "./pages/EvCommand.tsx";
-import SecurityMobility from "./pages/SecurityMobility.tsx";
-import GigPay from "./pages/GigPay.tsx";
-import Welfare from "./pages/Welfare.tsx";
-import OCR from "./pages/OCR.tsx";
-import Ledger from "./pages/Ledger.tsx";
-import Pitch from "./pages/Pitch.tsx";
-import Onboarding from "./pages/Onboarding.tsx";
-import SmartHub from "./pages/SmartHub.tsx";
-import MapPage from "./pages/MapPage.tsx";
-import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
 import AuthCallback from "./pages/AuthCallback.tsx";
 import OAuthInitiate from "./pages/OAuthInitiate.tsx";
-import { RequireAuth } from "./components/RequireAuth";
+import NotFound from "./pages/NotFound.tsx";
+
+const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
+const Dispatch = lazy(() => import("./pages/Dispatch.tsx"));
+const Credit = lazy(() => import("./pages/Credit.tsx"));
+const Gurukul = lazy(() => import("./pages/Gurukul.tsx"));
+const EvCommand = lazy(() => import("./pages/EvCommand.tsx"));
+const SecurityMobility = lazy(() => import("./pages/SecurityMobility.tsx"));
+const GigPay = lazy(() => import("./pages/GigPay.tsx"));
+const Welfare = lazy(() => import("./pages/Welfare.tsx"));
+const OCR = lazy(() => import("./pages/OCR.tsx"));
+const Ledger = lazy(() => import("./pages/Ledger.tsx"));
+const Pitch = lazy(() => import("./pages/Pitch.tsx"));
+const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
+const SmartHub = lazy(() => import("./pages/SmartHub.tsx"));
+const MapPage = lazy(() => import("./pages/MapPage.tsx"));
 
 const queryClient = new QueryClient();
+
+const withAuth = (element: React.ReactNode) => (
+  <RequireAuth>
+    <Suspense fallback={<RouteLoader />}>{element}</Suspense>
+  </RequireAuth>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -41,23 +50,23 @@ const App = () => (
             <Route path="/oauth/callback" element={<AuthCallback />} />
             <Route path="/oauth/initiate" element={<OAuthInitiate />} />
             <Route path="/~oauth/initiate" element={<OAuthInitiate />} />
-            <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
-            <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="/onboarding" element={withAuth(<Onboarding />)} />
+            <Route path="/dashboard" element={withAuth(<Dashboard />)} />
             <Route path="/home" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/gurukul" element={<RequireAuth><Gurukul /></RequireAuth>} />
-            <Route path="/dispatch" element={<RequireAuth><Dispatch /></RequireAuth>} />
-            <Route path="/ev-command" element={<RequireAuth><EvCommand /></RequireAuth>} />
-            <Route path="/security" element={<RequireAuth><SecurityMobility /></RequireAuth>} />
-            <Route path="/credit" element={<RequireAuth><Credit /></RequireAuth>} />
-            <Route path="/ledger" element={<RequireAuth><Ledger /></RequireAuth>} />
-            <Route path="/hub" element={<RequireAuth><SmartHub /></RequireAuth>} />
+            <Route path="/gurukul" element={withAuth(<Gurukul />)} />
+            <Route path="/dispatch" element={withAuth(<Dispatch />)} />
+            <Route path="/ev-command" element={withAuth(<EvCommand />)} />
+            <Route path="/security" element={withAuth(<SecurityMobility />)} />
+            <Route path="/credit" element={withAuth(<Credit />)} />
+            <Route path="/ledger" element={withAuth(<Ledger />)} />
+            <Route path="/hub" element={withAuth(<SmartHub />)} />
             <Route path="/heatmap" element={<Navigate to="/dispatch" replace />} />
-            <Route path="/map" element={<RequireAuth><MapPage /></RequireAuth>} />
-            <Route path="/gigpay" element={<RequireAuth><GigPay /></RequireAuth>} />
-            <Route path="/welfare" element={<RequireAuth><Welfare /></RequireAuth>} />
-            <Route path="/shramsetu" element={<RequireAuth><Welfare /></RequireAuth>} />
-            <Route path="/ocr" element={<RequireAuth><OCR /></RequireAuth>} />
-            <Route path="/pitch" element={<RequireAuth><Pitch /></RequireAuth>} />
+            <Route path="/map" element={withAuth(<MapPage />)} />
+            <Route path="/gigpay" element={withAuth(<GigPay />)} />
+            <Route path="/welfare" element={withAuth(<Welfare />)} />
+            <Route path="/shramsetu" element={withAuth(<Welfare />)} />
+            <Route path="/ocr" element={withAuth(<OCR />)} />
+            <Route path="/pitch" element={withAuth(<Pitch />)} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

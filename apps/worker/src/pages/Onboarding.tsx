@@ -11,6 +11,7 @@ import { useI18n } from "@/i18n/context";
 import { z } from "zod";
 import { fleetVehicleOptions } from "@/data/ev-fleet";
 import { onboardingSteps } from "@/data/gurukul";
+import { ensureWorkerProfile } from "@/lib/worker-profile";
 
 const PLATFORMS = ["Swiggy", "Uber", "Rapido", "Ola", "Zomato"];
 
@@ -48,14 +49,22 @@ const Onboarding = () => {
     (async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { nav("/auth", { replace: true }); return; }
+      let profile;
+      try {
+        profile = await ensureWorkerProfile(user.id, user.user_metadata?.name as string | undefined);
+      } catch {
+        toast.error("Could not load worker profile. Please try again.");
+        return;
+      }
+      setWorkerId(profile.id);
+      if (profile.onboarded) { nav("/dashboard", { replace: true }); return; }
+
       const { data } = await supabase
         .from("worker_profiles")
         .select("id, name, phone_number, vehicle_type, platforms, onboarded, home_lat, home_lng, home_address")
-        .eq("user_id", user.id)
+        .eq("id", profile.id)
         .maybeSingle();
       if (data) {
-        setWorkerId(data.id);
-        if (data.onboarded) { nav("/dashboard", { replace: true }); return; }
         setName(data.name && data.name !== "Driver" ? data.name : "");
         setPhone(data.phone_number || "");
         setVehicle(data.vehicle_type || "VinFast_MPV7");
