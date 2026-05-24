@@ -1,4 +1,4 @@
-import { BookOpen, Building2, Camera, Car, GraduationCap, Landmark, Map, Shield, Wallet } from "lucide-react";
+import { BookOpen, Building2, Camera, Car, GraduationCap, Heart, Landmark, Map, Shield, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/i18n/context";
 import { OsCard, HudLabel } from "./OsCard";
@@ -12,6 +12,7 @@ const icons = {
   ocr: Camera,
   ev: Car,
   coliving: Building2,
+  dignity: Heart,
   gurukul: GraduationCap,
   security: Shield,
 } as const;
@@ -26,6 +27,7 @@ export function SystemGrid() {
     { key: "gigpay" as const, path: "/gigpay", label: t.systems.gigpay, desc: t.systems.gigpayDesc },
     { key: "ev" as const, path: "/ev-command", label: t.systems.ev, desc: t.systems.evDesc },
     { key: "coliving" as const, path: "/co-living", label: "Co-Living", desc: "EV pods · charging · worker stays" },
+    { key: "dignity" as const, path: "/dignity", label: "Dignity", desc: "Safety · health · family · credit" },
     { key: "security" as const, path: "/security", label: t.systems.security, desc: t.systems.securityDesc },
     { key: "gurukul" as const, path: "/gurukul", label: t.systems.gurukul, desc: t.systems.gurukulDesc },
     { key: "ocr" as const, path: "/ocr", label: t.systems.ocr, desc: t.systems.ocrDesc },

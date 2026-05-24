@@ -1,10 +1,11 @@
 import { AppShell } from "@/components/AppShell";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useWorkerOs } from "@/hooks/useWorkerOs";
 import { useI18n } from "@/i18n/context";
+import { GIGAI_CREDIT } from "@/lib/dignity-demo";
+import { DEMO_WALLET } from "@/lib/demo-data";
 import { CreditGauge } from "@/os/CreditGauge";
-import { OsCard, HudLabel } from "@/os/OsCard";
 import { ArrowUp, Minus, Shield, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const trendIcon = {
   up: ArrowUp,
@@ -14,74 +15,95 @@ const trendIcon = {
 
 const Credit = () => {
   const { t } = useI18n();
-  const { wallet, loading, os } = useWorkerOs();
-  const score = wallet?.gig_credit_score ?? 300;
-
-  if (loading) {
-    return (
-      <AppShell title={t.credit.title}>
-        <Skeleton className="h-48 w-full rounded-3xl" />
-        <Skeleton className="mt-4 h-64 w-full rounded-3xl" />
-      </AppShell>
-    );
-  }
+  const { wallet, os } = useWorkerOs();
+  const score = wallet?.gig_credit_score ?? DEMO_WALLET.gig_credit_score;
+  const credit = GIGAI_CREDIT;
 
   return (
     <AppShell title={t.credit.title} kn={t.credit.subtitle}>
-      <OsCard glow="green" className="flex flex-col items-center py-6">
+      <div className="pod-card flex flex-col items-center py-6 mb-4 animate-scale-in fintech-glow-green">
         <CreditGauge score={score} />
-        <p className="mt-4 max-w-xs text-center text-sm text-muted-foreground">
-          {t.credit.subtitle}
+        <p className="mt-4 max-w-xs text-center text-sm text-foreground/75">{t.credit.subtitle}</p>
+        <p className="mt-2 text-xs font-bold text-emerald-300">
+          Pre-approved ₹{credit.preApproved.toLocaleString("en-IN")} · Earning-based trust
         </p>
-      </OsCard>
+      </div>
 
-      <HudLabel className="mb-3 mt-6 block">{t.credit.factors}</HudLabel>
+      <p className="text-[10px] font-mono-tech uppercase tracking-widest text-foreground/50 mb-3">{t.credit.factors}</p>
       <div className="space-y-3 mb-6">
-        {os.creditFactors.map((f) => {
-          const Icon = trendIcon[f.trend];
+        {(os.creditFactors.length ? os.creditFactors : credit.factors.map((f) => ({
+          id: f.label,
+          label: f.label,
+          score: f.score,
+          max: f.max,
+          trend: "up" as const,
+          detail: "AI trust composite",
+        }))).map((f) => {
+          const Icon = trendIcon[f.trend as keyof typeof trendIcon] ?? ArrowUp;
           return (
-            <OsCard key={f.id}>
+            <div key={f.id} className="pod-card p-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold">{f.label}</p>
-                <span className="flex items-center gap-1 text-xs text-secondary">
+                <p className="text-sm font-semibold text-bright">{f.label}</p>
+                <span className="flex items-center gap-1 text-xs text-emerald-300">
                   <Icon className="h-3 w-3" />
                   {f.score}/{f.max}
                 </span>
               </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-black/40">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-primary to-secondary transition-all"
+                  className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400 transition-all"
                   style={{ width: `${(f.score / f.max) * 100}%` }}
                 />
               </div>
-              <p className="mt-2 text-[11px] text-muted-foreground">{f.detail}</p>
-            </OsCard>
+              {"detail" in f && f.detail && (
+                <p className="mt-2 text-[11px] text-foreground/55">{f.detail}</p>
+              )}
+            </div>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <OsCard glow="neon">
-          <Shield className="mb-2 h-5 w-5 text-primary" />
-          <HudLabel>{t.credit.lending}</HudLabel>
-          <p className="mt-2 text-lg font-bold text-primary">{os.lending.label}</p>
-          {os.lending.amount > 0 && (
-            <p className="text-sm text-muted-foreground">Up to ₹{os.lending.amount.toLocaleString("en-IN")} @ {os.lending.rate}</p>
-          )}
-        </OsCard>
-        <OsCard>
-          <TrendingUp className="mb-2 h-5 w-5 text-secondary" />
-          <HudLabel>{t.credit.insurance}</HudLabel>
-          <p className="mt-2 text-lg font-bold text-secondary">{score >= 650 ? "Eligible" : "Building"}</p>
-          <p className="text-[11px] text-muted-foreground">Health + accident cover</p>
-        </OsCard>
+      <p className="text-[10px] font-mono uppercase text-foreground/50 mb-2">Credit products</p>
+      <div className="space-y-2 mb-6">
+        {credit.products.map((p) => (
+          <div key={p.name} className="pod-card p-3.5 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-bright">{p.name}</p>
+              <p className="text-[11px] text-foreground/55">Up to ₹{p.limit.toLocaleString("en-IN")} · {p.rate}</p>
+            </div>
+            <Shield className="h-4 w-4 text-emerald-400" />
+          </div>
+        ))}
       </div>
 
-      <OsCard className="border-secondary/30">
-        <HudLabel className="text-secondary">{t.credit.reliability}</HudLabel>
-        <p className="mt-2 text-3xl font-extrabold tabular-nums">{os.complianceScore}<span className="text-lg text-muted-foreground">/99</span></p>
-        <p className="mt-1 text-sm text-muted-foreground">Behavioral + financial trust composite</p>
-      </OsCard>
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="pod-card p-4 fintech-glow-cyan">
+          <Shield className="mb-2 h-5 w-5 text-cyan-400" />
+          <p className="text-[10px] font-mono uppercase text-foreground/50">{t.credit.lending}</p>
+          <p className="mt-2 text-lg font-bold text-cyan-300">{os.lending.label}</p>
+          {os.lending.amount > 0 && (
+            <p className="text-sm text-foreground/60">Up to ₹{os.lending.amount.toLocaleString("en-IN")} @ {os.lending.rate}</p>
+          )}
+        </div>
+        <div className="pod-card p-4">
+          <TrendingUp className="mb-2 h-5 w-5 text-emerald-400" />
+          <p className="text-[10px] font-mono uppercase text-foreground/50">{t.credit.insurance}</p>
+          <p className="mt-2 text-lg font-bold text-emerald-300">{credit.insuranceEligible ? "Eligible" : "Building"}</p>
+          <p className="text-[11px] text-foreground/55">Health + accident cover</p>
+        </div>
+      </div>
+
+      <div className="pod-card p-4 border-emerald-400/20 mb-4">
+        <p className="text-[10px] font-mono uppercase text-emerald-300/90">{t.credit.reliability}</p>
+        <p className="mt-2 text-3xl font-extrabold tabular-nums text-bright">
+          {os.complianceScore}<span className="text-lg text-foreground/50">/99</span>
+        </p>
+        <p className="mt-1 text-sm text-foreground/60">Behavioral + financial trust composite</p>
+      </div>
+
+      <Link to="/dignity" className="block pod-card py-3.5 text-center text-sm font-bold text-violet-200 border-violet-400/25">
+        Worker dignity infrastructure →
+      </Link>
     </AppShell>
   );
 };

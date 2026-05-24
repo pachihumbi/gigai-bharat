@@ -555,6 +555,20 @@ const Dashboard = () => {
         </div>
       </Link>
 
+      {/* Worker Dignity Infrastructure — flagship */}
+      <Link to="/dignity" className="mb-4 block">
+        <div className="dignity-hero rounded-2xl p-5 flex items-center gap-4 animate-scale-in active:scale-[0.99] transition-transform">
+          <div className="h-12 w-12 rounded-2xl border border-emerald-400/35 bg-emerald-400/15 grid place-items-center shrink-0 shadow-[0_0_24px_rgba(57,255,20,0.15)]">
+            <Shield className="h-6 w-6 text-emerald-300" />
+          </div>
+          <div className="min-w-0">
+            <HudLabel className="text-emerald-300">Worker Dignity Infrastructure</HudLabel>
+            <p className="text-sm font-bold text-bright mt-0.5 leading-snug">Safety · Health · Family · AI Copilot · Credit</p>
+            <p className="text-[10px] text-foreground/60 mt-1">The real moat — not rides + payments alone</p>
+          </div>
+        </div>
+      </Link>
+
       {/* Co-Living Infrastructure */}
       <Link to="/co-living" className="mb-4 block">
         <div className="rounded-2xl border border-violet-400/25 bg-violet-500/5 backdrop-blur-xl p-5 shadow-[0_0_30px_rgba(139,92,246,0.08)] hover:border-violet-400/45 transition-all duration-300 flex items-center gap-4 animate-fade-in">

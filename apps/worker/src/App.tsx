@@ -21,6 +21,7 @@ const Credit = lazy(() => import("./pages/Credit.tsx"));
 const Gurukul = lazy(() => import("./pages/Gurukul.tsx"));
 const EvCommand = lazy(() => import("./pages/EvCommand.tsx"));
 const CoLivingHub = lazy(() => import("./pages/CoLivingHub.tsx"));
+const DignityHub = lazy(() => import("./pages/DignityHub.tsx"));
 const SecurityMobility = lazy(() => import("./pages/SecurityMobility.tsx"));
 const GigPay = lazy(() => import("./pages/GigPay.tsx"));
 const Welfare = lazy(() => import("./pages/Welfare.tsx"));
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/dispatch" element={withAuth(<Dispatch />)} />
             <Route path="/ev-command" element={withAuth(<EvCommand />)} />
             <Route path="/co-living" element={withAuth(<CoLivingHub />)} />
+            <Route path="/dignity" element={withAuth(<DignityHub />)} />
             <Route path="/smart-hub" element={<Navigate to="/co-living" replace />} />
             <Route path="/security" element={withAuth(<SecurityMobility />)} />
             <Route path="/credit" element={withAuth(<Credit />)} />

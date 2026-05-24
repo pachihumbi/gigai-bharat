@@ -1,0 +1,194 @@
+export const DIGNITY_VISION = {
+  headline: "Worker dignity infrastructure",
+  subheadline: "Digital public infrastructure for the workforce economy — not an Uber clone.",
+  taglineKn: "ಕಾರ್ಮಿಕರ dignity · India's worker super-app ecosystem",
+};
+
+export const PLATFORM_ECOSYSTEM = [
+  { id: "gigpay", label: "GigPay", desc: "Wallet · UPI · credit", path: "/gigpay", color: "emerald" },
+  { id: "gigev", label: "GigEV", desc: "Fleet · charging · ownership", path: "/ev-command", color: "cyan" },
+  { id: "gigpods", label: "GigPods", desc: "Co-living · rest · recovery", path: "/co-living", color: "violet" },
+  { id: "shramsetu", label: "ShramSetu", desc: "Welfare · insurance · pension", path: "/welfare", color: "orange" },
+  { id: "gurukul", label: "Gurukul AI", desc: "Skills · certs · upgrade", path: "/gurukul", color: "green" },
+  { id: "fleetos", label: "FleetOS", desc: "Dispatch · routing · AI copilot", path: "/dispatch", color: "blue" },
+  { id: "identity", label: "Worker Identity", desc: "Portable economic reputation", path: "/dignity#identity", color: "pink" },
+  { id: "copilot", label: "AI Copilot", desc: "Earnings · demand · livelihood", path: "/dignity#copilot", color: "cyan" },
+  { id: "health", label: "Health Layer", desc: "Telemedicine · mental wellness", path: "/dignity#health", color: "red" },
+  { id: "credit", label: "Worker Credit", desc: "Earning-based trust · micro-loans", path: "/credit", color: "amber" },
+] as const;
+
+export const EMERGENCY_SAFETY = {
+  sosActive: false,
+  liveLocationSharing: true,
+  accidentDetection: true,
+  emergencyContact: { name: "Lakshmi (Wife)", phone: "+91 98765 43210" },
+  integrations: [
+    { name: "108 Ambulance", status: "Connected", responseMin: 8 },
+    { name: "Bengaluru Police", status: "Connected", responseMin: 12 },
+    { name: "GigAI Safety Desk", status: "24/7 Live", responseMin: 2 },
+  ],
+  womenSafety: {
+    nightModeActive: true,
+    trustedZones: 14,
+    riskAlertsToday: 0,
+    lastCheckIn: "22:14 · Koramangala safe corridor",
+  },
+  recentEvents: [
+    { time: "Today 14:22", event: "Route risk LOW · MG Road", status: "OK" },
+    { time: "Yesterday 23:08", event: "Night mode auto-enabled", status: "LOG" },
+    { time: "May 23 19:45", event: "Trusted zone entered · HSR", status: "OK" },
+  ],
+};
+
+export const HEALTH_LAYER = {
+  telemedicineAvailable: true,
+  nextAppointment: "Dr. Priya · Tomorrow 10:00 AM",
+  mentalHealthSessions: 2,
+  sleepScore: 72,
+  stressLevel: "Moderate",
+  insuranceActive: true,
+  services: [
+    { id: "tele", name: "Telemedicine", desc: "₹0 consult for GigAI workers", icon: "stethoscope", available: true },
+    { id: "mental", name: "Mental Health", desc: "Counselling · stress support", icon: "heart", available: true },
+    { id: "sleep", name: "Sleep Tracking", desc: "Shift-aware recovery score", icon: "moon", available: true },
+    { id: "insurance", name: "Health Dashboard", desc: "ESIC + accident cover", icon: "shield", available: true },
+  ],
+  vitals: [
+    { label: "Rest hours (7d avg)", value: "6.2h", status: "Low" },
+    { label: "Fatigue index", value: "68%", status: "Alert" },
+    { label: "Hydration reminders", value: "4/day", status: "OK" },
+  ],
+};
+
+export const FAMILY_MODE = {
+  homeTransferEnabled: true,
+  familyMembers: [
+    { name: "Lakshmi", relation: "Spouse", phone: "+91 98765 43210" },
+    { name: "Aarav", relation: "Son · Class 8", phone: "—" },
+  ],
+  sentThisMonth: 8200,
+  educationVault: 12400,
+  emergencyVault: 5600,
+  lastTransfer: { amount: 2000, to: "Lakshmi", when: "2 days ago" },
+  familyDashboard: {
+    monthlyGoal: 10000,
+    savedPct: 82,
+    childrenEducationFund: "₹12,400 · Aarav",
+  },
+};
+
+export const AI_EARNINGS_COACH = {
+  bestArea: "Airport Terminal 2",
+  demand: "High",
+  potentialRange: { min: 780, max: 1120 },
+  windowHours: 2,
+  confidence: 94,
+  tips: [
+    "Airport queue clearing in 18 min — arrive now for 2.1x surge",
+    "Avoid MG Road until 8 PM — low demand detected",
+    "EV charge at Whitefield hub before airport run (+₹340 saved)",
+  ],
+  hourlyForecast: [
+    { hour: "Now", earnings: 420, demand: "high" },
+    { hour: "+1h", earnings: 580, demand: "surge" },
+    { hour: "+2h", earnings: 390, demand: "medium" },
+  ],
+};
+
+export const REST_RECOVERY = {
+  podAccess: true,
+  amenities: [
+    { name: "Sleeping pods", status: "3 available", price: "₹149/shift" },
+    { name: "Shower access", status: "Open 24/7", price: "₹49" },
+    { name: "Food subscription", status: "₹899/mo", price: "2 meals/day" },
+    { name: "Prayer / meditation", status: "Open", price: "Free" },
+    { name: "Locker storage", status: "12 free slots", price: "Included" },
+  ],
+  nextRestSlot: "22:30 · Neo Sleep Pod",
+  recoveryScore: 74,
+};
+
+export const EV_OWNERSHIP = {
+  program: "Drive-to-Own",
+  vehicle: "VinFast Evo Grand",
+  targetPrice: 89000,
+  contributed: 34200,
+  dailyContribution: 180,
+  daysRemaining: 305,
+  equityPct: 38.4,
+  milestones: [
+    { pct: 25, label: "Priority charging", unlocked: true },
+    { pct: 50, label: "Reduced EMI rate", unlocked: false },
+    { pct: 75, label: "Fleet equity share", unlocked: false },
+    { pct: 100, label: "Full ownership", unlocked: false },
+  ],
+};
+
+export const WORKER_IDENTITY = {
+  name: "Prashanth Gowda",
+  workerId: "GB-WRK-2024-8842",
+  completedTrips: 4280,
+  rating: 4.87,
+  safetyScore: 96,
+  evEfficiency: 6.4,
+  reliability: 94,
+  badges: [
+    { name: "EV Pioneer", tier: "gold" },
+    { name: "Safety Champion", tier: "gold" },
+    { name: "English Level 2", tier: "silver" },
+    { name: "Financial Literacy", tier: "bronze" },
+    { name: "1000 Trips", tier: "gold" },
+  ],
+  portableScore: 768,
+  verifiedSince: "Jan 2024",
+};
+
+export const GURUKUL_DIGNITY = {
+  activeCourses: 3,
+  certifications: 2,
+  nextSkill: "International driving prep",
+  programs: [
+    "English communication",
+    "AI tools for gig workers",
+    "EV maintenance basics",
+    "Financial literacy",
+    "Business & entrepreneurship",
+    "International driving prep",
+  ],
+  upgradePath: "Delivery → EV taxi → Fleet partner",
+};
+
+export const WORKER_GOVERNANCE = {
+  activeProposals: 2,
+  memberVotes: 1842,
+  treasuryBalance: 2840000,
+  profitSharePct: 12,
+  proposals: [
+    { id: "p1", title: "Increase pod shower access hours", votes: 892, status: "Voting", ends: "3 days" },
+    { id: "p2", title: "EV charging subsidy for night shifts", votes: 1204, status: "Passed", ends: "—" },
+  ],
+  communityStats: {
+    votersThisMonth: 486,
+    proposalsSubmitted: 14,
+    treasuryGrowthPct: 8.4,
+  },
+};
+
+export const GIGAI_CREDIT = {
+  score: 768,
+  earningBased: true,
+  preApproved: 25000,
+  microLoansAvailable: 3,
+  insuranceEligible: true,
+  factors: [
+    { label: "Earnings consistency", score: 92, max: 100 },
+    { label: "Trip reliability", score: 94, max: 100 },
+    { label: "Safety compliance", score: 96, max: 100 },
+    { label: "Financial discipline", score: 78, max: 100 },
+  ],
+  products: [
+    { name: "Instant advance", limit: 5000, rate: "0% · 7 days" },
+    { name: "EV EMI bridge", limit: 15000, rate: "12.5% APR" },
+    { name: "Family emergency", limit: 10000, rate: "14.9% APR" },
+  ],
+};
