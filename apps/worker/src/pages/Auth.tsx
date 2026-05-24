@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { authCallbackUrl } from "@/lib/auth";
+import { authCallbackUrl, formatAuthError } from "@/lib/auth";
 import { allowInvestorDemo } from "@/lib/app-config";
 import { enterDemoWorkspace, exitDemoWorkspace } from "@/lib/demo-session";
 import { PostAuthRedirect } from "@/components/PostAuthRedirect";
 import { resolvePostAuthPath } from "@/lib/worker-profile";
+import { isLocalDevHost, marketingSiteUrl, workerAppUrl, workerAuthUrl } from "@/lib/site";
 import { Logo } from "@/components/Logo";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { toast } from "sonner";
 import {
   Loader2,
@@ -17,12 +17,23 @@ import {
   Car,
   Package,
   Building2,
-  KeyRound,
   LayoutGrid,
+  IndianRupee,
+  Wallet,
+  Cpu,
+  Flag,
+  Globe,
+  ExternalLink,
 } from "lucide-react";
 
 type WorkerRole = "driver" | "delivery" | "fleet";
-type AuthMethod = "password" | "otp";
+
+const VALUE_PILLARS = [
+  { icon: IndianRupee, label: "₹0 Platform Commission" },
+  { icon: Wallet, label: "100% Worker Earnings" },
+  { icon: Cpu, label: "AI Fleet Intelligence" },
+  { icon: Flag, label: "India First" },
+] as const;
 
 const ROLES: { id: WorkerRole; label: string; sub: string; icon: typeof Car }[] = [
   { id: "driver", label: "Gig Driver", sub: "Ride & mobility", icon: Car },
@@ -33,11 +44,8 @@ const ROLES: { id: WorkerRole; label: string; sub: string; icon: typeof Car }[] 
 const Auth = () => {
   const nav = useNavigate();
   const [role, setRole] = useState<WorkerRole>("driver");
-  const [authMethod, setAuthMethod] = useState<AuthMethod>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [otpCode, setOtpCode] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [hasSession, setHasSession] = useState<boolean | null>(null);
 
@@ -49,64 +57,30 @@ const Auth = () => {
 
   if (hasSession) return <PostAuthRedirect />;
 
-  const switchAuthMethod = (method: AuthMethod) => {
-    setAuthMethod(method);
-    setOtpSent(false);
-    setOtpCode("");
-    setPassword("");
-  };
-
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
     try {
       exitDemoWorkspace();
 
-      if (authMethod === "password") {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) {
-          const { error: signUpError } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              emailRedirectTo: authCallbackUrl(),
-              data: { role },
-            },
-          });
-          if (signUpError) throw signUpError;
-          toast.success("Workspace created", { description: "Setting up your ledger..." });
-          nav("/onboarding");
-          return;
-        }
-        nav(await resolvePostAuthPath());
-        return;
-      }
-
-      if (!otpSent) {
-        const { error } = await supabase.auth.signInWithOtp({
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) {
+        const { error: signUpError } = await supabase.auth.signUp({
           email,
+          password,
           options: {
-            shouldCreateUser: true,
             emailRedirectTo: authCallbackUrl(),
             data: { role },
           },
         });
-        if (error) throw error;
-        setOtpSent(true);
-        toast.success("OTP sent", { description: "Check your email for the 6-digit code." });
+        if (signUpError) throw signUpError;
+        toast.success("Workspace created", { description: "Setting up your ledger..." });
+        nav("/onboarding");
         return;
       }
-
-      const { error } = await supabase.auth.verifyOtp({
-        email,
-        token: otpCode,
-        type: "email",
-      });
-      if (error) throw error;
-      toast.success("Welcome to GigAI Bharat");
       nav(await resolvePostAuthPath());
     } catch (err: any) {
-      toast.error(err.message || "Authentication failed");
+      toast.error(formatAuthError(err.message || "Authentication failed"));
     } finally {
       setBusy(false);
     }
@@ -137,207 +111,160 @@ const Auth = () => {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent animate-scan-line opacity-30" />
 
       <div className="relative z-10 mx-auto w-full max-w-md flex-1 flex flex-col justify-center px-5 sm:px-6 py-8 sm:py-12">
-        <div className="auth-glass-card p-6 sm:p-8 animate-scale-in">
-          {/* 1. LOGO */}
-          <div className="flex justify-center mb-6">
-            <div className="animate-float" style={{ animationDuration: "5s" }}>
-              <Logo size={72} />
-            </div>
-          </div>
+        {isLocalDevHost() && (
+          <a
+            href={workerAuthUrl}
+            className="mb-4 flex items-center justify-center gap-2 rounded-xl border border-cyan-500/25 bg-cyan-500/5 px-4 py-2.5 text-xs font-semibold text-cyan-300 hover:bg-cyan-500/10 transition-colors"
+          >
+            <Globe className="h-3.5 w-3.5" />
+            Open live app on app.bharatgig.live
+            <ExternalLink className="h-3 w-3 opacity-70" />
+          </a>
+        )}
 
-          {/* 2. Headline */}
-          <h1 className="text-center text-3xl sm:text-4xl font-extrabold tracking-tight leading-none">
-            <span className="text-gradient-neon">GigAI Bharat</span>
-          </h1>
-
-          {/* 3. Subheadline */}
-          <p className="mt-3 text-center text-base sm:text-lg font-semibold leading-snug text-foreground/90">
-            India&apos;s Worker-Owned{" "}
-            <span className="text-gradient-neon">Mobility OS</span>
-          </p>
-          <p className="font-kannada text-center text-sm text-muted-foreground mt-1.5">
-            ನಿಮ್ಮ ದುಡಿಮೆ ಈಗ AI ಜೊತೆ.
-          </p>
-
-          <form onSubmit={submit} className="mt-7 space-y-4">
-            {/* 4. Role Selector */}
-            <div>
-              <p className="mb-2.5 text-xs font-medium text-muted-foreground text-center">
-                Select your role
-              </p>
-              <div className="grid grid-cols-3 gap-2">
-                {ROLES.map(({ id, label, sub, icon: Icon }) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setRole(id)}
-                    className={`role-chip ${role === id ? "role-chip-active" : ""}`}
-                  >
-                    <Icon
-                      className={`h-4 w-4 transition-colors ${
-                        role === id ? "text-emerald-400" : "text-cyan-400/60"
-                      }`}
-                    />
-                    <span className="text-[11px] sm:text-xs font-semibold leading-tight">{label}</span>
-                    <span className="text-[9px] text-muted-foreground leading-tight hidden sm:block">{sub}</span>
-                  </button>
-                ))}
+        <div className="auth-glass-card relative p-6 sm:p-8 animate-scale-in overflow-hidden">
+          <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-cyan-400/20 via-transparent to-emerald-400/15" />
+          <div className="relative">
+            <div className="flex justify-center mb-6">
+              <div className="animate-float" style={{ animationDuration: "5s" }}>
+                <Logo size={72} />
               </div>
             </div>
 
-            {/* 5. Email Input */}
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyan-400/50" />
-              <input
-                type="email"
-                required
-                placeholder="Work email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="auth-input auth-input-with-icon"
-              />
+            <h1 className="text-center text-3xl sm:text-4xl font-extrabold tracking-tight leading-none">
+              <span className="text-gradient-neon">GigAI Bharat</span>
+            </h1>
+
+            <p className="mt-3 text-center text-base sm:text-lg font-semibold leading-snug text-foreground/90">
+              India&apos;s Worker-Owned{" "}
+              <span className="text-gradient-neon">Mobility OS</span>
+            </p>
+            <p className="font-kannada text-center text-sm text-muted-foreground mt-1.5">
+              ನಿಮ್ಮ ದುಡಿಮೆ ಈಗ AI ಜೊತೆ.
+            </p>
+
+            <div className="mt-5 grid grid-cols-2 gap-2">
+              {VALUE_PILLARS.map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 rounded-lg border border-cyan-500/15 bg-black/30 px-2.5 py-2"
+                >
+                  <Icon className="h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                  <span className="text-[10px] font-semibold leading-tight text-foreground/85">{label}</span>
+                </div>
+              ))}
             </div>
 
-            {/* 6. Password / OTP */}
-            <div>
-              <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-black/30 border border-white/5 mb-3">
-                {(["password", "otp"] as const).map((method) => (
-                  <button
-                    key={method}
-                    type="button"
-                    onClick={() => switchAuthMethod(method)}
-                    className={`h-9 rounded-lg text-xs font-semibold transition-all duration-300 ${
-                      authMethod === method
-                        ? "bg-gradient-neon text-primary-foreground shadow-[0_0_18px_hsl(200_100%_50%/0.4)]"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {method === "password" ? "Password" : "OTP"}
-                  </button>
-                ))}
+            <form onSubmit={submit} className="mt-6 space-y-4">
+              <div>
+                <p className="mb-2.5 text-xs font-medium text-muted-foreground text-center">
+                  Select your role
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {ROLES.map(({ id, label, sub, icon: Icon }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setRole(id)}
+                      className={`role-chip ${role === id ? "role-chip-active" : ""}`}
+                    >
+                      <Icon
+                        className={`h-4 w-4 transition-colors ${
+                          role === id ? "text-emerald-400" : "text-cyan-400/60"
+                        }`}
+                      />
+                      <span className="text-[11px] sm:text-xs font-semibold leading-tight">{label}</span>
+                      <span className="text-[9px] text-muted-foreground leading-tight hidden sm:block">{sub}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {authMethod === "password" ? (
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyan-400/50" />
-                  <input
-                    type="password"
-                    required
-                    minLength={6}
-                    placeholder="Password (min 6)"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="auth-input auth-input-with-icon"
-                  />
-                </div>
-              ) : otpSent ? (
-                <div className="space-y-2">
-                  <p className="text-[11px] text-center text-muted-foreground">
-                    Enter the 6-digit code sent to <span className="text-cyan-300">{email}</span>
-                  </p>
-                  <div className="flex justify-center">
-                    <InputOTP maxLength={6} value={otpCode} onChange={setOtpCode}>
-                      <InputOTPGroup className="gap-2">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                          <InputOTPSlot
-                            key={i}
-                            index={i}
-                            className="h-11 w-10 rounded-lg border-cyan-500/25 bg-black/40 text-foreground first:rounded-lg last:rounded-lg"
-                          />
-                        ))}
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </div>
-                  <button
-                    type="button"
-                    disabled={busy}
-                    onClick={async () => {
-                      setOtpSent(false);
-                      setOtpCode("");
-                      setBusy(true);
-                      try {
-                        const { error } = await supabase.auth.signInWithOtp({
-                          email,
-                          options: {
-                            shouldCreateUser: true,
-                            emailRedirectTo: authCallbackUrl(),
-                            data: { role },
-                          },
-                        });
-                        if (error) throw error;
-                        setOtpSent(true);
-                        toast.success("OTP resent");
-                      } catch (err: any) {
-                        toast.error(err.message || "Could not resend OTP");
-                      } finally {
-                        setBusy(false);
-                      }
-                    }}
-                    className="w-full text-[10px] font-mono-tech text-cyan-400/70 hover:text-cyan-300 transition-colors disabled:opacity-50"
-                  >
-                    Resend OTP
-                  </button>
-                </div>
-              ) : (
-                <div className="relative flex items-center gap-3 rounded-xl border border-cyan-500/15 bg-black/25 px-4 py-3">
-                  <KeyRound className="h-4 w-4 text-emerald-400 shrink-0" />
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    We&apos;ll email a one-time code — no password needed.
-                  </p>
-                </div>
-              )}
-            </div>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyan-400/50" />
+                <input
+                  type="email"
+                  required
+                  placeholder="Work email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="auth-input auth-input-with-icon"
+                />
+              </div>
 
-            {/* 7. Enter Workspace Button */}
-            <button
-              type="submit"
-              disabled={busy || (authMethod === "otp" && otpSent && otpCode.length < 6)}
-              className="group relative w-full h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 overflow-hidden disabled:opacity-60 transition-transform active:scale-[0.98]"
-            >
-              <span className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,hsl(0_0%_100%/0.25)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
-              {busy ? (
-                <Loader2 className="h-4 w-4 animate-spin relative" />
-              ) : (
-                <>
-                  <span className="relative">
-                    {authMethod === "otp" && !otpSent
-                      ? "Send OTP"
-                      : authMethod === "otp" && otpSent
-                        ? "Verify & Enter Workspace"
-                        : "Enter Workspace"}
-                  </span>
-                  <ArrowRight className="h-4 w-4 relative transition-transform group-hover:translate-x-0.5" />
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* 8. Demo Access */}
-          {allowInvestorDemo() && (
-            <>
-              <div className="flex items-center gap-3 my-5">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
-                <span className="text-[10px] font-mono-tech text-muted-foreground tracking-widest">OR</span>
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-cyan-400/50" />
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  placeholder="Password (min 6)"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="auth-input auth-input-with-icon"
+                />
               </div>
 
               <button
-                type="button"
-                onClick={exploreDemo}
-                className="group w-full h-11 rounded-xl border border-emerald-400/35 bg-emerald-400/5 hover:bg-emerald-400/10 hover:border-emerald-400/55 flex items-center justify-center gap-2 text-sm font-semibold text-emerald-300 transition-all duration-300 active:scale-[0.98]"
+                type="submit"
+                disabled={busy}
+                className="group relative w-full h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 overflow-hidden disabled:opacity-60 transition-transform active:scale-[0.98]"
               >
-                <LayoutGrid className="h-4 w-4 text-emerald-400 transition-transform group-hover:scale-110" />
-                Demo Access
+                <span className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,hsl(0_0%_100%/0.25)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer" />
+                {busy ? (
+                  <Loader2 className="h-4 w-4 animate-spin relative" />
+                ) : (
+                  <>
+                    <span className="relative">Enter Workspace</span>
+                    <ArrowRight className="h-4 w-4 relative transition-transform group-hover:translate-x-0.5" />
+                  </>
+                )}
               </button>
-            </>
-          )}
+            </form>
 
-          <p className="text-[10px] text-center text-muted-foreground mt-5 leading-relaxed">
-            ₹0 commission · 100% worker earnings · India-first
-          </p>
+            {allowInvestorDemo() && (
+              <>
+                <div className="flex items-center gap-3 my-5">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
+                  <span className="text-[10px] font-mono-tech text-muted-foreground tracking-widest">OR</span>
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-500/25 to-transparent" />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={exploreDemo}
+                  className="group w-full h-11 rounded-xl border border-emerald-400/35 bg-emerald-400/5 hover:bg-emerald-400/10 hover:border-emerald-400/55 flex items-center justify-center gap-2 text-sm font-semibold text-emerald-300 transition-all duration-300 active:scale-[0.98]"
+                >
+                  <LayoutGrid className="h-4 w-4 text-emerald-400 transition-transform group-hover:scale-110" />
+                  Demo Access
+                </button>
+              </>
+            )}
+
+            <p className="text-[10px] text-center text-muted-foreground mt-5 leading-relaxed">
+              Worker-owned · Platform-agnostic · Bengaluru-first
+            </p>
+          </div>
         </div>
 
-        <footer className="text-center mt-6 animate-fade-in">
+        <footer className="text-center mt-6 space-y-3 animate-fade-in">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[10px] font-mono-tech">
+            <a
+              href={marketingSiteUrl}
+              className="inline-flex items-center gap-1 text-muted-foreground hover:text-cyan-300 transition-colors"
+            >
+              www.bharatgig.live
+              <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+            <span className="text-muted-foreground/40">·</span>
+            <a
+              href={workerAppUrl}
+              className="inline-flex items-center gap-1 text-cyan-400/80 hover:text-cyan-300 transition-colors"
+            >
+              app.bharatgig.live
+              <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+          </div>
           <p className="text-[10px] font-mono-tech tracking-[0.3em] text-muted-foreground">
             POWERED BY{" "}
             <span className="text-gradient-neon font-bold tracking-[0.2em]">GIGAI BHARAT</span>

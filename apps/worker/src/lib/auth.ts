@@ -31,6 +31,52 @@ export async function signInWithGoogle() {
   return data;
 }
 
+export type EmailSignInMetadata = Record<string, string | undefined>;
+
+/** Sends a passwordless sign-in email (magic link by default; 6-digit code if template uses {{ .Token }}). */
+export async function sendEmailSignInLink(email: string, metadata?: EmailSignInMetadata) {
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email: email.trim(),
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: authCallbackUrl(),
+      data: metadata,
+    },
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function verifyEmailSignInCode(email: string, token: string) {
+  const { data, error } = await supabase.auth.verifyOtp({
+    email: email.trim(),
+    token: token.trim(),
+    type: "email",
+  });
+  if (error) throw error;
+  return data;
+}
+
+export function formatAuthError(message: string): string {
+  const lower = message.toLowerCase();
+  if (lower.includes("rate limit") || lower.includes("too many")) {
+    return "Too many attempts — wait 60 seconds, then try again.";
+  }
+  if (lower.includes("invalid login credentials") || lower.includes("invalid email or password")) {
+    return "Invalid email or password.";
+  }
+  if (lower.includes("email not confirmed")) {
+    return "Confirm your email first, or use the sign-in link we sent.";
+  }
+  if (lower.includes("signup") && lower.includes("disabled")) {
+    return "New signups are paused. Try Demo Access or contact support.";
+  }
+  if (lower.includes("otp") && lower.includes("expired")) {
+    return "That code expired. Request a new sign-in email.";
+  }
+  return message;
+}
+
 /** Wait for Supabase to finish processing OAuth / magic-link tokens in the URL. */
 export async function resolveAuthFromUrl(timeoutMs = 15_000) {
   const started = Date.now();

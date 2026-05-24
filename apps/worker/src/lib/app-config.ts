@@ -1,6 +1,12 @@
 import { getWorkerEnv } from "@/lib/env";
+import { workerAppUrl } from "@/lib/site";
 
-const PRODUCTION_HOSTS = new Set(["app.bharatgig.live", "www.bharatgig.live", "bharatgig.live"]);
+const PRODUCTION_HOSTS = new Set([
+  "app.bharatgig.live",
+  "www.bharatgig.live",
+  "bharatgig.live",
+  new URL(workerAppUrl).hostname,
+]);
 
 export function isProductionHost(): boolean {
   if (typeof window === "undefined") return import.meta.env.PROD;

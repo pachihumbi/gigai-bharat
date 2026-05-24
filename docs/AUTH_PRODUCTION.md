@@ -36,6 +36,21 @@ https://app.bharatgig.live
 http://localhost:8080
 ```
 
+## Email sign-in (magic link / OTP)
+
+Supabase **defaults to magic links**, not 6-digit codes. Configure in **Authentication → Email Templates → Magic Link**:
+
+```html
+<h2>GigAI Bharat sign-in</h2>
+<p>Click to enter your workspace:</p>
+<p><a href="{{ .ConfirmationURL }}">Enter Workspace</a></p>
+<p>Or enter this code in the app: <strong>{{ .Token }}</strong></p>
+```
+
+For reliable delivery in production, configure **Custom SMTP** (Resend, SendGrid, etc.) under **Authentication → SMTP Settings**. The built-in Supabase mailer is rate-limited and often lands in spam.
+
+**Rate limit:** ~1 OTP/email per 60 seconds per address on the default plan.
+
 ## Production auth flow
 
 1. User opens https://app.bharatgig.live/auth

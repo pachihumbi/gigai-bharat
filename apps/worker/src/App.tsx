@@ -46,7 +46,8 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Splash />} />
+            <Route path="/" element={<Auth />} />
+            <Route path="/welcome" element={<Splash />} />
             <Route path="/driver-app" element={<DriverAppEntry />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/demo" element={<DemoWorkspaceEntry />} />
