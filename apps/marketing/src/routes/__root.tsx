@@ -10,6 +10,7 @@ import {
 
 import { MobileStickyCTA, SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { ErrorBoundary } from "@/components/error-boundary";
 import {
   absoluteUrl,
   contactEmail,
@@ -180,13 +181,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background text-foreground">
-        <SiteHeader />
-        <Outlet />
-        <SiteFooter />
-        <MobileStickyCTA />
-      </div>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <div className="min-h-screen bg-background text-foreground">
+          <SiteHeader />
+          <Outlet />
+          <SiteFooter />
+          <MobileStickyCTA />
+        </div>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

@@ -5,13 +5,13 @@ import { Kicker } from "@/components/ui/kicker";
 import { LiveMetricsPanel } from "@/components/viz/live-metrics-panel";
 import { heroHeadline, heroSubheadline } from "@/data/cinematic";
 import { contactLinks } from "@/data/landing";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useSafeMotion } from "@/hooks/use-safe-motion";
 
 const ctaLink = contactLinks.app;
 
 function HeroReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
-  const reduced = useReducedMotion();
-  if (reduced) return <div className={className}>{children}</div>;
+  const skipMotion = useSafeMotion();
+  if (skipMotion) return <div className={className}>{children}</div>;
   return (
     <motion.div
       initial={{ opacity: 0, y: 32 }}

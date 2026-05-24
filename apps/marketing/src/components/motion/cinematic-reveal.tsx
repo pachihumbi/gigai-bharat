@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useSafeMotion } from "@/hooks/use-safe-motion";
 import { cn } from "@/lib/cn";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -14,9 +14,9 @@ export function CinematicSection({
   className?: string;
   id?: string;
 }) {
-  const reduced = useReducedMotion();
+  const skipMotion = useSafeMotion();
 
-  if (reduced) {
+  if (skipMotion) {
     return (
       <section id={id} className={className}>
         {children}
@@ -47,9 +47,9 @@ export function StaggerChildren({
   className?: string;
   stagger?: number;
 }) {
-  const reduced = useReducedMotion();
+  const skipMotion = useSafeMotion();
 
-  if (reduced) {
+  if (skipMotion) {
     return <div className={className}>{children}</div>;
   }
 
@@ -70,9 +70,9 @@ export function StaggerChildren({
 }
 
 export function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {
-  const reduced = useReducedMotion();
+  const skipMotion = useSafeMotion();
 
-  if (reduced) {
+  if (skipMotion) {
     return <div className={className}>{children}</div>;
   }
 

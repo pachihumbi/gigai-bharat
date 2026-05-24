@@ -7,25 +7,45 @@ export interface BeforeInstallPromptEvent extends Event {
 }
 
 export function isStandaloneMode() {
-  return (
-    window.matchMedia("(display-mode: standalone)").matches ||
-    (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-  );
+  if (typeof window === "undefined") return false;
+  try {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as Navigator & { standalone?: boolean }).standalone === true
+    );
+  } catch {
+    return false;
+  }
 }
 
 export function wasInstallDismissed() {
-  const raw = localStorage.getItem(DISMISS_KEY);
-  if (!raw) return false;
-  const dismissedAt = Number(raw);
-  return Number.isFinite(dismissedAt) && Date.now() - dismissedAt < DISMISS_TTL_MS;
+  if (typeof localStorage === "undefined") return false;
+  try {
+    const raw = localStorage.getItem(DISMISS_KEY);
+    if (!raw) return false;
+    const dismissedAt = Number(raw);
+    return Number.isFinite(dismissedAt) && Date.now() - dismissedAt < DISMISS_TTL_MS;
+  } catch {
+    return false;
+  }
 }
 
 export function markInstallDismissed() {
-  localStorage.setItem(DISMISS_KEY, String(Date.now()));
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(DISMISS_KEY, String(Date.now()));
+  } catch {
+    /* private browsing / storage blocked */
+  }
 }
 
 export function clearInstallDismissed() {
-  localStorage.removeItem(DISMISS_KEY);
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.removeItem(DISMISS_KEY);
+  } catch {
+    /* ignore */
+  }
 }
 
 export type { BeforeInstallPromptEvent as InstallPromptEvent };

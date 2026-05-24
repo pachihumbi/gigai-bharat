@@ -9,10 +9,15 @@ import {
 
 export function useInstallPrompt() {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(isStandaloneMode);
+  const [isInstalled, setIsInstalled] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return isStandaloneMode();
+  });
   const [isInstalling, setIsInstalling] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const onBeforeInstall = (event: Event) => {
       event.preventDefault();
       if (wasInstallDismissed()) return;

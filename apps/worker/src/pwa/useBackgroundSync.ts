@@ -20,7 +20,12 @@ function readQueue(): SyncQueueItem[] {
 }
 
 function writeQueue(items: SyncQueueItem[]) {
-  localStorage.setItem(QUEUE_KEY, JSON.stringify(items));
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(QUEUE_KEY, JSON.stringify(items));
+  } catch {
+    /* storage blocked */
+  }
 }
 
 export async function enqueueBackgroundSync(item: Omit<SyncQueueItem, "id" | "createdAt">) {
@@ -32,9 +37,15 @@ export async function enqueueBackgroundSync(item: Omit<SyncQueueItem, "id" | "cr
   });
   writeQueue(queue);
 
-  if ("serviceWorker" in navigator && "SyncManager" in window) {
+  if (typeof window === "undefined" || !("serviceWorker" in navigator) || !("SyncManager" in window)) {
+    return;
+  }
+
+  try {
     const registration = await navigator.serviceWorker.ready;
     await registration.sync.register(SYNC_TAG);
+  } catch {
+    /* background sync unavailable */
   }
 }
 
@@ -62,10 +73,22 @@ export async function flushBackgroundSyncQueue() {
   return completed;
 }
 
+import { useEffect, useState } from "react";
+
 export function useBackgroundSync() {
+  const [pendingCount, setPendingCount] = useState(0);
+
+  useEffect(() => {
+    try {
+      setPendingCount(readQueue().length);
+    } catch {
+      setPendingCount(0);
+    }
+  }, []);
+
   return {
     enqueue: enqueueBackgroundSync,
     flush: flushBackgroundSyncQueue,
-    pendingCount: readQueue().length,
+    pendingCount,
   };
 }

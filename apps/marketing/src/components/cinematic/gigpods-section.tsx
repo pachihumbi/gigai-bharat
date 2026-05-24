@@ -53,7 +53,11 @@ function GigPodsBlueprint() {
         ctx.strokeStyle = "rgba(0,217,255,0.4)";
         ctx.fillStyle = "rgba(0,82,255,0.08)";
         ctx.beginPath();
-        ctx.roundRect(px, py, 36, 80, 18);
+        if (typeof ctx.roundRect === "function") {
+          ctx.roundRect(px, py, 36, 80, 18);
+        } else {
+          ctx.rect(px, py, 36, 80);
+        }
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = `rgba(0,217,255,${0.2 + Math.sin(t * 2 + i) * 0.1})`;

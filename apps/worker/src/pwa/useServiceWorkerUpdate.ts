@@ -1,26 +1,42 @@
 import { useCallback, useEffect, useState } from "react";
-import { registerSW } from "virtual:pwa-register";
 
 export function useServiceWorkerUpdate() {
   const [needRefresh, setNeedRefresh] = useState(false);
   const [offlineReady, setOfflineReady] = useState(false);
 
   useEffect(() => {
-    const updateSW = registerSW({
-      immediate: true,
-      onOfflineReady() {
-        setOfflineReady(true);
-      },
-      onNeedRefresh() {
-        setNeedRefresh(true);
-      },
-      onRegistered(registration) {
-        if (!registration) return;
-        setInterval(() => registration.update(), 60 * 60 * 1000);
-      },
-    });
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
-    (window as Window & { __gigaiUpdateSW?: () => void }).__gigaiUpdateSW = updateSW;
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const { registerSW } = await import("virtual:pwa-register");
+        if (cancelled) return;
+
+        const updateSW = registerSW({
+          immediate: true,
+          onOfflineReady() {
+            if (!cancelled) setOfflineReady(true);
+          },
+          onNeedRefresh() {
+            if (!cancelled) setNeedRefresh(true);
+          },
+          onRegistered(registration) {
+            if (!registration) return;
+            window.setInterval(() => registration.update(), 60 * 60 * 1000);
+          },
+        });
+
+        (window as Window & { __gigaiUpdateSW?: () => void }).__gigaiUpdateSW = updateSW;
+      } catch (error) {
+        console.warn("[GigAI PWA] Service worker registration skipped:", error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const applyUpdate = useCallback(() => {

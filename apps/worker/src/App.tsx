@@ -15,12 +15,13 @@ import NotFound from "./pages/NotFound.tsx";
 import { DriverAppEntry } from "./components/DriverAppEntry";
 import { DemoWorkspaceEntry } from "./components/DemoWorkspaceEntry";
 import {
-  AppLaunchOverlay,
-  InstallFloatingButton,
-  InstallPrompt,
   PwaProvider,
-  UpdatePrompt,
 } from "@/components/pwa";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+
+const PwaShell = lazy(() =>
+  import("@/components/pwa/PwaShell").then((m) => ({ default: m.PwaShell })),
+);
 
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Dispatch = lazy(() => import("./pages/Dispatch.tsx"));
@@ -49,18 +50,18 @@ const withAuth = (element: React.ReactNode) => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <I18nProvider>
-      <TooltipProvider>
-        <PwaProvider>
-          <Toaster />
-          <Sonner />
-          <UpdatePrompt />
-          <InstallPrompt />
-          <InstallFloatingButton />
-          <AppLaunchOverlay />
-          <BrowserRouter>
-          <Routes>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <I18nProvider>
+        <TooltipProvider>
+          <PwaProvider>
+            <ErrorBoundary fallback={null} label="pwa-shell">
+              <Suspense fallback={null}>
+                <PwaShell />
+              </Suspense>
+            </ErrorBoundary>
+            <BrowserRouter>
+            <Routes>
             <Route path="/" element={<Auth />} />
             <Route path="/welcome" element={<Splash />} />
             <Route path="/driver-app" element={<DriverAppEntry />} />
@@ -93,11 +94,14 @@ const App = () => (
             <Route path="/offline" element={<Offline />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+            <Toaster />
+            <Sonner />
           </BrowserRouter>
-        </PwaProvider>
-      </TooltipProvider>
-    </I18nProvider>
-  </QueryClientProvider>
+          </PwaProvider>
+        </TooltipProvider>
+      </I18nProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

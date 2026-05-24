@@ -1,5 +1,4 @@
 /// <reference lib="webworker" />
-import { clientsClaim } from "workbox-core";
 import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute, NavigationRoute } from "workbox-routing";
 import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from "workbox-strategies";
@@ -12,9 +11,15 @@ const CACHE_VERSION = "gigai-v1";
 const OFFLINE_URL = "/offline.html";
 const SYNC_QUEUE = "gigai-background-sync";
 
-clientsClaim();
-self.skipWaiting();
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(`${CACHE_VERSION}-pages`).then((cache) => cache.add(OFFLINE_URL)),
+  );
+});
 
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
@@ -73,12 +78,6 @@ registerRoute(
   }),
   "POST",
 );
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(`${CACHE_VERSION}-pages`).then((cache) => cache.add(OFFLINE_URL)),
-  );
-});
 
 self.addEventListener("push", (event) => {
   const payload = event.data?.json() ?? {

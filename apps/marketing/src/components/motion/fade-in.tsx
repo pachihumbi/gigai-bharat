@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { motion, type MotionProps } from "framer-motion";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useSafeMotion } from "@/hooks/use-safe-motion";
 import { cn } from "@/lib/cn";
 
 type FadeInProps = MotionProps & {
@@ -10,9 +10,9 @@ type FadeInProps = MotionProps & {
 };
 
 export function FadeIn({ children, className, delay = 0, ...rest }: FadeInProps) {
-  const reduced = useReducedMotion();
+  const skipMotion = useSafeMotion();
 
-  if (reduced) {
+  if (skipMotion) {
     return <div className={className}>{children}</div>;
   }
 
@@ -30,10 +30,18 @@ export function FadeIn({ children, className, delay = 0, ...rest }: FadeInProps)
   );
 }
 
-export function FadeInHero({ children, className, delay = 0 }: Omit<FadeInProps, keyof MotionProps>) {
-  const reduced = useReducedMotion();
+export function FadeInHero({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const skipMotion = useSafeMotion();
 
-  if (reduced) {
+  if (skipMotion) {
     return <div className={className}>{children}</div>;
   }
 

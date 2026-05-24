@@ -30,14 +30,20 @@ export function PwaProvider({ children }: { children: ReactNode }) {
   const [showLaunchOverlay, setShowLaunchOverlay] = useState(false);
 
   useEffect(() => {
-    if (isStandaloneMode()) {
-      setShowLaunchOverlay(true);
-      const timer = window.setTimeout(() => setShowLaunchOverlay(false), 1400);
-      return () => window.clearTimeout(timer);
+    if (typeof window === "undefined") return;
+    try {
+      if (isStandaloneMode()) {
+        setShowLaunchOverlay(true);
+        const timer = window.setTimeout(() => setShowLaunchOverlay(false), 1400);
+        return () => window.clearTimeout(timer);
+      }
+    } catch {
+      /* ignore standalone detection failures */
     }
   }, []);
 
   useEffect(() => {
+    if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
     const onMessage = (event: MessageEvent) => {
       if (event.data?.type === "NAVIGATE" && typeof event.data.url === "string") {
         window.location.assign(event.data.url);
