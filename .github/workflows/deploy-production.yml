@@ -39,6 +39,12 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Validate Vercel secrets
+        run: |
+          test -n "${{ secrets.VERCEL_TOKEN }}" || (echo "Missing VERCEL_TOKEN — see docs/GITHUB_SECRETS.md" && exit 1)
+          test -n "${{ secrets.VERCEL_ORG_ID }}" || (echo "Missing VERCEL_ORG_ID" && exit 1)
+          test -n "${{ secrets.VERCEL_MARKETING_PROJECT_ID }}" || (echo "Missing VERCEL_MARKETING_PROJECT_ID" && exit 1)
+
       - name: Build marketing (Nitro Vercel SSR)
         run: npm run build -w @gigai/marketing
         env:
@@ -83,6 +89,12 @@ jobs:
 
       - name: Install
         run: npm ci
+
+      - name: Validate Vercel secrets
+        run: |
+          test -n "${{ secrets.VERCEL_TOKEN }}" || (echo "Missing VERCEL_TOKEN — see docs/GITHUB_SECRETS.md" && exit 1)
+          test -n "${{ secrets.VERCEL_ORG_ID }}" || (echo "Missing VERCEL_ORG_ID" && exit 1)
+          test -n "${{ secrets.VERCEL_WORKER_PROJECT_ID }}" || (echo "Missing VERCEL_WORKER_PROJECT_ID" && exit 1)
 
       - name: Build worker
         run: npm run build -w @gigai/worker

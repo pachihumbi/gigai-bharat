@@ -5,8 +5,9 @@
   "framework": null,
   "build": {
     "env": {
+      "VERCEL": "1",
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-24-stable"
+      "DEPLOY_REVISION": "2026-05-24-production"
     }
   },
   "redirects": [

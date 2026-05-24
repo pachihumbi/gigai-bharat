@@ -1,34 +1,34 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-24  
-**Status:** ⚠️ Worker stable · Marketing subroutes need redeploy  
-**Branch:** `main`  
-**Toolchain:** Cursor · GitHub · Vercel · Supabase only
+**Updated:** 2026-05-24  
+**Commit:** pending push  
+**Toolchain:** GitHub → Vercel (git build + Actions prebuilt) · Supabase
 
 ---
 
-## Live URLs
+## Production URLs
 
-| URL | Status |
+| URL | Target |
 |-----|--------|
-| https://www.bharatgig.live | ✅ 200 |
-| https://bharatgig.live | ✅ 200 (→ www) |
-| https://app.bharatgig.live | ✅ 200 |
-| https://app.bharatgig.live/auth | ✅ 200 |
-| https://app.bharatgig.live/dashboard | ✅ 200 |
-| https://www.bharatgig.live/investors | ❌ 404 — redeploy needed |
-| https://www.bharatgig.live/gurukul | ❌ 404 — redeploy needed |
+| https://www.bharatgig.live | Marketing homepage + SSR routes |
+| https://bharatgig.live | Redirect → www |
+| https://app.bharatgig.live | Worker SPA |
 
 ---
 
-## Blocker: refresh Vercel token
+## Fixes in this release
 
-GitHub Actions **Deploy Production** failed because `VERCEL_TOKEN` is invalid/expired.
-
-**Fix:** Update secret per [GITHUB_SECRETS.md](./GITHUB_SECRETS.md), then re-run **Deploy Production** workflow.
+- Marketing `vercel.json`: explicit `VERCEL=1` for Nitro SSR (fixes subroute 404s)
+- Removed broken root `vercel.json` (Unix-only worker copy script)
+- Removed Lovable OAuth (`@lovable.dev/cloud-auth-js`) — Supabase OAuth only
+- Removed `build:cloudflare` and deprecated Wrangler config
+- Deploy workflow: secret validation with clear error messages
 
 ---
 
-## Architecture
+## If GitHub Actions deploy fails
 
-See [PRODUCTION_ARCHITECTURE.md](./PRODUCTION_ARCHITECTURE.md)
+Update `VERCEL_TOKEN` in GitHub Secrets → re-run **Deploy Production**.  
+See [GITHUB_SECRETS.md](./GITHUB_SECRETS.md)
+
+Vercel **git integration** also auto-builds on push when project root is `apps/marketing` / `apps/worker`.
