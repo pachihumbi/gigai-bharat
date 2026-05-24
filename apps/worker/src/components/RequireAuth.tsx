@@ -2,6 +2,8 @@ import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { allowInvestorDemo } from "@/lib/app-config";
+import { isDemoWorkspace } from "@/lib/demo-session";
 import { Loader2 } from "lucide-react";
 
 export const RequireAuth = ({ children }: { children: ReactNode }) => {
@@ -30,8 +32,13 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
       </div>
     );
   }
-  if (!session) return <Navigate to="/auth" replace />;
-  if (!onboarded && location.pathname !== "/onboarding") {
+  const demoAccess = allowInvestorDemo() && isDemoWorkspace();
+
+  if (!session) {
+    if (demoAccess) return <>{children}</>;
+    return <Navigate to="/auth" replace />;
+  }
+  if (!onboarded && location.pathname !== "/onboarding" && !demoAccess) {
     return <Navigate to="/onboarding" replace />;
   }
   return <>{children}</>;

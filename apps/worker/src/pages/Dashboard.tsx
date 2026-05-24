@@ -30,9 +30,10 @@ import {
   Sun,
   Activity
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { exitDemoWorkspace, isDemoWorkspace } from "@/lib/demo-session";
 
 const FatigueDial = ({ hours }: { hours: number }) => {
   const max = 12;
@@ -90,6 +91,7 @@ function EarningsPulseGraph() {
 }
 
 const Dashboard = () => {
+  const nav = useNavigate();
   const { locale, setLocale, t } = useI18n();
   const { worker, wallet, welfare, todayEarnings, tripsToday, loading, os, isDemo } = useWorkerOs();
   const { signOut } = useAuth();
@@ -182,19 +184,41 @@ const Dashboard = () => {
           INVESTOR DEMO MODE INDICATOR BANNER
           ========================================== */}
       {isDemo && (
-        <div className="mb-4 rounded-xl border border-[#ff7a00]/30 bg-[#ff7a00]/5 px-4 py-2 flex items-center justify-between backdrop-blur-md">
+        <div className="mb-4 rounded-xl border border-[#ff7a00]/30 bg-[#ff7a00]/5 px-4 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 backdrop-blur-md">
           <div className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff7a00] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff4500]"></span>
             </span>
             <span className="font-mono text-[9px] uppercase tracking-wider text-[#ff7a00] font-bold">
-              Demo Network · Simulated Intelligence
+              Demo Workspace · Simulated Intelligence
             </span>
           </div>
-          <span className="font-mono text-[8px] border border-[#ff7a00]/25 px-1.5 py-0.5 rounded text-white bg-black/40">
-            PROTOTYPE TELEMETRY
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[8px] border border-[#ff7a00]/25 px-1.5 py-0.5 rounded text-white bg-black/40">
+              PROTOTYPE TELEMETRY
+            </span>
+            {isDemoWorkspace() && (
+              <button
+                type="button"
+                onClick={() => {
+                  exitDemoWorkspace();
+                  toast.message("Exited demo workspace");
+                  nav("/auth");
+                }}
+                className="font-mono text-[8px] uppercase tracking-wider border border-white/15 px-2 py-0.5 rounded text-muted-foreground hover:text-white hover:border-white/30 transition-colors"
+              >
+                Exit demo
+              </button>
+            )}
+            <Link
+              to="/auth"
+              onClick={() => exitDemoWorkspace()}
+              className="font-mono text-[8px] uppercase tracking-wider border border-emerald-400/30 px-2 py-0.5 rounded text-emerald-300 hover:bg-emerald-400/10 transition-colors"
+            >
+              Create account
+            </Link>
+          </div>
         </div>
       )}
 

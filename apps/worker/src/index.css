@@ -119,6 +119,47 @@
       linear-gradient(90deg, hsl(200 100% 50% / 0.07) 1px, transparent 1px);
     background-size: 32px 32px;
   }
+  .auth-glass-card {
+    background: linear-gradient(
+      145deg,
+      hsl(200 100% 50% / 0.08) 0%,
+      hsl(215 60% 6% / 0.55) 35%,
+      hsl(150 100% 50% / 0.04) 100%
+    );
+    @apply backdrop-blur-2xl border rounded-3xl;
+    border-color: hsl(200 100% 50% / 0.22);
+    box-shadow:
+      0 0 0 1px hsl(200 100% 50% / 0.06) inset,
+      0 24px 80px hsl(210 80% 0% / 0.65),
+      0 0 60px hsl(200 100% 50% / 0.08);
+  }
+  .auth-input {
+    @apply w-full h-12 px-4 rounded-xl text-sm transition-all duration-300;
+    background: hsl(210 80% 3% / 0.55);
+    border: 1px solid hsl(200 60% 18% / 0.8);
+  }
+  .auth-input:focus {
+    outline: none;
+    border-color: hsl(200 100% 50% / 0.65);
+    box-shadow: 0 0 0 3px hsl(200 100% 50% / 0.12), 0 0 24px hsl(200 100% 50% / 0.15);
+  }
+  .auth-input-with-icon {
+    @apply pl-10;
+  }
+  .role-chip {
+    @apply flex flex-col items-center gap-1.5 rounded-2xl px-3 py-3 text-center transition-all duration-300 border;
+    background: hsl(210 80% 3% / 0.4);
+    border-color: hsl(200 60% 18% / 0.6);
+  }
+  .role-chip:hover {
+    border-color: hsl(200 100% 50% / 0.35);
+    background: hsl(200 100% 50% / 0.06);
+  }
+  .role-chip-active {
+    border-color: hsl(150 100% 50% / 0.55);
+    background: linear-gradient(145deg, hsl(200 100% 50% / 0.14), hsl(150 100% 50% / 0.1));
+    box-shadow: 0 0 28px hsl(150 100% 50% / 0.2), inset 0 1px 0 hsl(200 100% 50% / 0.15);
+  }
 }
 
 @layer utilities {
