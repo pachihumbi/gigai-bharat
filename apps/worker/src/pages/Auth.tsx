@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { authCallbackUrl, formatAuthError } from "@/lib/auth";
-import { allowInvestorDemo } from "@/lib/app-config";
 import { enterDemoWorkspace, exitDemoWorkspace } from "@/lib/demo-session";
 import { PostAuthRedirect } from "@/components/PostAuthRedirect";
 import { resolvePostAuthPath } from "@/lib/worker-profile";
@@ -348,39 +347,35 @@ const Auth = () => {
                 </button>
               </form>
 
-              {/* Demo shortcuts */}
-              {allowInvestorDemo() && (
-                <>
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent" />
-                    <span className="text-[9px] font-mono text-muted-foreground tracking-[0.28em]">
-                      SKIP LOGIN
-                    </span>
-                    <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-400/35 to-transparent" />
-                  </div>
+              {/* Demo shortcuts — always visible on auth card */}
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent" />
+                <span className="text-[9px] font-mono text-muted-foreground tracking-[0.28em]">
+                  SKIP LOGIN
+                </span>
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-400/35 to-transparent" />
+              </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={openDemoDriver}
-                      className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-emerald-400/40 bg-emerald-400/[0.08] px-4 py-3.5 text-sm font-semibold text-emerald-100 hover:bg-emerald-400/14 hover:border-emerald-400/60 hover:shadow-[0_0_32px_rgba(57,255,20,0.18)] transition-all active:scale-[0.98]"
-                    >
-                      <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(57,255,20,0.12),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <UserCircle className="h-4 w-4 text-emerald-400 relative group-hover:scale-110 transition-transform" />
-                      <span className="relative">Demo Driver</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={openInvestorPreview}
-                      className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-cyan-400/40 bg-cyan-400/[0.08] px-4 py-3.5 text-sm font-semibold text-cyan-100 hover:bg-cyan-400/14 hover:border-cyan-400/60 hover:shadow-[0_0_32px_rgba(0,217,255,0.18)] transition-all active:scale-[0.98]"
-                    >
-                      <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,0.12),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <Presentation className="h-4 w-4 text-cyan-400 relative group-hover:scale-110 transition-transform" />
-                      <span className="relative">Investor Preview</span>
-                    </button>
-                  </div>
-                </>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={openDemoDriver}
+                  className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-emerald-400/40 bg-emerald-400/[0.08] px-4 py-3.5 text-sm font-semibold text-emerald-100 hover:bg-emerald-400/14 hover:border-emerald-400/60 hover:shadow-[0_0_32px_rgba(57,255,20,0.18)] transition-all active:scale-[0.98]"
+                >
+                  <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(57,255,20,0.12),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <UserCircle className="h-4 w-4 text-emerald-400 relative group-hover:scale-110 transition-transform" />
+                  <span className="relative">Demo Driver</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={openInvestorPreview}
+                  className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-cyan-400/40 bg-cyan-400/[0.08] px-4 py-3.5 text-sm font-semibold text-cyan-100 hover:bg-cyan-400/14 hover:border-cyan-400/60 hover:shadow-[0_0_32px_rgba(0,217,255,0.18)] transition-all active:scale-[0.98]"
+                >
+                  <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,217,255,0.12),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Presentation className="h-4 w-4 text-cyan-400 relative group-hover:scale-110 transition-transform" />
+                  <span className="relative">Investor Preview</span>
+                </button>
+              </div>
 
               <p className="text-[10px] text-center text-muted-foreground/80 leading-relaxed font-mono tracking-wide">
                 worker-owned · platform-agnostic · bengaluru-first

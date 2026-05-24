@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import { allowInvestorDemo } from "@/lib/app-config";
 import { isDemoWorkspace } from "@/lib/demo-session";
 import { Loader2 } from "lucide-react";
 
@@ -32,7 +31,7 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
       </div>
     );
   }
-  const demoAccess = allowInvestorDemo() && isDemoWorkspace();
+  const demoAccess = isDemoWorkspace();
 
   if (!session) {
     if (demoAccess) return <>{children}</>;
