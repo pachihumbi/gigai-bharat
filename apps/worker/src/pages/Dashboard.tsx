@@ -6,7 +6,7 @@ import { useWorkerOs } from "@/hooks/useWorkerOs";
 import { useAuth } from "@/hooks/useAuth";
 import { useRestLock } from "@/hooks/useRestLock";
 import { RestLockModal } from "@/components/RestLockModal";
-import { useI18n } from "@/i18n/context";
+import { useI18n, type Locale } from "@/i18n/context";
 import { AiInsightCard } from "@/os/AiInsightCard";
 import { MetricHero } from "@/os/MetricHero";
 import { OsCard, HudLabel } from "@/os/OsCard";
@@ -227,7 +227,7 @@ const Dashboard = () => {
               <button
                 key={l.code}
                 onClick={() => {
-                  setLocale(l.code as any);
+                  setLocale(l.code as Locale);
                   toast.success(`Language updated: ${l.label}`);
                 }}
                 className={`px-2.5 py-1 font-mono text-[9px] rounded uppercase transition-all duration-200 ${

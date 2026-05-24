@@ -47,3 +47,6 @@ jobs:
 
       - name: Build marketing
         run: npm run build -w @gigai/marketing
+        env:
+          VERCEL: "1"
+          VITE_SITE_URL: https://www.bharatgig.live

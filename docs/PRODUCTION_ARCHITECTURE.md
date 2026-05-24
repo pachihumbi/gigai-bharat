@@ -22,7 +22,9 @@ gigai-bharat/                 ← Git root (this repo)
     └── deploy-production.yml
 ```
 
-**Do not use:** nested `gigai-bharat/` folder, Lovable remix deploys, Cloudflare/Wrangler as primary host, duplicate Vercel projects.
+**Do not use:** nested `gigai-bharat/` folder, Lovable remix deploys, Cloudflare/Wrangler as primary host (`wrangler.jsonc.deprecated`), duplicate Vercel projects.
+
+**GitHub secrets:** [GITHUB_SECRETS.md](./GITHUB_SECRETS.md)
 
 ---
 
