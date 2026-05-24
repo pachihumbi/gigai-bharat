@@ -7,7 +7,7 @@
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/((?!assets/)(?!.*\\..*$).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "redirects": [
     {
