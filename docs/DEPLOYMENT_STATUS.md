@@ -1,9 +1,8 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-23 (post-deploy)  
-**Status:** ✅ SOVEREIGN OS — Flagship modules + global site live  
-**Commit:** `5fd60fa`  
-**Deployment:** `dpl_7miaa7cDEWFx9Jz9mwMDXMzahyYs`
+**Verified:** 2026-05-23 (auth fix deploy)  
+**Status:** ✅ GURUKUL AI + production auth routing  
+**Worker deploy:** `dpl_DCXc3zg81UibsvfoJq3VzSxyFfge`
 
 ---
 
@@ -12,62 +11,49 @@
 | Surface | URL |
 |---------|-----|
 | Marketing | https://www.bharatgig.live |
-| **ShramSetu (marketing)** | https://www.bharatgig.live/shramsetu |
-| **Investor ROI Engine** | https://www.bharatgig.live/investors |
-| `/roi` redirect | https://www.bharatgig.live/roi → `/investors` |
-| **Smart Hub Blueprint** | https://www.bharatgig.live/smart-hub |
-| **Founder manifesto** | https://www.bharatgig.live/founder |
-| **Public roadmap** | https://www.bharatgig.live/roadmap |
-| **Infrastructure status** | https://www.bharatgig.live/status |
+| **Gurukul AI (marketing)** | https://www.bharatgig.live/gurukul |
+| ShramSetu (marketing) | https://www.bharatgig.live/shramsetu |
+| Investor ROI Engine | https://www.bharatgig.live/investors |
+| EV Infrastructure | https://www.bharatgig.live/ev-infrastructure |
+| Smart Hub Blueprint | https://www.bharatgig.live/smart-hub |
 | Worker app | https://app.bharatgig.live |
-| **ShramSetu dashboard** | https://app.bharatgig.live/welfare |
-| Worker `/shramsetu` alias | https://app.bharatgig.live/shramsetu |
+| **Gurukul AI (worker)** | https://app.bharatgig.live/gurukul |
+| **Onboarding flow** | https://app.bharatgig.live/onboarding → `/gurukul` |
 
 ---
 
-## Flagship modules (production)
+## Gurukul AI — flagship worker civilization module
 
-### 1. Digital ShramSetu — Welfare Intelligence
-- **Marketing:** `/shramsetu` — interactive dashboard preview (SSC tracker, Karnataka welfare fee, compliance score, earnings ledger, PF/ESIC, audit logs, AI insights, lifecycle timeline)
-- **Worker:** `/welfare`, `/shramsetu` — full GovTech dashboard with Recharts
-- **Nav:** Bottom nav "ShramSetu" tab in worker app
+### Worker app (`app.bharatgig.live`)
+- **Route:** `/gurukul` — Learn · Skills · Certs · Advisor · Tribe tabs
+- **Onboarding:** `/onboarding` — 5-step ultra-simple flow with AI mentor, selfie/doc sim, multilingual, redirects to Gurukul
+- **Skill graph:** Skill, reliability, earning potential, fleet leadership scores
+- **Certifications:** Blockchain-ready GigAI credentials
+- **Economic advisor:** Income, savings, EMI, fleet ownership tips
+- **Tribes:** Regional worker communities + success stories
+- **Nav:** Bottom nav — Command · Gurukul · Ledger · ShramSetu · GigPay
+- **i18n:** EN / KN / HI / TA / TE
 
-### 2. Investor ROI Engine
-- **Route:** `/investors` (canonical) — VC-grade simulator: GMV, embedded finance, data moat, valuation, 5-year charts
-- **Legacy:** `/roi` redirects to `/investors`
-
-### 3. Smart Hub Blueprint
-- **Route:** `/smart-hub` — EV charging, housing, solar/wind, dispatch, kiosks, kitchens, clinics, skill centers, fleet intelligence, sustainability metrics
-
----
-
-## Global site upgrades
-
-- Premium navigation (ShramSetu, Investors, Smart Hub, Founder, Roadmap, Join)
-- Homepage: flagship modules, media showcase, multilingual readiness
-- Founder manifesto (`/founder`), public roadmap (`/roadmap`), infra status (`/status`)
-- Media integration: investor deck, fleet deck, workforce OS video, Kannada audio (request links)
-- SEO: expanded sitemap, route-level meta, analytics hooks
+### Marketing (`www.bharatgig.live`)
+- **Route:** `/gurukul` — flagship showcase page
+- **Homepage:** Gurukul section above VinFast EV showcase
+- **Nav:** Gurukul AI in primary navigation
+- **Sitemap:** `/gurukul` listed (priority 0.98)
 
 ---
 
 ## Route health (verified)
 
 ### Marketing — all ✅ 200
-`/`, `/shramsetu`, `/investors`, `/roi`, `/smart-hub`, `/founder`, `/roadmap`, `/status`, `/join`, `/manifesto`, `/infrastructure`, `/future`, `/robots.txt`, `/sitemap.xml`
+`/`, `/gurukul`, `/shramsetu`, `/investors`, `/ev-infrastructure`, `/smart-hub`, `/founder`, `/roadmap`, `/status`, `/join`
 
 ### Worker — all ✅ 200
-`/`, `/auth`, `/welfare`, `/shramsetu`, `/ledger`, `/ocr`, `/gigpay`, `/dashboard`
-
----
-
-## DNS & SSL
-- All domains → `76.76.21.21` ✅
-- HSTS active ✅
-- No Lovable stale content ✅
+`/`, `/auth`, `/auth/callback`, `/oauth/callback`, `/~oauth/initiate`, `/oauth/initiate`, `/onboarding`, `/gurukul`, `/dashboard`, `/dispatch`, `/ev-command`, `/security`, `/credit`, `/ledger`, `/gigpay`, `/welfare`
 
 ---
 
 ## Vercel production
 - `gigai-bharat` — marketing (Nitro SSR) — READY
-- `gigai-bharat-worker` — worker SPA — READY
+- `gigai-bharat-worker` — worker SPA (prebuilt) — READY
+
+**Deploy pattern:** Local build → copy to `.vercel/output` → `npx vercel deploy --prebuilt --prod --project <name>`

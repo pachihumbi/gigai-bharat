@@ -3,39 +3,32 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/Logo";
 import { PlacePicker, type PickedPlace } from "@/components/PlacePicker";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { OnboardingAssistant } from "@/components/gurukul/OnboardingAssistant";
 import { toast } from "sonner";
-import { Loader2, ArrowRight, Check, Car, Truck, Zap } from "lucide-react";
+import { Loader2, ArrowRight, Check, Camera, FileText, Fingerprint, Sparkles } from "lucide-react";
 import { useI18n } from "@/i18n/context";
 import { z } from "zod";
 import { fleetVehicleOptions } from "@/data/ev-fleet";
+import { onboardingSteps } from "@/data/gurukul";
 
-const vehicleIcons = {
-  mpv: Car,
-  bike: Zap,
-  shuttle: Car,
-  cargo: Truck,
-} as const;
-
-const VEHICLES = fleetVehicleOptions.map((v) => ({
-  id: v.id,
-  label: v.label,
-  kn: v.sub,
-  icon: vehicleIcons[v.icon],
-}));
-
-const PLATFORMS = ["Swiggy", "Zomato", "Uber", "Ola", "Rapido", "Dunzo", "BluSmart", "Porter"];
+const PLATFORMS = ["Swiggy", "Uber", "Rapido", "Ola", "Zomato"];
 
 const onboardSchema = z.object({
-  name: z.string().trim().min(2, "Name too short").max(60),
-  phone: z.string().trim().regex(/^[0-9]{10}$/, "Enter a 10-digit phone"),
+  name: z.string().trim().min(2).max(60),
+  phone: z.string().trim().regex(/^[0-9]{10}$/),
   vehicle: z.string().min(1),
-  platforms: z.array(z.string()).min(1, "Pick at least one platform").max(8),
-  place: z.object({
-    lat: z.number(),
-    lng: z.number(),
-    address: z.string().min(1),
-  }).nullable(),
+  platforms: z.array(z.string()).min(1).max(8),
+  place: z.object({ lat: z.number(), lng: z.number(), address: z.string().min(1) }).nullable(),
 });
+
+const mentorMessages = [
+  "Welcome! I'll guide you in your language. Under 5 minutes to your sovereign worker dashboard.",
+  "Tell me your name and phone. Aadhaar & DigiLocker integration coming soon — architecture ready today.",
+  "Quick selfie + document scan builds your trust profile. Tap to simulate — AI verifies in seconds.",
+  "Pick your VinFast EV and main platform. One tap each — we handle the rest.",
+  "Your skill profile is ready! Launch into Gurukul AI and your command center.",
+];
 
 const Onboarding = () => {
   const nav = useNavigate();
@@ -46,6 +39,8 @@ const Onboarding = () => {
   const [vehicle, setVehicle] = useState("VinFast_MPV7");
   const [platforms, setPlatforms] = useState<string[]>([]);
   const [place, setPlace] = useState<PickedPlace | null>(null);
+  const [selfieDone, setSelfieDone] = useState(false);
+  const [docDone, setDocDone] = useState(false);
   const [busy, setBusy] = useState(false);
   const [workerId, setWorkerId] = useState<string | null>(null);
 
@@ -72,171 +67,202 @@ const Onboarding = () => {
     })();
   }, [nav]);
 
-  const togglePlatform = (p: string) =>
-    setPlatforms((cur) => (cur.includes(p) ? cur.filter((x) => x !== p) : [...cur, p]));
+  const togglePlatform = (p: string) => setPlatforms([p]);
 
   const submit = async () => {
     const parsed = onboardSchema.safeParse({ name, phone, vehicle, platforms, place });
     if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
-    if (!workerId) { toast.error("Profile not ready, try again"); return; }
+    if (!workerId) { toast.error("Profile not ready"); return; }
     setBusy(true);
-    const { error } = await supabase
-      .from("worker_profiles")
-      .update({
-        name: parsed.data.name,
-        phone_number: parsed.data.phone,
-        vehicle_type: parsed.data.vehicle,
-        platforms: parsed.data.platforms,
-        home_lat: parsed.data.place?.lat ?? null,
-        home_lng: parsed.data.place?.lng ?? null,
-        home_address: parsed.data.place?.address ?? null,
-        onboarded: true,
-      })
-      .eq("id", workerId);
+    const { error } = await supabase.from("worker_profiles").update({
+      name: parsed.data.name,
+      phone_number: parsed.data.phone,
+      vehicle_type: parsed.data.vehicle,
+      platforms: parsed.data.platforms,
+      home_lat: parsed.data.place?.lat ?? null,
+      home_lng: parsed.data.place?.lng ?? null,
+      home_address: parsed.data.place?.address ?? null,
+      onboarded: true,
+    }).eq("id", workerId);
     setBusy(false);
     if (error) { toast.error(error.message); return; }
-    toast.success("You're all set 🎉", { description: "Welcome to GigAI Bharat" });
-    nav("/dashboard", { replace: true });
+    toast.success(t.gurukul.launchSuccess);
+    nav("/gurukul", { replace: true });
   };
 
   const canNext =
-    step === 0 ? name.trim().length >= 2 && /^[0-9]{10}$/.test(phone) :
-    step === 1 ? !!vehicle :
-    step === 2 ? platforms.length > 0 :
-    true; // location step is optional
+    step === 0 ? true :
+    step === 1 ? name.trim().length >= 2 && /^[0-9]{10}$/.test(phone) :
+    step === 2 ? selfieDone && docDone :
+    step === 3 ? !!vehicle && platforms.length > 0 :
+    true;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-hero grid-bg flex flex-col">
-      <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary/25 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-accent/25 blur-3xl" />
-
-      <div className="relative z-10 mx-auto w-full max-w-md flex-1 flex flex-col px-6 py-8">
-        <div className="flex flex-col items-center text-center mb-6 animate-fade-in">
-          <Logo size={48} />
-          <h1 className="mt-2 text-2xl font-extrabold text-gradient-neon">{t.onboarding.welcome}</h1>
-          <p className="mt-2 text-sm text-muted-foreground max-w-xs">{t.onboarding.welcomeSub}</p>
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-gradient-hero">
+      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
+      <div className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col px-5 py-6">
+        <div className="mb-4 flex items-center justify-between">
+          <Logo size={40} />
+          <LanguageSwitcher />
         </div>
 
-        {/* Progress */}
-        <div className="flex items-center gap-2 mb-5">
-          {[0, 1, 2, 3].map((s) => (
-            <div key={s} className={`h-1.5 flex-1 rounded-full transition-all ${s <= step ? "bg-gradient-neon" : "bg-muted/40"}`} />
+        <div className="mb-3 flex gap-1">
+          {onboardingSteps.map((s, i) => (
+            <div key={s.id} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-primary" : "bg-muted/40"}`} />
           ))}
         </div>
 
-        <div className="glass-card p-5 animate-scale-in">
+        <OnboardingAssistant message={mentorMessages[step]} />
+
+        <div className="glass-card flex-1 p-5 animate-scale-in">
           {step === 0 && (
-            <div className="space-y-3">
-              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 1 / 4 • PROFILE</p>
-              <input
-                type="text"
-                placeholder="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                maxLength={60}
-                className="w-full h-12 px-4 rounded-xl bg-background/60 border border-border focus:border-primary focus:outline-none text-sm"
-              />
-              <input
-                type="tel"
-                inputMode="numeric"
-                placeholder="10-digit phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
-                className="w-full h-12 px-4 rounded-xl bg-background/60 border border-border focus:border-primary focus:outline-none text-sm tabular-nums"
-              />
+            <div className="text-center">
+              <Sparkles className="mx-auto h-12 w-12 text-primary" />
+              <h1 className="mt-4 text-2xl font-extrabold text-gradient-neon">{t.gurukul.onboardTitle}</h1>
+              <p className="mt-2 text-sm text-muted-foreground">{t.gurukul.onboardSub}</p>
+              <div className="mt-6 flex flex-wrap justify-center gap-2">
+                {["Aadhaar-ready", "DigiLocker-ready", "Voice-guided", "< 5 min"].map((tag) => (
+                  <span key={tag} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold text-primary">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           )}
 
           {step === 1 && (
             <div className="space-y-3">
-              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 2 / 4 • VINFAST EV FLEET</p>
-              <p className="text-xs text-muted-foreground">{t.onboarding.vehicleSub}</p>
-              <div className="grid grid-cols-2 gap-2">
-                {VEHICLES.map((v) => {
-                  const Icon = v.icon;
-                  const active = vehicle === v.id;
-                  return (
-                    <button
-                      key={v.id}
-                      onClick={() => setVehicle(v.id)}
-                      className={`p-3 rounded-xl border transition text-left ${active ? "border-primary bg-primary/10 shadow-[0_0_18px_hsl(var(--primary)/0.35)]" : "border-border bg-background/40"}`}
-                    >
-                      <Icon className={`h-5 w-5 mb-1 ${active ? "text-primary" : "text-muted-foreground"}`} />
-                      <p className="text-sm font-semibold">{v.label}</p>
-                      <p className="text-[10px] font-kannada text-muted-foreground">{v.kn}</p>
-                    </button>
-                  );
-                })}
-              </div>
+              <HudLabel step>{t.onboarding.name}</HudLabel>
+              <input
+                type="text"
+                placeholder={t.onboarding.name}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="h-14 w-full rounded-2xl border border-border bg-background/60 px-4 text-lg focus:border-primary focus:outline-none"
+              />
+              <input
+                type="tel"
+                inputMode="numeric"
+                placeholder="10-digit mobile"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                className="h-14 w-full rounded-2xl border border-border bg-background/60 px-4 text-lg tabular-nums focus:border-primary focus:outline-none"
+              />
             </div>
           )}
 
           {step === 2 && (
-            <div className="space-y-3">
-              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 3 / 4 • PLATFORMS</p>
-              <p className="text-xs text-muted-foreground">Pick every app you work on. We'll unify earnings.</p>
-              <div className="flex flex-wrap gap-2">
-                {PLATFORMS.map((p) => {
-                  const active = platforms.includes(p);
-                  return (
-                    <button
-                      key={p}
-                      onClick={() => togglePlatform(p)}
-                      className={`px-3 py-2 rounded-xl text-sm font-semibold border transition flex items-center gap-1.5 ${active ? "border-secondary bg-secondary/15 text-secondary" : "border-border bg-background/40 text-muted-foreground"}`}
-                    >
-                      {active && <Check className="h-3.5 w-3.5" />} {p}
-                    </button>
-                  );
-                })}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => { setSelfieDone(true); toast.success(t.gurukul.selfieDone); }}
+                className={`flex flex-col items-center gap-2 rounded-2xl border p-6 transition ${selfieDone ? "border-secondary bg-secondary/10" : "border-border"}`}
+              >
+                <Camera className="h-8 w-8 text-primary" />
+                <span className="text-sm font-semibold">{t.gurukul.selfie}</span>
+                {selfieDone && <Check className="h-4 w-4 text-secondary" />}
+              </button>
+              <button
+                type="button"
+                onClick={() => { setDocDone(true); toast.success(t.gurukul.docDone); }}
+                className={`flex flex-col items-center gap-2 rounded-2xl border p-6 transition ${docDone ? "border-secondary bg-secondary/10" : "border-border"}`}
+              >
+                <FileText className="h-8 w-8 text-primary" />
+                <span className="text-sm font-semibold">{t.gurukul.docScan}</span>
+                {docDone && <Check className="h-4 w-4 text-secondary" />}
+              </button>
+              <div className="col-span-2 flex items-center gap-2 rounded-xl border border-border/60 bg-muted/20 px-3 py-2 text-[11px] text-muted-foreground">
+                <Fingerprint className="h-4 w-4 shrink-0" />
+                {t.gurukul.aadhaarReady}
               </div>
             </div>
           )}
 
           {step === 3 && (
-            <div className="space-y-3">
-              <p className="text-[10px] font-mono-tech tracking-widest text-muted-foreground">STEP 4 / 4 • HOME BASE</p>
-              <p className="text-xs text-muted-foreground">Where do you start your shift? We'll show nearby hotspots.</p>
+            <div className="space-y-4">
+              <p className="text-xs text-muted-foreground">{t.onboarding.vehicleSub}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {fleetVehicleOptions.slice(0, 2).map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => setVehicle(v.id)}
+                    className={`rounded-xl border p-3 text-left text-sm font-semibold ${vehicle === v.id ? "border-primary bg-primary/10" : "border-border"}`}
+                  >
+                    {v.label}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">{t.gurukul.mainPlatform}</p>
+              <div className="flex flex-wrap gap-2">
+                {PLATFORMS.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => togglePlatform(p)}
+                    className={`rounded-xl px-4 py-2 text-sm font-semibold ${platforms.includes(p) ? "bg-secondary/15 text-secondary border border-secondary/40" : "border border-border"}`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
               <PlacePicker value={place} onChange={setPlace} />
-              <p className="text-[10px] text-muted-foreground italic">Optional — you can skip and add it later.</p>
             </div>
           )}
 
-          <div className="flex gap-2 mt-5">
+          {step === 4 && (
+            <div className="text-center py-4">
+              <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-neon text-3xl font-bold text-primary-foreground">
+                {name[0]?.toUpperCase() || "G"}
+              </div>
+              <p className="mt-4 text-xl font-bold">{name}</p>
+              <p className="text-sm text-muted-foreground">{t.gurukul.profileReady}</p>
+              <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px]">
+                <div className="rounded-lg bg-primary/10 p-2"><p className="font-bold text-primary">Identity</p>✓</div>
+                <div className="rounded-lg bg-secondary/10 p-2"><p className="font-bold text-secondary">Skills</p>AI</div>
+                <div className="rounded-lg bg-accent/10 p-2"><p className="font-bold text-accent">Gurukul</p>Ready</div>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-5 flex gap-2">
             {step > 0 && (
-              <button
-                onClick={() => setStep((s) => s - 1)}
-                className="h-12 px-4 rounded-xl border border-border text-sm font-semibold text-muted-foreground"
-              >
-                Back
+              <button type="button" onClick={() => setStep((s) => s - 1)} className="h-14 rounded-2xl border border-border px-4 text-sm font-semibold">
+                {t.gurukul.back}
               </button>
             )}
-            {step < 3 ? (
+            {step < 4 ? (
               <button
+                type="button"
                 onClick={() => setStep((s) => s + 1)}
                 disabled={!canNext}
-                className="flex-1 h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-neon font-bold text-primary-foreground disabled:opacity-50"
               >
-                Continue <ArrowRight className="h-4 w-4" />
+                {step === 0 ? t.gurukul.oneTap : t.gurukul.continue} <ArrowRight className="h-4 w-4" />
               </button>
             ) : (
               <button
+                type="button"
                 onClick={submit}
                 disabled={busy}
-                className="flex-1 h-12 rounded-xl bg-gradient-neon text-primary-foreground font-bold flex items-center justify-center gap-2 disabled:opacity-60"
+                className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl bg-gradient-neon font-bold text-primary-foreground"
               >
-                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <>{t.onboarding.finish} <ArrowRight className="h-4 w-4" /></>}
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <>{t.gurukul.launch} <ArrowRight className="h-4 w-4" /></>}
               </button>
             )}
           </div>
         </div>
-
-
-        <p className="text-center text-[10px] font-mono-tech tracking-[0.25em] text-muted-foreground mt-6">
-          POWERED BY <span className="text-gradient-neon font-bold">GIGAI BHARAT</span>
-        </p>
       </div>
     </div>
   );
 };
+
+function HudLabel({ children, step: isStep }: { children: React.ReactNode; step?: boolean }) {
+  return (
+    <p className={`font-mono-tech uppercase tracking-widest text-muted-foreground ${isStep ? "text-[10px] mb-2" : ""}`}>
+      {children}
+    </p>
+  );
+}
 
 export default Onboarding;

@@ -79,7 +79,7 @@ npm run functions:deploy           # all functions, or:
 npx supabase functions deploy parse-earning
 ```
 
-**Auth redirect URLs:** add production domains only.
+**Auth redirect URLs:** add production domains only. See [AUTH_PRODUCTION.md](./AUTH_PRODUCTION.md).
 
 **Secrets:** `LOVABLE_API_KEY` in Supabase dashboard.
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+import { authCallbackUrl, postAuthPath, signInWithGoogle } from "@/lib/auth";
 import { Logo } from "@/components/Logo";
 import { toast } from "sonner";
 import { Loader2, Mail, Lock, ArrowRight } from "lucide-react";
@@ -21,7 +21,7 @@ const Auth = () => {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  if (hasSession) return <Navigate to="/dashboard" replace />;
+  if (hasSession) return <Navigate to={postAuthPath} replace />;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,17 +32,17 @@ const Auth = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
+            emailRedirectTo: authCallbackUrl(),
             data: { name: name || "Ravi" },
           },
         });
         if (error) throw error;
         toast.success("Welcome to GigAI Bharat", { description: "Setting up your ledger..." });
-        nav("/dashboard");
+        nav(postAuthPath);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        nav("/dashboard");
+        nav(postAuthPath);
       }
     } catch (err: any) {
       toast.error(err.message || "Authentication failed");
@@ -53,10 +53,12 @@ const Auth = () => {
 
   const google = async () => {
     setBusy(true);
-    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: `${window.location.origin}/dashboard` });
-    if (r.error) { toast.error("Google sign-in failed"); setBusy(false); return; }
-    if (r.redirected) return;
-    nav("/dashboard");
+    try {
+      await signInWithGoogle();
+    } catch {
+      toast.error("Google sign-in failed");
+      setBusy(false);
+    }
   };
 
   return (

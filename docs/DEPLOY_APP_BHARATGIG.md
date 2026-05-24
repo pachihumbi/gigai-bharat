@@ -79,8 +79,11 @@ npx vercel deploy --prod --force
 
 - [ ] https://app.bharatgig.live — splash loads
 - [ ] https://app.bharatgig.live/auth — sign-in page
+- [ ] https://app.bharatgig.live/auth/callback — OAuth callback (no 404)
+- [ ] https://app.bharatgig.live/~oauth/initiate — legacy broker → Google OAuth restart
+- [ ] Google sign-in completes → `/dashboard` or `/onboarding`
+- [ ] Refresh on `/dashboard` — no 404
 - [ ] https://app.bharatgig.live/onboarding — redirects to auth if logged out
-- [ ] https://app.bharatgig.live/ledger — auth-gated (after login)
 - [ ] Language switcher EN / KN / HI in app shell
 - [ ] Mobile viewport 360px — bottom nav usable
 
@@ -88,6 +91,8 @@ npx vercel deploy --prod --force
 
 ## Routes (SPA)
 
-All client routes rewrite to `index.html` via `vercel.json`:
+All client routes rewrite to `index.html` via `vercel.json` and prebuilt `config.json`:
 
-`/`, `/auth`, `/onboarding`, `/dashboard`, `/ledger`, `/ocr`, `/gigpay`, `/map`, `/hub`, `/heatmap`, `/welfare`, `/pitch`
+`/`, `/auth`, `/auth/callback`, `/oauth/callback`, `/~oauth/initiate`, `/oauth/initiate`, `/onboarding`, `/dashboard`, `/gurukul`, `/ledger`, `/ocr`, `/gigpay`, `/map`, `/hub`, `/dispatch`, `/ev-command`, `/security`, `/credit`, `/welfare`, `/pitch`
+
+**Supabase redirect URLs:** [AUTH_PRODUCTION.md](../AUTH_PRODUCTION.md)

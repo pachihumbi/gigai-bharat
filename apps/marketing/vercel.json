@@ -6,7 +6,7 @@
   "build": {
     "env": {
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-23-ev-fleet"
+      "DEPLOY_REVISION": "2026-05-23-gurukul"
     }
   },
   "redirects": [
@@ -21,6 +21,14 @@
       "destination": "https://www.bharatgig.live/:path*",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    { "source": "/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/site.webmanifest", "destination": "/site.webmanifest" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
+    { "source": "/(.*)", "destination": "/__server" }
   ],
   "headers": [
     {

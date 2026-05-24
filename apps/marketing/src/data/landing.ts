@@ -105,20 +105,19 @@ export const investorMetrics = [
 ] as const;
 
 export type NavLink = {
-  to: ChapterPath | "/" | "/join" | "/hiring" | "/investors" | "/smart-hub" | "/shramsetu" | "/founder" | "/roadmap" | "/status" | "/ev-infrastructure";
+  to: string;
   label: string;
   short?: string;
+  external?: boolean;
 };
 
 export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
-  { to: "/shramsetu", label: "ShramSetu", short: "ShramSetu" },
-  { to: "/investors", label: "Investors", short: "ROI" },
-  { to: "/ev-infrastructure", label: "EV Fleet", short: "EV" },
-  { to: "/smart-hub", label: "Smart Hub", short: "Hub" },
-  { to: "/founder", label: "Founder", short: "Founder" },
-  { to: "/roadmap", label: "Roadmap", short: "Roadmap" },
-  { to: "/join", label: "Join", short: "Join" },
+  { to: "https://app.bharatgig.live", label: "Worker App", short: "App", external: true },
+  { to: "/infrastructure", label: "Infrastructure", short: "Infra" },
+  { to: "/investors", label: "Investor", short: "Investors" },
+  { to: "/gurukul", label: "Gurukul AI", short: "Gurukul" },
+  { to: "/join", label: "Join Workforce", short: "Join" },
 ];
 
 export const founderQuote =

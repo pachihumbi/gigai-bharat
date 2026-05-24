@@ -9,7 +9,7 @@ export const locales: { id: Locale; label: string }[] = [
 ];
 
 const en = {
-  nav: { home: "Command", dispatch: "Dispatch", ledger: "Ledger", gigpay: "GigPay", welfare: "ShramSetu" },
+  nav: { home: "Command", gurukul: "Gurukul", dispatch: "Dispatch", ledger: "Ledger", gigpay: "GigPay", welfare: "ShramSetu" },
   home: {
     tagline: "EV workforce mobility OS",
     greeting: "Namaste",
@@ -138,6 +138,8 @@ const en = {
     evDesc: "VinFast fleet & battery",
     security: "Security SOC",
     securityDesc: "Safety & SOS layer",
+    gurukul: "Gurukul AI",
+    gurukulDesc: "Skills & upgrade path",
   },
   voice: {
     title: "GigAI Voice",
@@ -168,6 +170,45 @@ const en = {
     home: "Home base location",
     finish: "Launch my OS",
   },
+  gurukul: {
+    title: "Gurukul AI",
+    subtitle: "Skill & economic upgrade engine",
+    tagline: "Gig worker → sovereign citizen",
+    learn: "Learn",
+    skills: "Skill graph",
+    certs: "Certificates",
+    advisor: "Advisor",
+    tribe: "Tribe",
+    level: "Worker level",
+    mentorName: "Gurukul Mentor",
+    mentorHint: "Your AI guide — voice-first, in your language.",
+    lessonDone: "Lesson progress saved!",
+    skillScore: "Skill score",
+    reliability: "Reliability",
+    earningPotential: "Earning potential",
+    fleetLead: "Fleet leadership",
+    growthVelocity: "Growth velocity",
+    growthHint: "Based on learning + ledger activity",
+    certHint: "Blockchain-ready credentials — employer verified",
+    stories: "Success stories",
+    voiceLearn: "Voice-first learning",
+    voiceHint: "Speak to learn in Kannada, Hindi, English, Tamil, or Telugu",
+    onboardTitle: "Join in under 5 minutes",
+    onboardSub: "From gig worker → sovereign economic citizen",
+    oneTap: "One-tap start",
+    continue: "Continue",
+    back: "Back",
+    launch: "Launch Gurukul",
+    launchSuccess: "Welcome to Gurukul AI!",
+    selfie: "Selfie verify",
+    docScan: "Document AI scan",
+    selfieDone: "Selfie verified",
+    docDone: "Document scanned",
+    aadhaarReady: "Aadhaar & DigiLocker architecture ready — secure identity layer",
+    mainPlatform: "Your main platform (one tap)",
+    profileReady: "AI skill profile generated",
+    listen: "Listen",
+  },
   common: { powered: "GIGAI BHARAT — WORKER OS" },
   dashboard: {
     greeting: "Namaste",
@@ -191,7 +232,7 @@ function patch(base: Messages, overrides: Partial<Messages>): Messages {
 }
 
 const kn = patch(en, {
-  nav: { home: "ಕಮಾಂಡ್", dispatch: "ಡಿಸ್ಪ್ಯಾಚ್", ledger: "ಲೆಡ್ಜರ್", gigpay: "ಗಿಗ್‌ಪೇ", welfare: "ಶ್ರಮಸೇತು" },
+  nav: { home: "ಕಮಾಂಡ್", gurukul: "ಗುರುಕುಲ", dispatch: "ಡಿಸ್ಪ್ಯಾಚ್", ledger: "ಲೆಡ್ಜರ್", gigpay: "ಗಿಗ್‌ಪೇ", welfare: "ಶ್ರಮಸೇತು" },
   home: {
     ...en.home,
     tagline: "ನಿಮ್ಮ ಆರ್ಥಿಕ ಆಪರೇಟಿಂಗ್ ಸಿಸ್ಟಮ್",
@@ -206,7 +247,7 @@ const kn = patch(en, {
 });
 
 const hi = patch(en, {
-  nav: { home: "कमांड", dispatch: "डिस्पैच", ledger: "लेजर", gigpay: "गिगपे", welfare: "श्रमसेतु" },
+  nav: { home: "कमांड", gurukul: "गुरुकुल", dispatch: "डिस्पैच", ledger: "लेजर", gigpay: "गिगपे", welfare: "श्रमसेतु" },
   home: {
     ...en.home,
     tagline: "आपका आर्थिक ऑपरेटिंग सिस्टम",
@@ -221,7 +262,7 @@ const hi = patch(en, {
 });
 
 const ta = patch(en, {
-  nav: { home: "கட்டளை", dispatch: "அனுப்பு", ledger: "பேடை", gigpay: "கிக்பே", welfare: "தொழிலாளர்" },
+  nav: { home: "கட்டளை", gurukul: "குருகுலம்", dispatch: "அனுப்பு", ledger: "பேடை", gigpay: "கிக்பே", welfare: "தொழிலாளர்" },
   home: {
     ...en.home,
     tagline: "உங்கள் பொருளாதார இயக்க முறைமை",
@@ -236,7 +277,7 @@ const ta = patch(en, {
 });
 
 const te = patch(en, {
-  nav: { home: "కమాండ్", dispatch: "డిస్పాచ్", ledger: "లెడ్జర్", gigpay: "గిగ్‌పే", welfare: "శ్రమసేతు" },
+  nav: { home: "కమాండ్", gurukul: "గురుకుల్", dispatch: "డిస్పాచ్", ledger: "లెడ్జర్", gigpay: "గిగ్‌పే", welfare: "శ్రమసేతు" },
   home: {
     ...en.home,
     tagline: "మీ ఆర్థిక ఆపరేటింగ్ సిస్టమ్",

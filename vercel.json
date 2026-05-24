@@ -1,19 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "cd ../.. && npm install",
-  "buildCommand": "cd ../.. && npm run build -w @gigai/worker",
-  "outputDirectory": "dist",
+  "buildCommand": "npm run build -w @gigai/worker",
+  "outputDirectory": "apps/worker/dist",
   "framework": "vite",
   "rewrites": [
     { "source": "/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "redirects": [
-    {
-      "source": "/oauth/initiate",
-      "destination": "/~oauth/initiate",
-      "permanent": false
-    }
   ],
   "headers": [
     {

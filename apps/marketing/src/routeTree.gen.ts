@@ -20,6 +20,7 @@ import { Route as JoinRouteImport } from './routes/join'
 import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as InfrastructureRouteImport } from './routes/infrastructure'
 import { Route as HiringRouteImport } from './routes/hiring'
+import { Route as GurukulRouteImport } from './routes/gurukul'
 import { Route as FutureRouteImport } from './routes/future'
 import { Route as FounderRouteImport } from './routes/founder'
 import { Route as EvInfrastructureRouteImport } from './routes/ev-infrastructure'
@@ -81,6 +82,11 @@ const HiringRoute = HiringRouteImport.update({
   path: '/hiring',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GurukulRoute = GurukulRouteImport.update({
+  id: '/gurukul',
+  path: '/gurukul',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FutureRoute = FutureRouteImport.update({
   id: '/future',
   path: '/future',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
+  '/gurukul': typeof GurukulRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
   '/investors': typeof InvestorsRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
+  '/gurukul': typeof GurukulRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
   '/investors': typeof InvestorsRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
+  '/gurukul': typeof GurukulRoute
   '/hiring': typeof HiringRoute
   '/infrastructure': typeof InfrastructureRoute
   '/investors': typeof InvestorsRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
+    | '/gurukul'
     | '/hiring'
     | '/infrastructure'
     | '/investors'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
+    | '/gurukul'
     | '/hiring'
     | '/infrastructure'
     | '/investors'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
+    | '/gurukul'
     | '/hiring'
     | '/infrastructure'
     | '/investors'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   EvInfrastructureRoute: typeof EvInfrastructureRoute
   FounderRoute: typeof FounderRoute
   FutureRoute: typeof FutureRoute
+  GurukulRoute: typeof GurukulRoute
   HiringRoute: typeof HiringRoute
   InfrastructureRoute: typeof InfrastructureRoute
   InvestorsRoute: typeof InvestorsRoute
@@ -317,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HiringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gurukul': {
+      id: '/gurukul'
+      path: '/gurukul'
+      fullPath: '/gurukul'
+      preLoaderRoute: typeof GurukulRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/future': {
       id: '/future'
       path: '/future'
@@ -361,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   EvInfrastructureRoute: EvInfrastructureRoute,
   FounderRoute: FounderRoute,
   FutureRoute: FutureRoute,
+  GurukulRoute: GurukulRoute,
   HiringRoute: HiringRoute,
   InfrastructureRoute: InfrastructureRoute,
   InvestorsRoute: InvestorsRoute,

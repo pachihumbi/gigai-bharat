@@ -7,6 +7,15 @@ import { contactLinks } from "@/data/landing";
 
 const modules = [
   {
+    id: "gurukul",
+    kicker: "Worker economic upgrade",
+    title: "Gurukul AI",
+    body: "Ultra-simple onboarding, AI skill graph, certifications, economic advisor, and worker tribes — from gig worker to sovereign economic citizen.",
+    href: "/gurukul",
+    cta: "Explore Gurukul",
+    accent: "var(--neon)",
+  },
+  {
     id: "shramsetu",
     kicker: "Regulatory infrastructure",
     title: "Digital ShramSetu",
@@ -54,8 +63,8 @@ export function FlagshipModulesSection() {
           <span className="italic text-[color:var(--neon)]">India&apos;s workforce.</span>
         </SectionTitle>
         <p className="mt-4 max-w-2xl text-body text-foreground/70">
-          Three production-grade experience modules — regulatory infrastructure, investor financial moat, and worker
-          civilization blueprint.
+          Production-grade modules — worker skill intelligence, regulatory infrastructure, investor financial moat,
+          and civilization blueprint.
         </p>
       </FadeIn>
 

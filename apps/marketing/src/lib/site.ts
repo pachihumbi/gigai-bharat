@@ -48,6 +48,7 @@ export const publicRoutes = [
   "/founder",
   "/roadmap",
   "/ev-infrastructure",
+  "/gurukul",
   "/status",
 ] as const;
 

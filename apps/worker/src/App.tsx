@@ -8,6 +8,7 @@ import Splash from "./pages/Splash.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Dispatch from "./pages/Dispatch.tsx";
 import Credit from "./pages/Credit.tsx";
+import Gurukul from "./pages/Gurukul.tsx";
 import EvCommand from "./pages/EvCommand.tsx";
 import SecurityMobility from "./pages/SecurityMobility.tsx";
 import GigPay from "./pages/GigPay.tsx";
@@ -20,6 +21,8 @@ import SmartHub from "./pages/SmartHub.tsx";
 import MapPage from "./pages/MapPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import Auth from "./pages/Auth.tsx";
+import AuthCallback from "./pages/AuthCallback.tsx";
+import OAuthInitiate from "./pages/OAuthInitiate.tsx";
 import { RequireAuth } from "./components/RequireAuth";
 
 const queryClient = new QueryClient();
@@ -34,9 +37,14 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Splash />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/oauth/callback" element={<AuthCallback />} />
+            <Route path="/oauth/initiate" element={<OAuthInitiate />} />
+            <Route path="/~oauth/initiate" element={<OAuthInitiate />} />
             <Route path="/onboarding" element={<RequireAuth><Onboarding /></RequireAuth>} />
             <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
             <Route path="/home" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/gurukul" element={<RequireAuth><Gurukul /></RequireAuth>} />
             <Route path="/dispatch" element={<RequireAuth><Dispatch /></RequireAuth>} />
             <Route path="/ev-command" element={<RequireAuth><EvCommand /></RequireAuth>} />
             <Route path="/security" element={<RequireAuth><SecurityMobility /></RequireAuth>} />
