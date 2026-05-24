@@ -45,12 +45,13 @@ function applyDemoState(
 }
 
 export const useLedger = () => {
-  const [worker, setWorker] = useState<WorkerProfile | null>(null);
-  const [wallet, setWallet] = useState<Wallet | null>(null);
-  const [welfare, setWelfare] = useState<Welfare | null>(null);
-  const [earnings, setEarnings] = useState<EarningRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isDemo, setIsDemo] = useState(false);
+  const seedDemo = allowInvestorDemo();
+  const [worker, setWorker] = useState<WorkerProfile | null>(seedDemo ? DEMO_WORKER : null);
+  const [wallet, setWallet] = useState<Wallet | null>(seedDemo ? DEMO_WALLET : null);
+  const [welfare, setWelfare] = useState<Welfare | null>(seedDemo ? DEMO_WELFARE : null);
+  const [earnings, setEarnings] = useState<EarningRow[]>(seedDemo ? buildDemoEarnings() : []);
+  const [loading, setLoading] = useState(false);
+  const [isDemo, setIsDemo] = useState(seedDemo);
 
   const load = useCallback(async () => {
     try {
@@ -65,7 +66,6 @@ export const useLedger = () => {
           setWelfare(null);
           setEarnings([]);
         }
-        setLoading(false);
         return;
       }
 
@@ -86,8 +86,6 @@ export const useLedger = () => {
       if (allowInvestorDemo()) {
         applyDemoState(setIsDemo, setWorker, setWallet, setWelfare, setEarnings);
       }
-    } finally {
-      setLoading(false);
     }
   }, []);
 

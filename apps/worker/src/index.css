@@ -94,9 +94,52 @@
 
 @layer components {
   .glass-card {
-    background: var(--gradient-card);
-    @apply backdrop-blur-xl border border-border/60 rounded-3xl;
-    box-shadow: var(--shadow-card);
+    background: linear-gradient(
+      145deg,
+      hsl(215 60% 8% / 0.92) 0%,
+      hsl(215 60% 5% / 0.78) 100%
+    );
+    @apply backdrop-blur-xl border rounded-3xl;
+    border-color: hsl(200 60% 22% / 0.55);
+    box-shadow:
+      0 0 0 1px hsl(200 100% 50% / 0.05) inset,
+      0 12px 40px hsl(210 80% 0% / 0.45);
+  }
+  .fintech-card {
+    background: linear-gradient(
+      155deg,
+      hsl(215 55% 9% / 0.95) 0%,
+      hsl(210 70% 6% / 0.88) 50%,
+      hsl(155 40% 8% / 0.9) 100%
+    );
+    @apply backdrop-blur-xl rounded-3xl border;
+    border-color: hsl(200 100% 50% / 0.18);
+    box-shadow:
+      0 0 0 1px hsl(0 0% 100% / 0.04) inset,
+      0 16px 48px hsl(210 80% 0% / 0.5),
+      0 0 40px hsl(200 100% 50% / 0.06);
+  }
+  .fintech-glow-green {
+    box-shadow: 0 0 32px hsl(150 100% 50% / 0.22), 0 0 0 1px hsl(150 100% 50% / 0.2);
+  }
+  .fintech-glow-cyan {
+    box-shadow: 0 0 32px hsl(200 100% 50% / 0.2), 0 0 0 1px hsl(200 100% 50% / 0.18);
+  }
+  .govtech-card {
+    background: linear-gradient(
+      160deg,
+      hsl(33 80% 12% / 0.35) 0%,
+      hsl(215 55% 8% / 0.92) 35%,
+      hsl(210 70% 6% / 0.9) 100%
+    );
+    @apply backdrop-blur-xl rounded-3xl border;
+    border-color: hsl(33 100% 50% / 0.22);
+    box-shadow:
+      0 0 0 1px hsl(33 100% 50% / 0.08) inset,
+      0 16px 48px hsl(210 80% 0% / 0.5);
+  }
+  .text-bright {
+    color: hsl(200 30% 96%);
   }
   .neon-border {
     box-shadow: 0 0 0 1px hsl(var(--primary) / 0.4), 0 0 24px hsl(var(--primary) / 0.25);

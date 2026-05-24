@@ -40,7 +40,7 @@ export function WeeklyEarningsChart({ data }: WeeklyEarningsChartProps) {
   const maxVal = Math.max(...data.map((d) => d.total), 1);
 
   return (
-    <div className="glass-card p-4 sm:p-5 animate-fade-in overflow-hidden">
+    <div className="fintech-card p-4 sm:p-5 animate-fade-in overflow-hidden">
       <div className="mb-4 flex items-end justify-between gap-2">
         <div>
           <p className="text-[10px] font-mono-tech uppercase tracking-[0.2em] text-muted-foreground">

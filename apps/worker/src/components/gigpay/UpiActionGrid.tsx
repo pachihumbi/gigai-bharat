@@ -29,7 +29,7 @@ export function UpiActionGrid({ onBillsClick }: UpiActionGridProps) {
   };
 
   return (
-    <div className="glass-card p-4 sm:p-5 animate-fade-in">
+    <div className="fintech-card p-4 sm:p-5 animate-fade-in">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-[10px] font-mono-tech uppercase tracking-[0.22em] text-cyan-400/80">

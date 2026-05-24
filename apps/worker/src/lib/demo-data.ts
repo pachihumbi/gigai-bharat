@@ -11,13 +11,13 @@ export const DEMO_WORKER: WorkerProfile = {
 };
 
 export const DEMO_WALLET: Wallet = {
-  wallet_balance: 14250,
-  gig_credit_score: 742,
+  wallet_balance: 18420,
+  gig_credit_score: 768,
   active_loan_amount: 0,
 };
 
 export const DEMO_WELFARE: Welfare = {
-  active_working_days: 68,
+  active_working_days: 72,
   is_eligible_for_state_benefits: true,
 };
 

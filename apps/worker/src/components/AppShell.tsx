@@ -24,8 +24,8 @@ export const AppShell = ({ children, title, kn }: { children: ReactNode; title?:
         </div>
         {title && (
           <header className="mb-5">
-            <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-            {kn && <p className="mt-1 text-sm text-muted-foreground">{kn}</p>}
+            <h1 className="text-2xl sm:text-[1.65rem] font-bold tracking-tight text-bright">{title}</h1>
+            {kn && <p className="mt-1 text-sm text-foreground/75">{kn}</p>}
           </header>
         )}
         {children}

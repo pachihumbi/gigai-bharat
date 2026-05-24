@@ -13,7 +13,9 @@ export type GigPayTransaction = {
 
 export const DEMO_UPI_ID = "prashanth.gowda@okgigai";
 
-export const DEMO_WEEKLY_TARGET = 18500;
+export const DEMO_WEEKLY_GROWTH_PCT = 12.8;
+export const DEMO_TODAY_EARNINGS = 2850;
+export const DEMO_WEEKLY_EARNINGS = 17200;
 
 /** Fallback 7-day chart when ledger is sparse (investor demo). */
 export const DEMO_WEEKLY_CHART = [

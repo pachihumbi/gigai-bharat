@@ -8,7 +8,7 @@ type TransactionHistoryProps = {
 
 export function TransactionHistory({ transactions }: TransactionHistoryProps) {
   return (
-    <div id="gigpay-transactions" className="glass-card p-4 sm:p-5 animate-fade-in scroll-mt-24">
+    <div id="gigpay-transactions" className="fintech-card p-4 sm:p-5 animate-fade-in scroll-mt-24">
       <div className="mb-4 flex items-center justify-between">
         <div>
           <p className="text-[10px] font-mono-tech uppercase tracking-[0.22em] text-muted-foreground">

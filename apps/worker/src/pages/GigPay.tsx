@@ -9,35 +9,41 @@ import {
 } from "@/components/gigpay";
 import { useBills, billsStore } from "@/lib/walletStore";
 import { useLedger } from "@/hooks/useLedger";
-import { DEMO_TRANSACTIONS, DEMO_WEEKLY_CHART } from "@/lib/gigpay-demo";
+import {
+  DEMO_TODAY_EARNINGS,
+  DEMO_TRANSACTIONS,
+  DEMO_WEEKLY_CHART,
+  DEMO_WEEKLY_EARNINGS,
+  DEMO_WEEKLY_GROWTH_PCT,
+} from "@/lib/gigpay-demo";
 import {
   computeTodayEarnings,
   computeWeeklyEarnings,
   earningsToWeeklyChart,
   mergeTransactions,
 } from "@/lib/gigpay-utils";
+import { DEMO_WALLET, DEMO_WORKER } from "@/lib/demo-data";
 import { Award, CheckCircle2, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { walletRpc, WalletAuthError } from "@/lib/walletAuth";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useMemo, useState } from "react";
 
 const GigPay = () => {
-  const { worker, wallet, earnings, loading, reload, isDemo, todayEarnings, tripsToday } =
-    useLedger();
+  const { worker, wallet, earnings, reload, isDemo, todayEarnings, tripsToday } = useLedger();
   const { bills } = useBills();
   const [busy, setBusy] = useState<string | null>(null);
 
-  const balance = Number(wallet?.wallet_balance || 0);
-  const score = wallet?.gig_credit_score || 300;
+  const displayWallet = wallet ?? DEMO_WALLET;
+  const displayWorker = worker ?? DEMO_WORKER;
+  const balance = Number(displayWallet.wallet_balance);
+  const score = displayWallet.gig_credit_score;
 
-  const todayAmount = todayEarnings || computeTodayEarnings(earnings);
-  const weeklyAmount = computeWeeklyEarnings(earnings);
+  const todayAmount = todayEarnings || computeTodayEarnings(earnings) || DEMO_TODAY_EARNINGS;
+  const weeklyAmount = computeWeeklyEarnings(earnings) || DEMO_WEEKLY_EARNINGS;
 
   const chartData = useMemo(() => {
     const live = earningsToWeeklyChart(earnings);
-    const hasData = live.some((d) => d.total > 0);
-    if (hasData) return live;
+    if (live.some((d) => d.total > 0)) return live;
     return DEMO_WEEKLY_CHART.map((d) => ({ ...d }));
   }, [earnings]);
 
@@ -47,7 +53,7 @@ const GigPay = () => {
   );
 
   const pay = async (bill: (typeof bills)[number]) => {
-    if (!wallet || bill.paid) return;
+    if (bill.paid) return;
     if (balance < bill.amount) {
       toast.error("Insufficient balance");
       return;
@@ -56,7 +62,7 @@ const GigPay = () => {
     try {
       if (isDemo || !worker) {
         billsStore.markPaid(bill.id);
-        toast.success(`${bill.label} paid (demo)`, { description: `-₹${bill.amount}` });
+        toast.success(`${bill.label} paid`, { description: `-₹${bill.amount} · UPI` });
         return;
       }
       await walletRpc.decrementBalance(worker.id, bill.amount);
@@ -73,11 +79,10 @@ const GigPay = () => {
   };
 
   const acceptLoan = async () => {
-    if (!wallet) return;
     setBusy("loan");
     try {
       if (isDemo || !worker) {
-        toast.success("₹5,000 credited to GigPay wallet (demo)");
+        toast.success("₹5,000 credited to GigPay wallet");
         return;
       }
       await walletRpc.acceptLoan(worker.id, 5000);
@@ -93,7 +98,7 @@ const GigPay = () => {
 
   const handleWithdraw = async (amount: number) => {
     if (isDemo || !worker) {
-      toast.success("Withdrawal initiated (demo)", {
+      toast.success("Withdrawal initiated", {
         description: `₹${amount.toLocaleString("en-IN")} → HDFC ****4821 · IMPS`,
       });
       return;
@@ -105,36 +110,26 @@ const GigPay = () => {
     });
   };
 
-  if (loading || !wallet) {
-    return (
-      <AppShell title="GigPay" kn="ನಿಮ್ಮ ಹಣಕಾಸಿನ ಗುರುತು">
-        <Skeleton className="h-44 w-full rounded-3xl mb-4" />
-        <Skeleton className="h-24 w-full rounded-2xl mb-4" />
-        <Skeleton className="h-52 w-full rounded-3xl mb-4" />
-        <Skeleton className="h-40 w-full rounded-3xl" />
-      </AppShell>
-    );
-  }
-
-  const hasLoan = Number(wallet.active_loan_amount) > 0;
+  const hasLoan = Number(displayWallet.active_loan_amount) > 0;
 
   return (
-    <AppShell title="GigPay" kn="ನಿಮ್ಮ ಹಣಕಾಸಿನ ಗುರುತು">
-      <p className="text-xs text-muted-foreground -mt-2 mb-4 leading-relaxed">
-        Worker-owned wallet · Zero platform commission · Built for India&apos;s gig workforce
+    <AppShell title="GigPay" kn="ಗಿಗ್‌ಪೇ · Worker wallet super-app">
+      <p className="text-xs text-foreground/75 -mt-2 mb-4 leading-relaxed">
+        PhonePe-grade UPI · Cred-style credit · ₹0 platform commission
       </p>
 
       <div className="space-y-4 sm:space-y-5">
         <WalletBalanceCard
           balance={balance}
           creditScore={score}
-          workerName={worker?.name ?? "Gig Worker"}
+          workerName={displayWorker.name}
           isDemo={isDemo}
         />
 
         <TodayEarningsCard
-          todayAmount={todayAmount || (isDemo ? 2850 : 0)}
-          weeklyAmount={weeklyAmount || (isDemo ? 17200 : 0)}
+          todayAmount={todayAmount}
+          weeklyAmount={weeklyAmount}
+          weeklyGrowthPct={DEMO_WEEKLY_GROWTH_PCT}
           tripCount={tripsToday}
         />
 
@@ -146,69 +141,64 @@ const GigPay = () => {
 
         <TransactionHistory transactions={transactions} />
 
-        {/* Micro-loan */}
         <div
-          className="relative glass-card overflow-hidden p-4 animate-fade-in"
+          className="fintech-card relative overflow-hidden p-4 animate-fade-in"
           style={{
-            background: "linear-gradient(135deg, hsl(var(--accent)/0.15), hsl(var(--secondary)/0.10))",
+            background: "linear-gradient(135deg, hsl(33 100% 50% / 0.12), hsl(150 100% 50% / 0.08))",
           }}
         >
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent/20 blur-3xl rounded-full pointer-events-none" />
-          <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,hsl(0_0%_100%/0.06)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
+          <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent_30%,hsl(0_0%_100%/0.08)_50%,transparent_70%)] bg-[length:200%_100%] animate-shimmer pointer-events-none" />
           <div className="relative flex flex-col sm:flex-row sm:items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-gradient-saffron grid place-items-center glow-saffron shrink-0">
               <Sparkles className="h-5 w-5 text-accent-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-mono-tech uppercase tracking-widest text-accent">
-                Gig Credit Advance
-              </p>
-              <p className="font-bold text-lg leading-tight">₹5,000 Instant Advance</p>
-              <p className="text-[11px] text-muted-foreground">0% interest for 7 days · ತ್ವರಿತ ಸಾಲ</p>
+              <p className="text-[10px] font-mono uppercase tracking-widest text-orange-300">Gig Credit Advance</p>
+              <p className="font-bold text-lg text-bright leading-tight">₹5,000 Instant Advance</p>
+              <p className="text-[11px] text-foreground/65">0% interest · 7 days · ತ್ವರಿತ ಸಾಲ</p>
             </div>
             <button
               disabled={hasLoan || busy === "loan"}
               onClick={acceptLoan}
-              className="shrink-0 px-4 py-2.5 rounded-xl bg-secondary text-secondary-foreground text-sm font-bold disabled:opacity-50 active:scale-95 transition flex items-center justify-center gap-1.5 min-h-[2.75rem]"
+              className="shrink-0 px-4 py-2.5 rounded-xl bg-emerald-500 text-black text-sm font-bold disabled:opacity-50 active:scale-95 transition flex items-center justify-center gap-1.5 min-h-[2.75rem]"
             >
               {busy === "loan" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : hasLoan ? "Accepted" : "Accept"}
             </button>
           </div>
         </div>
 
-        {/* Smart Bills */}
-        <div id="gigpay-smart-bills" className="glass-card p-4 scroll-mt-24 animate-fade-in">
+        <div id="gigpay-smart-bills" className="fintech-card p-4 scroll-mt-24 animate-fade-in">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <Award className="h-4 w-4 text-secondary" />
-              <p className="text-sm font-semibold">Smart Bills</p>
+              <Award className="h-4 w-4 text-emerald-400" />
+              <p className="text-sm font-semibold text-bright">Smart Bills</p>
             </div>
-            <p className="text-[10px] font-kannada text-muted-foreground">UPI autopay</p>
+            <p className="text-[10px] font-kannada text-foreground/60">UPI autopay</p>
           </div>
           <div className="space-y-2">
             {bills.map((b) => (
               <div
                 key={b.id}
-                className="flex items-center gap-3 p-3 rounded-2xl bg-muted/30 border border-border/60"
+                className="flex items-center gap-3 p-3 rounded-2xl bg-black/30 border border-white/[0.06]"
               >
-                <div className="w-10 h-10 rounded-xl bg-background grid place-items-center text-lg shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-black/40 grid place-items-center text-lg shrink-0 border border-white/[0.06]">
                   {b.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold leading-tight">{b.label}</p>
-                  <p className="text-[11px] font-kannada text-muted-foreground">{b.kn}</p>
+                  <p className="text-sm font-semibold text-bright leading-tight">{b.label}</p>
+                  <p className="text-[11px] font-kannada text-foreground/60">{b.kn}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-sm font-bold tabular-nums">₹{b.amount}</p>
+                  <p className="text-sm font-bold tabular-nums text-bright">₹{b.amount}</p>
                   {b.paid ? (
-                    <span className="flex items-center gap-1 text-[10px] text-secondary font-semibold justify-end">
+                    <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-semibold justify-end">
                       <CheckCircle2 className="h-3 w-3" /> Paid
                     </span>
                   ) : (
                     <button
                       disabled={busy === b.id}
                       onClick={() => pay(b)}
-                      className="text-[10px] font-bold text-secondary-foreground bg-secondary px-2.5 py-1 rounded-md mt-0.5 active:scale-95 transition disabled:opacity-50 inline-flex items-center gap-1"
+                      className="text-[10px] font-bold text-black bg-emerald-400 px-2.5 py-1 rounded-md mt-0.5 active:scale-95 transition disabled:opacity-50 inline-flex items-center gap-1"
                     >
                       {busy === b.id ? <Loader2 className="h-3 w-3 animate-spin" /> : "Pay UPI"}
                     </button>
@@ -220,7 +210,7 @@ const GigPay = () => {
         </div>
       </div>
 
-      <p className="text-center text-[10px] font-mono-tech tracking-[0.25em] text-muted-foreground mt-8 pb-2">
+      <p className="text-center text-[10px] font-mono-tech tracking-[0.25em] text-foreground/45 mt-8 pb-2">
         POWERED BY <span className="text-gradient-neon font-bold">GIGAI BHARAT</span>
       </p>
     </AppShell>
