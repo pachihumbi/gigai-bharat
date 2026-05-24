@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 
 type WorkerRole = "driver" | "delivery" | "fleet";
+type AuthMode = "signin" | "signup";
 
 const DEMO_CREDENTIALS = {
   email: "demo.driver@gigaibharat.in",
@@ -61,6 +62,7 @@ function CyberCorner({ className = "" }: { className?: string }) {
 
 const Auth = () => {
   const nav = useNavigate();
+  const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [role, setRole] = useState<WorkerRole>("driver");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,8 +83,7 @@ const Auth = () => {
     try {
       exitDemoWorkspace();
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) {
+      if (authMode === "signup") {
         const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
@@ -92,10 +93,15 @@ const Auth = () => {
           },
         });
         if (signUpError) throw signUpError;
-        toast.success("Workspace created", { description: "Setting up your ledger..." });
+        toast.success("Account created", {
+          description: "Next: add your vehicle and platform details.",
+        });
         nav("/onboarding");
         return;
       }
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) throw signInError;
       nav(await resolvePostAuthPath());
     } catch (err: any) {
       toast.error(formatAuthError(err.message || "Authentication failed"));
@@ -108,7 +114,9 @@ const Auth = () => {
     setEmail(DEMO_CREDENTIALS.email);
     setPassword(DEMO_CREDENTIALS.password);
     setRole("driver");
-    toast.message("Demo credentials applied", { description: "Tap Enter Workspace to continue." });
+    toast.message("Demo credentials applied", {
+      description: "Switch to Sign In, then continue.",
+    });
   };
 
   const copyDemoCredentials = async () => {
@@ -274,7 +282,38 @@ const Auth = () => {
               </div>
 
               <form onSubmit={submit} className="space-y-4">
-                {/* Role selector */}
+                {/* Sign in / Create account */}
+                <div>
+                  <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-black/40 border border-white/[0.06]">
+                    {(
+                      [
+                        { id: "signin" as const, label: "Sign In" },
+                        { id: "signup" as const, label: "Create Account" },
+                      ] as const
+                    ).map(({ id, label }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setAuthMode(id)}
+                        className={`h-10 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                          authMode === id
+                            ? "bg-gradient-neon text-primary-foreground shadow-[0_0_20px_rgba(0,217,255,0.25)]"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-center text-[10px] text-muted-foreground leading-relaxed">
+                    {authMode === "signup"
+                      ? "New worker? Create an account, then set up your vehicle on onboarding."
+                      : "Already registered? Sign in to your workspace."}
+                  </p>
+                </div>
+
+                {/* Role selector — signup only */}
+                {authMode === "signup" && (
                 <div>
                   <p className="mb-2 text-[10px] font-mono uppercase tracking-wider text-muted-foreground text-center">
                     Select role
@@ -300,6 +339,7 @@ const Auth = () => {
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Email */}
                 <div className="relative group">
@@ -340,7 +380,9 @@ const Auth = () => {
                   ) : (
                     <>
                       <Zap className="h-4 w-4 relative text-primary-foreground/90" />
-                      <span className="relative">Enter Workspace</span>
+                      <span className="relative">
+                        {authMode === "signup" ? "Create Account" : "Sign In"}
+                      </span>
                       <ArrowRight className="h-4 w-4 relative transition-transform group-hover:translate-x-0.5" />
                     </>
                   )}
