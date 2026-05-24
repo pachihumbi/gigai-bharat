@@ -1,59 +1,47 @@
 # Production deployment status — GigAI Bharat
 
-**Verified:** 2026-05-23 (auth fix deploy)  
-**Status:** ✅ GURUKUL AI + production auth routing  
-**Worker deploy:** `dpl_DCXc3zg81UibsvfoJq3VzSxyFfge`
+**Verified:** 2026-05-24  
+**Status:** ✅ Stable — GitHub → Vercel → Supabase  
+**Branch:** `main` @ `f30cf0b`  
+**Toolchain:** Cursor · GitHub · Vercel · Supabase only
 
 ---
 
-## Live URLs
+## Live URLs (all ✅ 200)
 
 | Surface | URL |
 |---------|-----|
 | Marketing | https://www.bharatgig.live |
-| **Gurukul AI (marketing)** | https://www.bharatgig.live/gurukul |
-| ShramSetu (marketing) | https://www.bharatgig.live/shramsetu |
-| Investor ROI Engine | https://www.bharatgig.live/investors |
-| EV Infrastructure | https://www.bharatgig.live/ev-infrastructure |
-| Smart Hub Blueprint | https://www.bharatgig.live/smart-hub |
+| Apex redirect | https://bharatgig.live → www |
 | Worker app | https://app.bharatgig.live |
-| **Gurukul AI (worker)** | https://app.bharatgig.live/gurukul |
-| **Onboarding flow** | https://app.bharatgig.live/onboarding → `/gurukul` |
+| Auth | https://app.bharatgig.live/auth |
+| OAuth callback | https://app.bharatgig.live/auth/callback |
+| Dashboard | https://app.bharatgig.live/dashboard |
+| Gurukul AI | https://www.bharatgig.live/gurukul · https://app.bharatgig.live/gurukul |
 
 ---
 
-## Gurukul AI — flagship worker civilization module
+## Vercel projects
 
-### Worker app (`app.bharatgig.live`)
-- **Route:** `/gurukul` — Learn · Skills · Certs · Advisor · Tribe tabs
-- **Onboarding:** `/onboarding` — 5-step ultra-simple flow with AI mentor, selfie/doc sim, multilingual, redirects to Gurukul
-- **Skill graph:** Skill, reliability, earning potential, fleet leadership scores
-- **Certifications:** Blockchain-ready GigAI credentials
-- **Economic advisor:** Income, savings, EMI, fleet ownership tips
-- **Tribes:** Regional worker communities + success stories
-- **Nav:** Bottom nav — Command · Gurukul · Ledger · ShramSetu · GigPay
-- **i18n:** EN / KN / HI / TA / TE
+| Project | Domain | Deploy method |
+|---------|--------|---------------|
+| `gigai-bharat` | www.bharatgig.live | GitHub Actions prebuilt (Nitro SSR) |
+| `gigai-bharat-worker` | app.bharatgig.live | GitHub Actions prebuilt (SPA) |
 
-### Marketing (`www.bharatgig.live`)
-- **Route:** `/gurukul` — flagship showcase page
-- **Homepage:** Gurukul section above VinFast EV showcase
-- **Nav:** Gurukul AI in primary navigation
-- **Sitemap:** `/gurukul` listed (priority 0.98)
+Push to `main` triggers `.github/workflows/deploy-production.yml`.
 
 ---
 
-## Route health (verified)
+## Repository health
 
-### Marketing — all ✅ 200
-`/`, `/gurukul`, `/shramsetu`, `/investors`, `/ev-infrastructure`, `/smart-hub`, `/founder`, `/roadmap`, `/status`, `/join`
-
-### Worker — all ✅ 200
-`/`, `/auth`, `/auth/callback`, `/oauth/callback`, `/~oauth/initiate`, `/oauth/initiate`, `/onboarding`, `/gurukul`, `/dashboard`, `/dispatch`, `/ev-command`, `/security`, `/credit`, `/ledger`, `/gigpay`, `/welfare`
+- ✅ Monorepo root is the single git root
+- ✅ Broken nested `gigai-bharat` gitlink removed
+- ✅ Worker + marketing builds pass with zero errors
+- ✅ SPA rewrites configured (`vercel.json` + `config.json`)
+- ✅ Supabase native OAuth (not Lovable broker)
 
 ---
 
-## Vercel production
-- `gigai-bharat` — marketing (Nitro SSR) — READY
-- `gigai-bharat-worker` — worker SPA (prebuilt) — READY
+## Architecture
 
-**Deploy pattern:** Local build → copy to `.vercel/output` → `npx vercel deploy --prebuilt --prod --project <name>`
+See [PRODUCTION_ARCHITECTURE.md](./PRODUCTION_ARCHITECTURE.md)
