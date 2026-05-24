@@ -17,17 +17,20 @@ on:
       - "apps/marketing/**"
       - "apps/worker/**"
       - "package-lock.json"
+      - "scripts/prepare-worker-vercel-output.cjs"
       - ".github/workflows/deploy-production.yml"
 
 concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+env:
+  VERCEL_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_cache == 'true' && '--force' || '' }}
+
 jobs:
   deploy-marketing:
     name: Marketing → www.bharatgig.live
     runs-on: ubuntu-latest
-    if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_MARKETING_PROJECT_ID != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -52,12 +55,11 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_MARKETING_PROJECT_ID }}
           working-directory: apps/marketing
-          vercel-args: ${{ github.event.inputs.skip_cache == 'true' && '--prebuilt --prod --force' || '--prebuilt --prod' }}
+          vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}
 
   deploy-worker:
     name: Worker → app.bharatgig.live
     runs-on: ubuntu-latest
-    if: ${{ secrets.VERCEL_TOKEN != '' && secrets.VERCEL_ORG_ID != '' && secrets.VERCEL_WORKER_PROJECT_ID != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -78,11 +80,14 @@ jobs:
           VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY: ${{ secrets.VITE_GOOGLE_MAPS_KEY }}
           VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID: ${{ secrets.VITE_GOOGLE_MAPS_TRACKING_ID }}
 
+      - name: Prepare worker Vercel output (SPA routing)
+        run: node scripts/prepare-worker-vercel-output.cjs
+
       - name: Deploy worker
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_WORKER_PROJECT_ID }}
-          working-directory: apps/worker
-          vercel-args: ${{ github.event.inputs.skip_cache == 'true' && '--prod --force' || '--prod' }}
+          working-directory: .
+          vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}

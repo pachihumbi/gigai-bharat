@@ -32,8 +32,8 @@ function Deploy-Marketing {
 
 function Deploy-Worker {
   Write-Host "`n=== Worker (app.bharatgig.live) ===" -ForegroundColor Cyan
-  Set-Location "$Root\apps\worker"
-  npm run build
+  Set-Location $Root
+  npm run build -w @gigai/worker
   $outDir = Join-Path $Root ".vercel\output"
   $outStatic = Join-Path $outDir "static"
   Remove-Item $outDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -48,7 +48,6 @@ function Deploy-Worker {
   ]
 }
 '@ | Set-Content (Join-Path $outDir "config.json") -Encoding utf8
-  Set-Location $Root
   $args = @("deploy", "--prebuilt", "--prod", "--yes", "--project", "gigai-bharat-worker", "--token", $env:VERCEL_TOKEN)
   if ($SkipCache) { $args += "--force" }
   npx vercel@latest @args
