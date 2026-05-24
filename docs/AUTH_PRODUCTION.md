@@ -29,12 +29,20 @@ http://localhost:8080/**
 https://jsdmmskzwnqhmxboergf.supabase.co/auth/v1/callback
 ```
 
+**Authorized JavaScript origins** (Google Cloud Console → OAuth client):
+
+```
+https://app.bharatgig.live
+http://localhost:8080
+```
+
 ## Production auth flow
 
 1. User opens https://app.bharatgig.live/auth
 2. **Continue with Google** → Supabase OAuth (PKCE)
 3. Google → Supabase → https://app.bharatgig.live/auth/callback?code=…
-4. App exchanges code → session → `/dashboard` (or `/onboarding` if new worker)
+4. App exchanges code → session → `/onboarding` (new worker) or `/dashboard` (returning)
+5. OAuth params stripped from URL after session established (safe refresh)
 
 ## Legacy Lovable paths (handled in SPA)
 
