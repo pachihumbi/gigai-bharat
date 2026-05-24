@@ -5,12 +5,16 @@
   "framework": null,
   "build": {
     "env": {
-      "VERCEL": "1",
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-24-production"
+      "DEPLOY_REVISION": "2026-05-23-gurukul"
     }
   },
   "redirects": [
+    {
+      "source": "/driver-app",
+      "destination": "https://app.bharatgig.live/driver-app",
+      "permanent": false
+    },
     {
       "source": "/roi",
       "destination": "https://www.bharatgig.live/investors",

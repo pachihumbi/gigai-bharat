@@ -12,6 +12,7 @@ import Auth from "./pages/Auth.tsx";
 import AuthCallback from "./pages/AuthCallback.tsx";
 import OAuthInitiate from "./pages/OAuthInitiate.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import { DriverAppEntry } from "./components/DriverAppEntry";
 
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Dispatch = lazy(() => import("./pages/Dispatch.tsx"));
@@ -45,6 +46,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Splash />} />
+            <Route path="/driver-app" element={<DriverAppEntry />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/oauth/callback" element={<AuthCallback />} />

@@ -19,7 +19,7 @@ jobs:
         run: |
           set -e
           BASE="https://app.bharatgig.live"
-          for path in "/" "/auth" "/auth/callback" "/dashboard" "/gurukul" "/onboarding" "/welfare" "/dispatch"; do
+          for path in "/" "/auth" "/auth/callback" "/dashboard" "/gurukul" "/onboarding" "/welfare" "/dispatch" "/driver-app"; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$path")
             echo "$path -> $code"
             test "$code" = "200"

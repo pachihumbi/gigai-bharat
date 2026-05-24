@@ -4,7 +4,10 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
+const repoRoot = path.resolve(__dirname, "../..");
+
 export default defineConfig(({ mode }) => ({
+  envDir: repoRoot,
   server: {
     host: "::",
     port: 8080,
@@ -26,7 +29,7 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
-          supabase: ["@supabase/supabase-js"],
+          supabase: ["@supabase/supabase-js", "@supabase/ssr"],
           charts: ["recharts"],
         },
       },

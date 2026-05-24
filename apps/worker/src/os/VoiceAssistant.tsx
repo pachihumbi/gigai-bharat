@@ -26,7 +26,7 @@ export function VoiceAssistantFab() {
   const [listening, setListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [reply, setReply] = useState("");
-  const recRef = useRef<SpeechRecognition | null>(null);
+  const recRef = useRef<SpeechRecognitionInstance | null>(null);
 
   const speak = useCallback(
     (text: string) => {
@@ -43,7 +43,7 @@ export function VoiceAssistantFab() {
   const respond = useCallback(
     (input: string) => {
       const lower = input.toLowerCase();
-      let answer = t.voice.defaultReply;
+      let answer: string = t.voice.defaultReply;
       if (lower.includes("earn") || lower.includes("आद") || lower.includes("ಕಮ")) {
         answer = t.voice.replyEarnings;
       } else if (lower.includes("surge") || lower.includes("demand") || lower.includes("zone")) {
@@ -167,9 +167,31 @@ export function VoiceAssistantFab() {
   );
 }
 
+interface SpeechRecognitionResultList {
+  [index: number]: { [index: number]: { transcript: string } };
+  length: number;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+}
+
+interface SpeechRecognitionInstance extends EventTarget {
+  lang: string;
+  interimResults: boolean;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
+  start(): void;
+  stop(): void;
+  abort(): void;
+}
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionInstance;
+
 declare global {
   interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
+    SpeechRecognition: SpeechRecognitionConstructor;
+    webkitSpeechRecognition: SpeechRecognitionConstructor;
   }
 }

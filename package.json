@@ -16,6 +16,7 @@
     "lint": "turbo lint",
     "test": "turbo test",
     "typecheck": "turbo typecheck",
+    "db:ping": "node scripts/test-supabase-connection.mjs",
     "db:types": "supabase gen types typescript --local > packages/types/src/database.ts",
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",

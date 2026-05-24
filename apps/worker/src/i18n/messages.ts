@@ -225,9 +225,17 @@ const en = {
   },
 } as const;
 
-export type Messages = typeof en;
+type MessageStrings<T> = {
+  [K in keyof T]: T[K] extends object ? MessageStrings<T[K]> : string;
+};
 
-function patch(base: Messages, overrides: Partial<Messages>): Messages {
+export type Messages = MessageStrings<typeof en>;
+
+type LocaleOverrides = {
+  [K in keyof typeof en]?: typeof en[K] extends object ? MessageStrings<(typeof en)[K]> : string;
+};
+
+function patch(base: Messages, overrides: LocaleOverrides): Messages {
   return { ...base, ...overrides } as Messages;
 }
 

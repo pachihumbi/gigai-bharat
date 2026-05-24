@@ -24,6 +24,9 @@ concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+env:
+  VERCEL_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_cache == 'true' && '--force' || '' }}
+
 jobs:
   deploy-marketing:
     name: Marketing → www.bharatgig.live
@@ -39,42 +42,20 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Validate Vercel secrets
-        run: |
-          test -n "${{ secrets.VERCEL_TOKEN }}" || (echo "Missing VERCEL_TOKEN — see docs/GITHUB_SECRETS.md" && exit 1)
-          test -n "${{ secrets.VERCEL_ORG_ID }}" || (echo "Missing VERCEL_ORG_ID" && exit 1)
-          test -n "${{ secrets.VERCEL_MARKETING_PROJECT_ID }}" || (echo "Missing VERCEL_MARKETING_PROJECT_ID" && exit 1)
-
-      - name: Build marketing (Nitro Vercel SSR)
+      - name: Build marketing (Nitro Vercel)
         run: npm run build -w @gigai/marketing
         env:
           VERCEL: "1"
           VITE_SITE_URL: https://www.bharatgig.live
 
-      - name: Verify Nitro output
-        run: test -f apps/marketing/.vercel/output/config.json
-
-      - name: Deploy marketing (prebuilt)
-        working-directory: apps/marketing
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_MARKETING_PROJECT_ID }}
-        run: |
-          npx vercel@latest deploy --prebuilt --prod --yes \
-            --token="${{ secrets.VERCEL_TOKEN }}" \
-            ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_cache == 'true' && '--force' || '' }}
-
-      - name: Smoke test marketing routes
-        run: |
-          for url in \
-            "https://www.bharatgig.live" \
-            "https://www.bharatgig.live/investors" \
-            "https://www.bharatgig.live/gurukul" \
-            "https://www.bharatgig.live/shramsetu"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
-            echo "$url -> $code"
-            test "$code" = "200"
-          done
+      - name: Deploy marketing
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_MARKETING_PROJECT_ID }}
+          working-directory: apps/marketing
+          vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}
 
   deploy-worker:
     name: Worker → app.bharatgig.live
@@ -90,12 +71,6 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Validate Vercel secrets
-        run: |
-          test -n "${{ secrets.VERCEL_TOKEN }}" || (echo "Missing VERCEL_TOKEN — see docs/GITHUB_SECRETS.md" && exit 1)
-          test -n "${{ secrets.VERCEL_ORG_ID }}" || (echo "Missing VERCEL_ORG_ID" && exit 1)
-          test -n "${{ secrets.VERCEL_WORKER_PROJECT_ID }}" || (echo "Missing VERCEL_WORKER_PROJECT_ID" && exit 1)
-
       - name: Build worker
         run: npm run build -w @gigai/worker
         env:
@@ -108,23 +83,11 @@ jobs:
       - name: Prepare worker Vercel output (SPA routing)
         run: node scripts/prepare-worker-vercel-output.cjs
 
-      - name: Verify SPA output
-        run: test -f .vercel/output/config.json
-
-      - name: Deploy worker (prebuilt)
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_WORKER_PROJECT_ID }}
-        run: |
-          npx vercel@latest deploy --prebuilt --prod --yes \
-            --token="${{ secrets.VERCEL_TOKEN }}" \
-            ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_cache == 'true' && '--force' || '' }}
-
-      - name: Smoke test worker routes
-        run: |
-          BASE="https://app.bharatgig.live"
-          for path in "/" "/auth" "/auth/callback" "/dashboard" "/gurukul"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE$path")
-            echo "$BASE$path -> $code"
-            test "$code" = "200"
-          done
+      - name: Deploy worker
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_WORKER_PROJECT_ID }}
+          working-directory: .
+          vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}

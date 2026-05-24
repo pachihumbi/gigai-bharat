@@ -46,8 +46,8 @@ const Auth = () => {
         if (error) throw error;
         nav(await resolvePostAuthPath());
       }
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : "Authentication failed");
+    } catch (err: any) {
+      toast.error(err.message || "Authentication failed");
     } finally {
       setBusy(false);
     }

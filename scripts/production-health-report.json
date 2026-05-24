@@ -1,0 +1,64 @@
+{
+  "generatedAt": "2026-05-24T16:24:06.558Z",
+  "productionSupabaseProject": "jsdmmskzwnqhmxboergf",
+  "productionUrls": {
+    "marketing": "https://www.bharatgig.live",
+    "workerApp": "https://app.bharatgig.live",
+    "workerAuth": "https://app.bharatgig.live/auth",
+    "driverAppMarketing": "https://www.bharatgig.live/driver-app",
+    "admin": "https://gigai-bharat-admin-pachihumbis-projects.vercel.app"
+  },
+  "checks": [
+    {
+      "name": "supabase/config.toml",
+      "ok": true,
+      "detail": "jsdmmskzwnqhmxboergf"
+    },
+    {
+      "name": "local env project",
+      "ok": true,
+      "detail": "jsdmmskzwnqhmxboergf"
+    },
+    {
+      "name": "supabase connection",
+      "ok": true,
+      "detail": "https://jsdmmskzwnqhmxboergf.supabase.co"
+    },
+    {
+      "name": "supabase auth API",
+      "ok": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "Marketing home",
+      "ok": true,
+      "detail": "https://www.bharatgig.live/ → HTTP 200"
+    },
+    {
+      "name": "Driver app (marketing)",
+      "ok": true,
+      "detail": "https://www.bharatgig.live/driver-app → HTTP 200"
+    },
+    {
+      "name": "Worker app",
+      "ok": true,
+      "detail": "https://app.bharatgig.live/ → HTTP 200"
+    },
+    {
+      "name": "Worker auth",
+      "ok": true,
+      "detail": "https://app.bharatgig.live/auth → HTTP 200"
+    },
+    {
+      "name": "Worker driver-app (SPA)",
+      "ok": true,
+      "detail": "https://app.bharatgig.live/driver-app → HTTP 200"
+    },
+    {
+      "name": "live worker bundle",
+      "ok": true,
+      "detail": "uses jsdmmskzwnqhmxboergf"
+    }
+  ],
+  "allPassed": true
+}
