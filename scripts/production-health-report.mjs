@@ -148,6 +148,7 @@ const report = {
     marketing: "https://www.bharatgig.live",
     workerApp: "https://app.bharatgig.live",
     workerAuth: "https://app.bharatgig.live/auth",
+    driverApp: "https://app.bharatgig.live/driver-app",
     driverAppMarketing: "https://www.bharatgig.live/driver-app",
     admin: "https://gigai-bharat-admin-pachihumbis-projects.vercel.app",
   },

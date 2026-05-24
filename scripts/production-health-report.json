@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-05-24T16:24:06.558Z",
+  "generatedAt": "2026-05-24T18:04:14.981Z",
   "productionSupabaseProject": "jsdmmskzwnqhmxboergf",
   "productionUrls": {
     "marketing": "https://www.bharatgig.live",
     "workerApp": "https://app.bharatgig.live",
     "workerAuth": "https://app.bharatgig.live/auth",
+    "driverApp": "https://app.bharatgig.live/driver-app",
     "driverAppMarketing": "https://www.bharatgig.live/driver-app",
     "admin": "https://gigai-bharat-admin-pachihumbis-projects.vercel.app"
   },
@@ -36,8 +37,8 @@
     },
     {
       "name": "Driver app (marketing)",
-      "ok": true,
-      "detail": "https://www.bharatgig.live/driver-app → HTTP 200"
+      "ok": false,
+      "detail": "https://www.bharatgig.live/driver-app → HTTP 500"
     },
     {
       "name": "Worker app",
@@ -60,5 +61,5 @@
       "detail": "uses jsdmmskzwnqhmxboergf"
     }
   ],
-  "allPassed": true
+  "allPassed": false
 }

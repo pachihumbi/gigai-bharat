@@ -32,6 +32,7 @@ writeFileSync(
     null,
     2,
   )}\n`,
+  "utf8",
 );
 
 console.log("Prepared .vercel/output for worker SPA deploy (filesystem + index.html fallback)");
