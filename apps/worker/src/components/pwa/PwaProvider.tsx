@@ -37,6 +37,16 @@ export function PwaProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.data?.type === "NAVIGATE" && typeof event.data.url === "string") {
+        window.location.assign(event.data.url);
+      }
+    };
+    navigator.serviceWorker?.addEventListener("message", onMessage);
+    return () => navigator.serviceWorker?.removeEventListener("message", onMessage);
+  }, []);
+
   const value = useMemo<PwaContextValue>(
     () => ({
       canInstall: install.canInstall,

@@ -95,8 +95,7 @@ self.addEventListener("push", (event) => {
       badge: payload.badge ?? "/icons/icon-192.png",
       tag: payload.tag ?? "gigai-notification",
       data: payload.data ?? { url: "/dashboard" },
-      vibrate: [120, 60, 120],
-    }),
+    } as NotificationOptions),
   );
 });
 
@@ -108,7 +107,7 @@ self.addEventListener("notificationclick", (event) => {
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
       for (const client of clients) {
         if ("focus" in client && client.url.includes(self.location.origin)) {
-          client.navigate(targetUrl);
+          client.postMessage({ type: "NAVIGATE", url: targetUrl });
           return client.focus();
         }
       }
