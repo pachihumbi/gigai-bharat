@@ -555,6 +555,20 @@ const Dashboard = () => {
         </div>
       </Link>
 
+      {/* Co-Living Infrastructure */}
+      <Link to="/co-living" className="mb-4 block">
+        <div className="rounded-2xl border border-violet-400/25 bg-violet-500/5 backdrop-blur-xl p-5 shadow-[0_0_30px_rgba(139,92,246,0.08)] hover:border-violet-400/45 transition-all duration-300 flex items-center gap-4 animate-fade-in">
+          <div className="h-10 w-10 rounded-xl border border-violet-400/30 bg-violet-400/10 grid place-items-center shrink-0">
+            <Cpu className="h-5 w-5 text-violet-300" />
+          </div>
+          <div>
+            <HudLabel className="text-violet-300">Smart Co-Living Pods</HudLabel>
+            <p className="text-sm font-semibold text-white mt-0.5">EV hubs · sleep capsules · Gurukul centers</p>
+            <p className="text-[10px] text-muted-foreground mt-1">12 live campuses · 2,840 workers housed</p>
+          </div>
+        </div>
+      </Link>
+
       <SystemGrid />
 
       <p className="mt-6 text-center text-[10px] font-mono tracking-[0.25em] text-muted-foreground uppercase">

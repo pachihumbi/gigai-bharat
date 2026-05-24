@@ -125,6 +125,80 @@
   .fintech-glow-cyan {
     box-shadow: 0 0 32px hsl(200 100% 50% / 0.2), 0 0 0 1px hsl(200 100% 50% / 0.18);
   }
+  .ev-card {
+    background: linear-gradient(
+      165deg,
+      hsl(215 55% 7% / 0.98) 0%,
+      hsl(210 70% 5% / 0.92) 45%,
+      hsl(200 50% 8% / 0.95) 100%
+    );
+    @apply backdrop-blur-xl rounded-3xl border;
+    border-color: hsl(200 100% 50% / 0.14);
+    box-shadow:
+      0 0 0 1px hsl(0 0% 100% / 0.03) inset,
+      0 20px 56px hsl(210 80% 0% / 0.55),
+      0 0 48px hsl(200 100% 50% / 0.05);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  }
+  .ev-card:hover {
+    border-color: hsl(200 100% 50% / 0.22);
+    box-shadow:
+      0 0 0 1px hsl(200 100% 50% / 0.08) inset,
+      0 24px 64px hsl(210 80% 0% / 0.6),
+      0 0 56px hsl(200 100% 50% / 0.1);
+  }
+  .pod-card {
+    background: linear-gradient(
+      160deg,
+      hsl(215 55% 7% / 0.96) 0%,
+      hsl(220 60% 5% / 0.92) 40%,
+      hsl(270 40% 8% / 0.94) 100%
+    );
+    @apply backdrop-blur-xl rounded-3xl border;
+    border-color: hsl(200 100% 50% / 0.12);
+    box-shadow:
+      0 0 0 1px hsl(0 0% 100% / 0.03) inset,
+      0 16px 48px hsl(210 80% 0% / 0.55),
+      0 0 32px hsl(270 80% 60% / 0.04);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  .pod-card-active {
+    border-color: hsl(200 100% 50% / 0.35);
+    box-shadow:
+      0 0 0 1px hsl(200 100% 50% / 0.12) inset,
+      0 20px 56px hsl(210 80% 0% / 0.6),
+      0 0 48px hsl(200 100% 50% / 0.12);
+  }
+  .pod-hero {
+    background: linear-gradient(
+      180deg,
+      hsl(215 60% 4% / 0.6) 0%,
+      hsl(210 70% 6% / 0.95) 100%
+    );
+    border: 1px solid hsl(200 100% 50% / 0.18);
+    box-shadow:
+      0 0 0 1px hsl(0 0% 100% / 0.04) inset,
+      0 24px 80px hsl(210 80% 0% / 0.65),
+      0 0 64px hsl(200 100% 50% / 0.08);
+  }
+  .cinematic-glass {
+    background: hsl(0 0% 100% / 0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+  }
+  .investor-vision {
+    background: linear-gradient(
+      155deg,
+      hsl(270 50% 10% / 0.5) 0%,
+      hsl(215 55% 7% / 0.95) 40%,
+      hsl(200 60% 8% / 0.9) 100%
+    );
+    border: 1px solid hsl(270 80% 60% / 0.25);
+    box-shadow:
+      0 0 0 1px hsl(270 80% 60% / 0.08) inset,
+      0 24px 64px hsl(210 80% 0% / 0.6),
+      0 0 56px hsl(270 80% 60% / 0.1);
+  }
   .govtech-card {
     background: linear-gradient(
       160deg,
