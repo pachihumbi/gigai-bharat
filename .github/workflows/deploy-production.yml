@@ -18,6 +18,7 @@ on:
       - "apps/worker/**"
       - "package-lock.json"
       - "scripts/prepare-worker-vercel-output.cjs"
+      - "docs/DEPLOYMENT_STATUS.md"
       - ".github/workflows/deploy-production.yml"
 
 concurrency:
