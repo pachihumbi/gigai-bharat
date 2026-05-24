@@ -5,7 +5,13 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/favicon.ico", "destination": "/favicon.ico" },
+    { "source": "/manifest.webmanifest", "destination": "/manifest.webmanifest" },
+    { "source": "/offline.html", "destination": "/offline.html" },
+    { "source": "/service-worker.js", "destination": "/service-worker.js" },
+    { "source": "/sw.js", "destination": "/sw.js" },
+    { "source": "/workbox-:hash.js", "destination": "/workbox-:hash.js" },
+    { "source": "/icons/:path*", "destination": "/icons/:path*" },
+    { "source": "/favicon.svg", "destination": "/favicon.svg" },
     { "source": "/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ],
@@ -29,6 +35,18 @@
     {
       "source": "/assets/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/icons/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/(service-worker|sw)\\.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
     }
   ]
 }

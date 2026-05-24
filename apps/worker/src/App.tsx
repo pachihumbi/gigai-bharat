@@ -14,6 +14,13 @@ import OAuthInitiate from "./pages/OAuthInitiate.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { DriverAppEntry } from "./components/DriverAppEntry";
 import { DemoWorkspaceEntry } from "./components/DemoWorkspaceEntry";
+import {
+  AppLaunchOverlay,
+  InstallFloatingButton,
+  InstallPrompt,
+  PwaProvider,
+  UpdatePrompt,
+} from "@/components/pwa";
 
 const Dashboard = lazy(() => import("./pages/Dashboard.tsx"));
 const Dispatch = lazy(() => import("./pages/Dispatch.tsx"));
@@ -31,6 +38,7 @@ const Pitch = lazy(() => import("./pages/Pitch.tsx"));
 const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const SmartHub = lazy(() => import("./pages/SmartHub.tsx"));
 const MapPage = lazy(() => import("./pages/MapPage.tsx"));
+const Offline = lazy(() => import("./pages/Offline.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -44,9 +52,14 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <I18nProvider>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+        <PwaProvider>
+          <Toaster />
+          <Sonner />
+          <UpdatePrompt />
+          <InstallPrompt />
+          <InstallFloatingButton />
+          <AppLaunchOverlay />
+          <BrowserRouter>
           <Routes>
             <Route path="/" element={<Auth />} />
             <Route path="/welcome" element={<Splash />} />
@@ -77,9 +90,11 @@ const App = () => (
             <Route path="/shramsetu" element={withAuth(<Welfare />)} />
             <Route path="/ocr" element={withAuth(<OCR />)} />
             <Route path="/pitch" element={withAuth(<Pitch />)} />
+            <Route path="/offline" element={<Offline />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
+          </BrowserRouter>
+        </PwaProvider>
       </TooltipProvider>
     </I18nProvider>
   </QueryClientProvider>
