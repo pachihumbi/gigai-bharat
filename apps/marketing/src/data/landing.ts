@@ -113,7 +113,7 @@ export type NavLink = {
 
 export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
-  { to: "https://app.bharatgig.live", label: "Worker App", short: "App", external: true },
+  { to: "https://app.bharatgig.live/demo", label: "Worker App", short: "App", external: true },
   { to: "/infrastructure", label: "Infrastructure", short: "Infra" },
   { to: "/founder", label: "Founder", short: "Founder" },
   { to: "/investors", label: "Investor", short: "Investors" },
@@ -127,7 +127,8 @@ export const founderQuote =
 export const contactLinks = {
   github: "https://github.com/pachihumbi/gigai-bharat",
   email: "hello@bharatgig.live",
-  app: "https://app.bharatgig.live/auth",
+  app: "https://app.bharatgig.live/demo",
+  appAuth: "https://app.bharatgig.live/auth",
   investors: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Investor%20Intro",
   fleet: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Fleet%20Partnership",
 } as const;

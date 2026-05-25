@@ -139,3 +139,24 @@ Run through this checklist on mobile (4G) and desktop:
 ## Known issue on current live site
 
 The domain currently serves an **older build** with broken SSR on sub-routes (`/manifesto` returns 500). Pushing this repo configuration and redeploying without cache resolves it — the Nitro adapter is configured in `vite.config.ts` and activates automatically when `VERCEL=1`.
+
+---
+
+## If www shows the worker sign-in page (wrong app)
+
+**Symptom:** `www.bharatgig.live` looks like the driver app (Sign In / Create Account), and `/investors` shows a SPA 404.
+
+**Cause:** Both `www` and `app` are attached to the **worker** Vercel project. Marketing must be a **separate** project.
+
+**Fix (Vercel Dashboard):**
+
+| Domain | Vercel project | Root Directory |
+|--------|----------------|----------------|
+| `www.bharatgig.live` | `gigai-bharat` (marketing) | `apps/marketing` |
+| `app.bharatgig.live` | `gigai-bharat-worker` (worker) | `apps/worker` |
+
+1. Open the **marketing** project → Settings → Domains → ensure `www.bharatgig.live` is listed (remove it from the worker project if duplicated).
+2. Open the **worker** project → Domains → only `app.bharatgig.live`.
+3. Redeploy both without build cache.
+
+**Public demo (no login):** https://app.bharatgig.live/demo
