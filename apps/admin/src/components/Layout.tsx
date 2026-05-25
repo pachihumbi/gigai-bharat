@@ -1,6 +1,8 @@
 import { cn } from "@gigai/ui";
-import { Activity, LayoutDashboard, Shield, Users } from "lucide-react";
+import { Activity, LayoutDashboard, LogOut, Shield, Users } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
+import { signOutAdmin } from "@/lib/auth";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 const nav = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
@@ -9,6 +11,8 @@ const nav = [
 ];
 
 export function Layout() {
+  const { session } = useAdminAuth();
+
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 border-r border-white/10 bg-black/40 p-4">
@@ -36,9 +40,22 @@ export function Layout() {
             </NavLink>
           ))}
         </nav>
-        <p className="mt-8 text-xs text-slate-500">
-          City ops &amp; compliance console. Restrict access via Supabase RLS + admin role.
-        </p>
+        <div className="mt-8 space-y-3">
+          <p className="text-xs text-slate-500">
+            City ops console · admin RLS policies
+          </p>
+          {session?.user.email && (
+            <p className="truncate text-[11px] text-slate-400">{session.user.email}</p>
+          )}
+          <button
+            type="button"
+            onClick={() => signOutAdmin()}
+            className="flex w-full items-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-300 hover:bg-white/5"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            Sign out
+          </button>
+        </div>
       </aside>
       <main className="flex-1 p-8">
         <Outlet />

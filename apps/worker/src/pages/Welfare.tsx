@@ -169,7 +169,7 @@ const Welfare = () => {
       </div>
 
       {isDemo && (
-        <p className="mt-6 text-center text-[10px] font-mono text-cyan-400/60">Investor demo · ShramSetu v2</p>
+        <p className="mt-6 text-center text-[10px] font-mono text-cyan-400/60">Preview · ShramSetu welfare tracker</p>
       )}
 
       <p className="mt-4 text-center text-[10px] font-mono-tech tracking-[0.22em] text-foreground/45 pb-2">

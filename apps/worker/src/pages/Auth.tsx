@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { authCallbackUrl, formatAuthError } from "@/lib/auth";
+import { allowInvestorDemo } from "@/lib/app-config";
 import { enterDemoWorkspace, exitDemoWorkspace } from "@/lib/demo-session";
 import { resolvePostAuthPath } from "@/lib/worker-profile";
 import { isLocalDevHost, marketingSiteUrl, workerAppUrl, workerAuthUrl } from "@/lib/site";
@@ -79,6 +80,7 @@ function AuthLoading({ label = "Loading workspace…" }: { label?: string }) {
 
 const Auth = () => {
   const nav = useNavigate();
+  const showDemo = allowInvestorDemo();
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [role, setRole] = useState<WorkerRole>("driver");
   const [email, setEmail] = useState("");
@@ -176,7 +178,7 @@ const Auth = () => {
     setPassword(DEMO_CREDENTIALS.password);
     setRole("driver");
     setAuthMode("signin");
-    toast.message("Investor demo credentials applied", {
+    toast.message("Preview credentials applied", {
       description: "Tap Sign In to continue.",
     });
   };
@@ -266,15 +268,17 @@ const Auth = () => {
                 </div>
 
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/25 bg-cyan-400/[0.08] px-3 py-1">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  {showDemo && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/25 bg-cyan-400/[0.08] px-3 py-1">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      </span>
+                      <span className="font-mono text-[9px] uppercase tracking-[0.28em] text-cyan-300/85">
+                        Preview mode
+                      </span>
                     </span>
-                    <span className="font-mono text-[9px] uppercase tracking-[0.28em] text-cyan-300/85">
-                      Investor Demo
-                    </span>
-                  </span>
+                  )}
                   <span className="inline-flex items-center gap-1 rounded-full border border-white/[0.08] bg-black/30 px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
                     <Users className="h-3 w-3 text-emerald-400/80" />
                     Bengaluru · 2026
@@ -322,7 +326,7 @@ const Auth = () => {
                 ))}
               </div>
 
-              {/* Demo credentials */}
+              {showDemo && (
               <div className="rounded-2xl border border-dashed border-cyan-400/25 bg-gradient-to-br from-cyan-500/[0.07] to-emerald-500/[0.05] p-4 sm:p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3 min-w-0">
@@ -331,7 +335,7 @@ const Auth = () => {
                     </div>
                     <div className="min-w-0 text-left space-y-1">
                       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-cyan-400/75">
-                        Investor demo credentials
+                        Preview credentials
                       </p>
                       <p className="text-xs sm:text-sm font-medium text-foreground/95 truncate">
                         {DEMO_CREDENTIALS.email}
@@ -358,6 +362,7 @@ const Auth = () => {
                   Auto-fill & sign in
                 </button>
               </div>
+              )}
 
               <form onSubmit={submit} className="space-y-4 sm:space-y-5">
                 <div>
@@ -424,7 +429,7 @@ const Auth = () => {
                       type="email"
                       required
                       autoComplete="email"
-                      placeholder={DEMO_CREDENTIALS.email}
+                      placeholder="you@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="auth-input auth-input-with-icon text-sm sm:text-base"
@@ -438,7 +443,7 @@ const Auth = () => {
                       required
                       minLength={6}
                       autoComplete={authMode === "signup" ? "new-password" : "current-password"}
-                      placeholder={DEMO_CREDENTIALS.password}
+                      placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="auth-input auth-input-with-icon text-sm sm:text-base"
@@ -466,11 +471,12 @@ const Auth = () => {
                 </button>
               </form>
 
+              {showDemo && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent" />
                   <span className="text-[9px] font-mono text-muted-foreground tracking-[0.28em]">
-                    INSTANT DEMO
+                    PREVIEW
                   </span>
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-emerald-400/35 to-transparent" />
                 </div>
@@ -482,7 +488,7 @@ const Auth = () => {
                     className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-emerald-400/40 bg-emerald-400/[0.08] px-4 py-3.5 min-h-[3rem] text-sm font-semibold text-emerald-100 hover:bg-emerald-400/14 hover:border-emerald-400/60 transition-all active:scale-[0.98]"
                   >
                     <UserCircle className="h-4 w-4 text-emerald-400 shrink-0" />
-                    Demo Driver
+                    Preview as driver
                   </button>
                   <button
                     type="button"
@@ -490,10 +496,11 @@ const Auth = () => {
                     className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-cyan-400/40 bg-cyan-400/[0.08] px-4 py-3.5 min-h-[3rem] text-sm font-semibold text-cyan-100 hover:bg-cyan-400/14 hover:border-cyan-400/60 transition-all active:scale-[0.98]"
                   >
                     <Presentation className="h-4 w-4 text-cyan-400 shrink-0" />
-                    Investor Preview
+                    Product tour
                   </button>
                 </div>
               </div>
+              )}
 
               <p className="text-[10px] sm:text-[11px] text-center text-muted-foreground/85 leading-relaxed font-mono tracking-wide">
                 worker-owned · platform-agnostic · india-first · bengaluru

@@ -1,12 +1,12 @@
 import { Wallet, ShieldCheck } from "lucide-react";
 import { useCountUp } from "@/hooks/useCountUp";
 import { formatInr } from "@/lib/gigpay-utils";
-import { DEMO_UPI_ID } from "@/lib/gigpay-demo";
 
 type WalletBalanceCardProps = {
   balance: number;
   creditScore: number;
   workerName?: string;
+  upiId?: string;
   isDemo?: boolean;
 };
 
@@ -14,6 +14,7 @@ export function WalletBalanceCard({
   balance,
   creditScore,
   workerName = "Worker",
+  upiId,
   isDemo,
 }: WalletBalanceCardProps) {
   const animated = useCountUp(balance, 1400);
@@ -32,12 +33,14 @@ export function WalletBalanceCard({
             </span>
             {isDemo && (
               <span className="rounded-full border border-cyan-400/40 bg-cyan-400/15 px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider text-cyan-200">
-                Live Demo
+                Preview
               </span>
             )}
           </div>
           <p className="text-sm font-semibold text-bright truncate">{workerName}</p>
-          <p className="text-[11px] font-mono text-cyan-200/80 truncate">{DEMO_UPI_ID}</p>
+          {upiId && (
+            <p className="text-[11px] font-mono text-cyan-200/80 truncate">{upiId}</p>
+          )}
         </div>
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-400/35 bg-emerald-400/15 shadow-[0_0_24px_rgba(57,255,20,0.2)]">
           <Wallet className="h-5 w-5 text-emerald-300" />

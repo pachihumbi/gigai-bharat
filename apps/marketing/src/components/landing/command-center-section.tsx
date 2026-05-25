@@ -18,10 +18,10 @@ export function CommandCenterSection() {
       <SectionShell className="relative py-section md:py-24">
         <StaggerChildren className="mb-10 flex flex-col gap-4 md:mb-14 md:flex-row md:items-end md:justify-between">
           <StaggerItem>
-            <SectionLabel>§ Command Center / Live</SectionLabel>
+            <SectionLabel>§ Command Center</SectionLabel>
             <SectionTitle className="mt-3 max-w-2xl">
               India-scale mobility intelligence —{" "}
-              <span className="italic text-[color:var(--neon)]">simulated in real time.</span>
+              <span className="italic text-[color:var(--neon)]">built for gig workers.</span>
             </SectionTitle>
           </StaggerItem>
           <StaggerItem>
@@ -71,8 +71,8 @@ export function CommandCenterSection() {
         <StaggerItem className="mt-6">
           <GlassPanel className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between md:p-5">
             <p className="max-w-xl text-sm text-foreground/70 md:text-base">
-              Production command center connects live worker telemetry, AI dispatch, and settlement
-              reconciliation — this demo simulates the investor view of the GigAI Bharat mesh.
+              Production command center connects worker telemetry, AI dispatch, and settlement
+              reconciliation across the GigAI Bharat network.
             </p>
             <Link
               to="/infrastructure"

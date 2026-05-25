@@ -191,12 +191,12 @@ const Dashboard = () => {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff4500]"></span>
             </span>
             <span className="font-mono text-[9px] uppercase tracking-wider text-[#ff7a00] font-bold">
-              Demo Workspace · Simulated Intelligence
+              Preview workspace · sample data
             </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-[8px] border border-[#ff7a00]/25 px-1.5 py-0.5 rounded text-white bg-black/40">
-              PROTOTYPE TELEMETRY
+              SAMPLE DATA
             </span>
             {isDemoWorkspace() && (
               <button

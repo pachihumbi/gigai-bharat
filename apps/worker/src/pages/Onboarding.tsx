@@ -26,7 +26,7 @@ const onboardSchema = z.object({
 const mentorMessages = [
   "Welcome! I'll guide you in your language. Under 5 minutes to your sovereign worker dashboard.",
   "Tell me your name and phone. Aadhaar & DigiLocker integration coming soon — architecture ready today.",
-  "Quick selfie + document scan builds your trust profile. Tap to simulate — AI verifies in seconds.",
+  "Quick selfie + document scan builds your trust profile. Complete both steps to continue.",
   "Pick your VinFast EV and main platform. One tap each — we handle the rest.",
   "Your skill profile is ready! Launch into Gurukul AI and your command center.",
 ];

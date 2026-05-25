@@ -7,7 +7,7 @@ import {
   WeeklyEarningsChart,
   WithdrawButton,
 } from "@/components/gigpay";
-import { useBills, billsStore } from "@/lib/walletStore";
+import { useSmartBills } from "@/hooks/useSmartBills";
 import { useLedger } from "@/hooks/useLedger";
 import {
   DEMO_TODAY_EARNINGS,
@@ -21,6 +21,7 @@ import {
   computeWeeklyEarnings,
   earningsToWeeklyChart,
   mergeTransactions,
+  workerUpiId,
 } from "@/lib/gigpay-utils";
 import { DEMO_WALLET, DEMO_WORKER } from "@/lib/demo-data";
 import { Award, CheckCircle2, Loader2, Sparkles } from "lucide-react";
@@ -30,26 +31,31 @@ import { useMemo, useState } from "react";
 
 const GigPay = () => {
   const { worker, wallet, earnings, reload, isDemo, todayEarnings, tripsToday } = useLedger();
-  const { bills } = useBills();
+  const { bills, reload: reloadBills, markPaidLocal } = useSmartBills(worker?.id, isDemo);
   const [busy, setBusy] = useState<string | null>(null);
 
-  const displayWallet = wallet ?? DEMO_WALLET;
-  const displayWorker = worker ?? DEMO_WORKER;
-  const balance = Number(displayWallet.wallet_balance);
-  const score = displayWallet.gig_credit_score;
+  const displayWallet = isDemo ? (wallet ?? DEMO_WALLET) : wallet;
+  const displayWorker = isDemo ? (worker ?? DEMO_WORKER) : worker;
+  const balance = Number(displayWallet?.wallet_balance ?? 0);
+  const score = displayWallet?.gig_credit_score ?? 300;
 
-  const todayAmount = todayEarnings || computeTodayEarnings(earnings) || DEMO_TODAY_EARNINGS;
-  const weeklyAmount = computeWeeklyEarnings(earnings) || DEMO_WEEKLY_EARNINGS;
+  const todayAmount = isDemo
+    ? todayEarnings || computeTodayEarnings(earnings) || DEMO_TODAY_EARNINGS
+    : todayEarnings || computeTodayEarnings(earnings);
+  const weeklyAmount = isDemo
+    ? computeWeeklyEarnings(earnings) || DEMO_WEEKLY_EARNINGS
+    : computeWeeklyEarnings(earnings);
 
   const chartData = useMemo(() => {
     const live = earningsToWeeklyChart(earnings);
     if (live.some((d) => d.total > 0)) return live;
-    return DEMO_WEEKLY_CHART.map((d) => ({ ...d }));
-  }, [earnings]);
+    if (isDemo) return DEMO_WEEKLY_CHART.map((d) => ({ ...d }));
+    return live;
+  }, [earnings, isDemo]);
 
   const transactions = useMemo(
-    () => mergeTransactions(DEMO_TRANSACTIONS, earnings),
-    [earnings],
+    () => mergeTransactions(DEMO_TRANSACTIONS, earnings, isDemo),
+    [earnings, isDemo],
   );
 
   const pay = async (bill: (typeof bills)[number]) => {
@@ -61,14 +67,12 @@ const GigPay = () => {
     setBusy(bill.id);
     try {
       if (isDemo || !worker) {
-        billsStore.markPaid(bill.id);
+        markPaidLocal(bill.id);
         toast.success(`${bill.label} paid`, { description: `-₹${bill.amount} · UPI` });
         return;
       }
-      await walletRpc.decrementBalance(worker.id, bill.amount);
-      await walletRpc.incrementScore(worker.id, 5);
-      billsStore.markPaid(bill.id);
-      await reload();
+      await walletRpc.paySmartBill(worker.id, bill.id);
+      await Promise.all([reload(), reloadBills()]);
       toast.success(`${bill.label} paid`, { description: `-₹${bill.amount} • Credit +5` });
     } catch (e) {
       const msg = e instanceof WalletAuthError ? `${e.status} • ${e.message}` : (e as Error).message;
@@ -110,7 +114,11 @@ const GigPay = () => {
     });
   };
 
-  const hasLoan = Number(displayWallet.active_loan_amount) > 0;
+  const hasLoan = Number(displayWallet?.active_loan_amount ?? 0) > 0;
+
+  const upiId = isDemo
+    ? "preview@gigpay.bharatgig.live"
+    : workerUpiId(displayWorker?.name, displayWorker?.phone_number);
 
   return (
     <AppShell title="GigPay" kn="ಗಿಗ್‌ಪೇ · Worker wallet super-app">
@@ -122,14 +130,15 @@ const GigPay = () => {
         <WalletBalanceCard
           balance={balance}
           creditScore={score}
-          workerName={displayWorker.name}
+          workerName={displayWorker?.name ?? "Worker"}
+          upiId={upiId}
           isDemo={isDemo}
         />
 
         <TodayEarningsCard
           todayAmount={todayAmount}
           weeklyAmount={weeklyAmount}
-          weeklyGrowthPct={DEMO_WEEKLY_GROWTH_PCT}
+          weeklyGrowthPct={isDemo ? DEMO_WEEKLY_GROWTH_PCT : undefined}
           tripCount={tripsToday}
         />
 

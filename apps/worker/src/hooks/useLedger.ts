@@ -70,14 +70,33 @@ export const useLedger = () => {
       }
 
       setIsDemo(false);
-      const [w, wa, wf, e] = await Promise.all([
-        supabase.from("worker_profiles").select("*").eq("user_id", user.id).maybeSingle(),
-        supabase.from("wallet_and_credit").select("*").maybeSingle(),
-        supabase.from("welfare_tracker").select("*").maybeSingle(),
-        supabase.from("earnings_ledger").select("date,amount_earned,source_platform").order("date", { ascending: false }).limit(200),
+      const workerRes = await supabase
+        .from("worker_profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      const profile = workerRes.data as WorkerProfile | null;
+      setWorker(profile);
+
+      if (!profile?.id) {
+        setWallet(null);
+        setWelfare(null);
+        setEarnings([]);
+        return;
+      }
+
+      const [wa, wf, e] = await Promise.all([
+        supabase.from("wallet_and_credit").select("*").eq("worker_id", profile.id).maybeSingle(),
+        supabase.from("welfare_tracker").select("*").eq("worker_id", profile.id).maybeSingle(),
+        supabase
+          .from("earnings_ledger")
+          .select("date,amount_earned,source_platform")
+          .eq("worker_id", profile.id)
+          .order("date", { ascending: false })
+          .limit(200),
       ]);
 
-      setWorker(w.data as WorkerProfile | null);
       setWallet(wa.data as Wallet | null);
       setWelfare(wf.data as Welfare | null);
       setEarnings((e.data || []) as EarningRow[]);

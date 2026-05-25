@@ -9,6 +9,16 @@ export function formatInr(amount: number, compact = false) {
   return `₹${Math.round(amount).toLocaleString("en-IN")}`;
 }
 
+export function workerUpiId(name?: string | null, phone?: string | null): string | undefined {
+  if (!phone || phone.length < 4) return undefined;
+  const slug = (name ?? "worker")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ".")
+    .replace(/^\.|\.$/g, "");
+  return `${slug || "worker"}.${phone.slice(-4)}@gigpay.bharatgig.live`;
+}
+
 export function formatTxnTime(iso: string) {
   const d = new Date(iso);
   const now = new Date();
@@ -39,11 +49,12 @@ export function computeWeeklyEarnings(earnings: EarningRow[]) {
 export function mergeTransactions(
   demo: GigPayTransaction[],
   earnings: EarningRow[],
+  includeDemo = false,
 ): GigPayTransaction[] {
-  const fromEarnings: GigPayTransaction[] = earnings.slice(0, 5).map((e, i) => ({
-    id: `earn-${e.date}-${i}`,
+  const fromEarnings: GigPayTransaction[] = earnings.slice(0, 12).map((e, i) => ({
+    id: `earn-${e.date}-${e.source_platform}-${i}`,
     type: "credit" as const,
-    title: `${e.source_platform} credit`,
+    title: `${e.source_platform} earnings`,
     subtitle: e.date,
     amount: Number(e.amount_earned),
     timestamp: new Date(`${e.date}T12:00:00`).toISOString(),
@@ -51,7 +62,7 @@ export function mergeTransactions(
     status: "completed" as const,
   }));
 
-  const merged = [...demo, ...fromEarnings];
+  const merged = includeDemo ? [...demo, ...fromEarnings] : fromEarnings;
   const seen = new Set<string>();
   return merged
     .filter((t) => {

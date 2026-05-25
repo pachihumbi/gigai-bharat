@@ -122,6 +122,53 @@ export type Database = {
           },
         ]
       }
+      smart_bills: {
+        Row: {
+          amount: number
+          bill_key: string
+          created_at: string
+          icon: string
+          id: string
+          label: string
+          label_kn: string
+          paid: boolean
+          paid_at: string | null
+          worker_id: string
+        }
+        Insert: {
+          amount: number
+          bill_key: string
+          created_at?: string
+          icon?: string
+          id?: string
+          label: string
+          label_kn?: string
+          paid?: boolean
+          paid_at?: string | null
+          worker_id: string
+        }
+        Update: {
+          amount?: number
+          bill_key?: string
+          created_at?: string
+          icon?: string
+          id?: string
+          label?: string
+          label_kn?: string
+          paid?: boolean
+          paid_at?: string | null
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "smart_bills_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "worker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       welfare_tracker: {
         Row: {
           active_working_days: number
@@ -227,6 +274,10 @@ export type Database = {
         Returns: undefined
       }
       owns_worker: { Args: { _worker_id: string }; Returns: boolean }
+      pay_smart_bill: {
+        Args: { _bill_id: string; _worker_id: string }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

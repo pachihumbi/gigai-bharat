@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Kicker } from "@/components/ui/kicker";
@@ -70,12 +69,12 @@ export function HeroSection() {
             {heroSubheadline}
           </p>
           <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
-            <Link
-              to="/join"
+            <a
+              href="/join"
               className="cinematic-cta-primary flex items-center justify-center gap-2 rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
               Join Workforce <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
             <a
               href="/founder"
               className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"

@@ -35,7 +35,7 @@ const EvCommand = () => {
       </div>
 
       <p className="text-xs text-foreground/75 -mt-2 mb-5 leading-relaxed">
-        VinFast × Tata × Mahindra fleet ecosystem · AI-powered EV recommendations · live demo analytics
+        VinFast × Tata × Mahindra fleet ecosystem · AI-powered EV recommendations · fleet analytics
       </p>
 
       <div className="space-y-6 sm:space-y-7">

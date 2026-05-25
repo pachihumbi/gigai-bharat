@@ -108,12 +108,12 @@ export function JoinCtaSection() {
             system.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-4 pt-4 sm:flex-row sm:flex-wrap">
-            <Link
-              to="/join"
+            <a
+              href="/join"
               className="cinematic-cta-primary inline-flex items-center justify-center gap-2 rounded py-4 px-8 font-mono text-xs font-bold uppercase tracking-wider"
             >
               Join on website <ArrowRight className="h-4 w-4" />
-            </Link>
+            </a>
             <a
               href={contactLinks.app}
               className="cinematic-cta-secondary inline-flex items-center justify-center rounded py-4 px-8 font-mono text-xs uppercase tracking-wider"

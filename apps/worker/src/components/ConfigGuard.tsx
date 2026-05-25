@@ -13,8 +13,10 @@ export function ConfigGuard({ children }: { children: ReactNode }) {
         <AlertTriangle className="mx-auto h-10 w-10 text-amber-400" />
         <h1 className="text-xl font-bold text-white">Configuration required</h1>
         <p className="text-sm text-muted-foreground">
-          Supabase environment variables are missing in this deployment. Add them in Vercel →
-          Worker Project → Environment Variables, then redeploy.
+          Supabase environment variables are missing. For local dev, copy{" "}
+          <code className="text-amber-200/90">.env.example</code> to{" "}
+          <code className="text-amber-200/90">.env.local</code> at the repo root and add your keys.
+          For production, set them in Vercel → Worker Project → Environment Variables, then redeploy.
         </p>
         <ul className="text-left text-xs font-mono text-amber-200/90 space-y-1">
           {missing.map((key) => (

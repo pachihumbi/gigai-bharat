@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { RequireAdmin } from "./components/RequireAdmin";
 import { Layout } from "./components/Layout";
 import { AuditPage } from "./pages/AuditPage";
 import { DashboardPage } from "./pages/DashboardPage";
@@ -13,7 +14,13 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route element={<Layout />}>
+        <Route
+          element={
+            <RequireAdmin>
+              <Layout />
+            </RequireAdmin>
+          }
+        >
           <Route path="/" element={<DashboardPage />} />
           <Route path="/workers" element={<WorkersPage />} />
           <Route path="/audit" element={<AuditPage />} />

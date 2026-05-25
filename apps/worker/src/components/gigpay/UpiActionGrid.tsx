@@ -13,18 +13,18 @@ export function UpiActionGrid({ onBillsClick }: UpiActionGridProps) {
       return;
     }
     const labels: Record<string, string> = {
-      send: "Send money — UPI demo",
-      request: "Payment request — demo",
-      scan: "QR scanner — demo",
-      add: "Add money — demo",
+      send: "Send money",
+      request: "Payment request",
+      scan: "QR scanner",
+      add: "Add money",
       history: "Scroll to transactions",
     };
     if (id === "history") {
       document.getElementById("gigpay-transactions")?.scrollIntoView({ behavior: "smooth" });
       return;
     }
-    toast.message(labels[id] ?? "Coming in production", {
-      description: "Investor demo · RBI-compliant UPI rail planned",
+    toast.message(labels[id] ?? "Coming soon", {
+      description: "UPI send, scan, and request launch with NPCI rail integration.",
     });
   };
 

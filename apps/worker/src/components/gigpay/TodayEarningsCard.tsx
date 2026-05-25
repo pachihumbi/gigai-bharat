@@ -5,7 +5,7 @@ import { formatInr } from "@/lib/gigpay-utils";
 type TodayEarningsCardProps = {
   todayAmount: number;
   weeklyAmount: number;
-  weeklyGrowthPct: number;
+  weeklyGrowthPct?: number;
   tripCount?: number;
 };
 
@@ -17,7 +17,7 @@ export function TodayEarningsCard({
 }: TodayEarningsCardProps) {
   const animatedToday = useCountUp(todayAmount, 1000);
   const animatedWeek = useCountUp(weeklyAmount, 1200);
-  const animatedGrowth = useCountUp(weeklyGrowthPct, 900, 0);
+  const animatedGrowth = useCountUp(weeklyGrowthPct ?? 0, 900, 0);
 
   return (
     <div className="grid grid-cols-2 gap-3 animate-fade-in">
@@ -42,9 +42,11 @@ export function TodayEarningsCard({
           <p className="mt-2 text-2xl sm:text-[1.65rem] font-extrabold tabular-nums text-emerald-200 leading-none">
             {formatInr(Math.round(animatedWeek))}
           </p>
-          <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-400/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-300">
-            <TrendingUp className="h-3 w-3" />+{animatedGrowth.toFixed(1)}% growth
-          </p>
+          {weeklyGrowthPct != null && (
+            <p className="mt-2 inline-flex items-center gap-1 rounded-full bg-emerald-400/15 px-2 py-0.5 text-[11px] font-semibold text-emerald-300">
+              <TrendingUp className="h-3 w-3" />+{animatedGrowth.toFixed(1)}% growth
+            </p>
+          )}
         </div>
       </div>
     </div>

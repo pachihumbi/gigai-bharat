@@ -55,4 +55,12 @@ export const walletRpc = {
     normalize(error as any);
     return data as number;
   },
+  async paySmartBill(workerId: string, billId: string) {
+    const { data, error } = await supabase.rpc("pay_smart_bill" as any, {
+      _worker_id: workerId,
+      _bill_id: billId,
+    });
+    normalize(error as any);
+    return data as number;
+  },
 };
