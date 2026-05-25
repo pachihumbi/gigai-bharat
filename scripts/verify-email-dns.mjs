@@ -93,7 +93,7 @@ async function main() {
         headers: { Authorization: `Bearer ${apiKey}` },
       });
       if (res.ok) {
-        const body = (await res.json()) as { data?: Array<{ name: string; status: string }> };
+        const body = await res.json();
         const domain = body.data?.find((d) => d.name === DOMAIN);
         if (domain?.status === "verified") {
           pass("Resend API", `Domain ${DOMAIN} verified`);
