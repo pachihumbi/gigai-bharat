@@ -37,11 +37,22 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-3 text-sm">
             {primaryNav.slice(1).map((l) => (
               <li key={l.to}>
-                <Link to={l.to} className="text-muted-foreground transition-colors hover:text-foreground">
-                  {l.label}
-                </Link>
+                {l.external ? (
+                  <a href={l.to} className="text-muted-foreground transition-colors hover:text-foreground">
+                    {l.label}
+                  </a>
+                ) : (
+                  <Link to={l.to} className="text-muted-foreground transition-colors hover:text-foreground">
+                    {l.label}
+                  </Link>
+                )}
               </li>
             ))}
+            <li>
+              <Link to="/manifesto" className="text-muted-foreground transition-colors hover:text-foreground">
+                Manifesto
+              </Link>
+            </li>
           </ul>
         </div>
 

@@ -5,6 +5,7 @@ import { GlassPanel, HudLabel } from "@/components/ui/glass-panel";
 import { SectionLabel, SectionTitle } from "@/components/ui/kicker";
 import { SectionShell } from "@/components/ui/section-shell";
 import { founderProfile } from "@/data/cinematic";
+import { contactLinks } from "@/data/landing";
 
 export function CinematicFounderSection() {
   return (
@@ -106,16 +107,22 @@ export function JoinCtaSection() {
             For India's future workforce economy. Investors, fleet operators, and workers — join the mobility operating
             system.
           </p>
-          <div className="mt-8 flex flex-col justify-center gap-4 pt-4 sm:flex-row">
-            <a
-              href="https://app.bharatgig.live"
+          <div className="mt-8 flex flex-col justify-center gap-4 pt-4 sm:flex-row sm:flex-wrap">
+            <Link
+              to="/join"
               className="cinematic-cta-primary inline-flex items-center justify-center gap-2 rounded py-4 px-8 font-mono text-xs font-bold uppercase tracking-wider"
             >
-              Start Onboarding <ArrowRight className="h-4 w-4" />
+              Join on website <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href={contactLinks.app}
+              className="cinematic-cta-secondary inline-flex items-center justify-center rounded py-4 px-8 font-mono text-xs uppercase tracking-wider"
+            >
+              Open driver app
             </a>
             <a
               href="mailto:hello@bharatgig.live"
-              className="cinematic-cta-secondary inline-flex items-center justify-center rounded py-4 px-8 font-mono text-xs uppercase tracking-wider"
+              className="cinematic-cta-ghost inline-flex items-center justify-center rounded py-4 px-8 font-mono text-xs uppercase tracking-wider"
             >
               Contact Command Center
             </a>

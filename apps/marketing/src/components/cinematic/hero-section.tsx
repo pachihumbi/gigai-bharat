@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Kicker } from "@/components/ui/kicker";
@@ -6,8 +7,6 @@ import { LiveMetricsPanel } from "@/components/viz/live-metrics-panel";
 import { heroHeadline, heroSubheadline } from "@/data/cinematic";
 import { contactLinks } from "@/data/landing";
 import { useSafeMotion } from "@/hooks/use-safe-motion";
-
-const ctaLink = contactLinks.app;
 
 function HeroReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
   const skipMotion = useSafeMotion();
@@ -70,24 +69,30 @@ export function HeroSection() {
           <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
             {heroSubheadline}
           </p>
-          <div className="flex flex-col gap-3 pt-4 sm:flex-row">
-            <a
-              href={ctaLink}
+          <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
+            <Link
+              to="/join"
               className="cinematic-cta-primary flex items-center justify-center gap-2 rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
               Join Workforce <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
+            <Link
+              to="/founder"
+              className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
+            >
+              Founder Vision
+            </Link>
             <a
               href="#gigev"
-              className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
+              className="cinematic-cta-ghost flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-[color:var(--neon)]"
             >
               Explore Infrastructure
             </a>
             <a
-              href="#investors"
-              className="cinematic-cta-ghost flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-[color:var(--neon)]"
+              href={contactLinks.app}
+              className="cinematic-cta-ghost flex items-center justify-center rounded border border-white/10 py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground"
             >
-              Investor Intelligence
+              Driver app →
             </a>
           </div>
         </HeroReveal>

@@ -272,3 +272,10 @@ export const homeNavAnchors = [
   { id: "founder", label: "Founder" },
   { id: "investors", label: "Investors" },
 ] as const;
+
+/** Website pages — use in section nav for full-page routes (not hash anchors). */
+export const websitePages = [
+  { href: "/founder", label: "Founder page" },
+  { href: "/manifesto", label: "Manifesto" },
+  { href: "/investors", label: "Investors" },
+] as const;

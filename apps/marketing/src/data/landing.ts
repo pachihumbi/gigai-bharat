@@ -115,6 +115,7 @@ export const primaryNav: NavLink[] = [
   { to: "/", label: "Home", short: "Home" },
   { to: "https://app.bharatgig.live", label: "Worker App", short: "App", external: true },
   { to: "/infrastructure", label: "Infrastructure", short: "Infra" },
+  { to: "/founder", label: "Founder", short: "Founder" },
   { to: "/investors", label: "Investor", short: "Investors" },
   { to: "/gurukul", label: "Gurukul AI", short: "Gurukul" },
   { to: "/join", label: "Join Workforce", short: "Join" },

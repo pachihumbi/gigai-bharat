@@ -1,4 +1,5 @@
-import { homeNavAnchors } from "@/data/cinematic";
+import { homeNavAnchors, websitePages } from "@/data/cinematic";
+import { Link } from "@tanstack/react-router";
 
 export function HomeSectionNav() {
   return (
@@ -15,6 +16,15 @@ export function HomeSectionNav() {
           >
             {item.label}
           </a>
+        ))}
+        {websitePages.map((page) => (
+          <Link
+            key={page.href}
+            to={page.href}
+            className="shrink-0 rounded border border-[color:var(--neon)]/20 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--neon)] transition-colors hover:border-[color:var(--neon)]/40 hover:bg-[color:var(--neon)]/5"
+          >
+            {page.label}
+          </Link>
         ))}
       </div>
     </nav>
