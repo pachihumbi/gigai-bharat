@@ -55,26 +55,16 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {primaryNav.map((l) =>
-            l.external ? (
-              <a
-                key={l.to}
-                href={l.to}
-                className="rounded-sm px-3 py-2 font-mono text-label uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-[color:var(--neon)]"
-              >
-                {l.label}
-              </a>
-            ) : (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="rounded-sm px-3 py-2 font-mono text-label uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-[color:var(--neon)]"
-                activeProps={{ className: "text-[color:var(--neon)]" }}
-              >
-                {l.label}
-              </Link>
-            )
-          )}
+          {primaryNav.map((l) => (
+            <a
+              key={l.to}
+              href={l.to}
+              {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="rounded-sm px-3 py-2 font-mono text-label uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-[color:var(--neon)]"
+            >
+              {l.label}
+            </a>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -109,26 +99,25 @@ export function SiteHeader() {
           <ul className="space-y-1">
             {primaryNav.map((l) => (
               <li key={l.to}>
-                {l.external ? (
-                  <a
-                    href={l.to}
-                    className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
-                    onClick={() => setOpen(false)}
-                  >
-                    {l.label}
-                  </a>
-                ) : (
-                  <Link
-                    to={l.to}
-                    className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
-                    activeProps={{ className: "text-[color:var(--neon)]" }}
-                    onClick={() => setOpen(false)}
-                  >
-                    {l.label}
-                  </Link>
-                )}
+                <a
+                  href={l.to}
+                  {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
+                  onClick={() => setOpen(false)}
+                >
+                  {l.label}
+                </a>
               </li>
             ))}
+            <li>
+              <a
+                href="/manifesto"
+                className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
+                onClick={() => setOpen(false)}
+              >
+                Manifesto
+              </a>
+            </li>
           </ul>
           <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
             <ButtonLink href={contactLinks.investors} variant="primary" className="w-full">

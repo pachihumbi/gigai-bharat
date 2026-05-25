@@ -6,7 +6,7 @@
   "build": {
     "env": {
       "VITE_SITE_URL": "https://www.bharatgig.live",
-      "DEPLOY_REVISION": "2026-05-23-gurukul"
+      "DEPLOY_REVISION": "2026-05-25-founder-fix"
     }
   },
   "redirects": [
@@ -28,6 +28,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/sw-cleanup.js", "destination": "/sw-cleanup.js" },
     { "source": "/assets/:path*", "destination": "/assets/:path*" },
     { "source": "/favicon.svg", "destination": "/favicon.svg" },
     { "source": "/site.webmanifest", "destination": "/site.webmanifest" },
@@ -48,15 +49,19 @@
     },
     {
       "source": "/assets/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(service-worker|sw)\\.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }]
+    },
+    {
+      "source": "/sw-cleanup.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
     },
     {
       "source": "/(favicon\\.svg|site\\.webmanifest|robots\\.txt|sitemap\\.xml)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     }
   ]
 }

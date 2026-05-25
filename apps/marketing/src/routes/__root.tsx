@@ -149,6 +149,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        type: "text/javascript",
+        src: "/sw-cleanup.js",
+      },
+      {
         type: "application/ld+json",
         children: JSON.stringify(organizationJsonLd),
       },

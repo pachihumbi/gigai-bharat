@@ -76,12 +76,12 @@ export function HeroSection() {
             >
               Join Workforce <ArrowRight className="h-4 w-4" />
             </Link>
-            <Link
-              to="/founder"
+            <a
+              href="/founder"
               className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
               Founder Vision
-            </Link>
+            </a>
             <a
               href="#gigev"
               className="cinematic-cta-ghost flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-[color:var(--neon)]"
