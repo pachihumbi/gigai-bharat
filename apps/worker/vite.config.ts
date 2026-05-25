@@ -66,6 +66,7 @@ export default defineConfig(({ mode }) => ({
           vendor: ["react", "react-dom", "react-router-dom"],
           supabase: ["@supabase/supabase-js", "@supabase/ssr"],
           charts: ["recharts"],
+          maps: ["maplibre-gl", "@turf/turf"],
         },
       },
     },

@@ -1,0 +1,20 @@
+{
+  "name": "@gigai/maps",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./maplibre": "./src/maplibre/createMap.ts",
+    "./geocode": "./src/geocode/photon.ts",
+    "./routing": "./src/routing/haversine.ts"
+  },
+  "dependencies": {
+    "@gigai/geo": "*",
+    "@turf/turf": "^7.2.0",
+    "maplibre-gl": "^4.7.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

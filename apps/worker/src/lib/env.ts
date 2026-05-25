@@ -4,8 +4,7 @@ export type WorkerEnv = {
   supabaseUrl: string;
   supabaseAnonKey: string;
   supabaseProjectId: string | undefined;
-  googleMapsKey: string | undefined;
-  googleMapsTrackingId: string | undefined;
+  mapStyleUrl: string;
   allowInvestorDemo: boolean;
 };
 
@@ -14,8 +13,8 @@ function readEnv(): WorkerEnv {
     supabaseUrl: import.meta.env.VITE_SUPABASE_URL ?? "",
     supabaseAnonKey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "",
     supabaseProjectId: import.meta.env.VITE_SUPABASE_PROJECT_ID,
-    googleMapsKey: import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY,
-    googleMapsTrackingId: import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID,
+    mapStyleUrl:
+      import.meta.env.VITE_MAP_STYLE_URL ?? "https://tiles.openfreemap.org/styles/dark",
     allowInvestorDemo: import.meta.env.VITE_ALLOW_INVESTOR_DEMO === "true",
   };
 }

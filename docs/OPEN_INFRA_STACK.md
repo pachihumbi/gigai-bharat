@@ -657,13 +657,13 @@ Ship these on **https://app.bharatgig.live/demo** (already exists — wire to li
 
 ### Phase 1 — Maps (Week 1–2)
 
-- [ ] Create `packages/maps`
-- [ ] Replace `loadGoogleMaps.ts` with `createGigMap.ts`
-- [ ] Rewrite `PlacePicker.tsx` → Photon via `geocode-proxy`
-- [ ] Rewrite `MapPage.tsx` → MapLibre
-- [ ] Add `useGeolocation` hook (Capacitor)
-- [ ] Remove `@types/google.maps` dependency
-- [ ] Delete Google env vars from `.env.example`
+- [x] Create `packages/maps` + `packages/geo`
+- [x] Replace `loadGoogleMaps.ts` with `@gigai/maps` MapLibre
+- [x] Rewrite `PlacePicker.tsx` → Photon geocoder
+- [x] Rewrite `MapPage.tsx` → MapLibre + heatmap + route + geofence
+- [x] Add `useGeolocation` hook
+- [x] Remove `@types/google.maps` dependency
+- [x] Update `.env.example` (no Google keys)
 
 ### Phase 2 — EV (Week 2–3)
 
