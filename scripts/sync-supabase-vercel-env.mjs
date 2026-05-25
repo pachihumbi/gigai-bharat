@@ -36,7 +36,7 @@ const env = {
   ...loadEnvFile(resolve(repoRoot, "apps/worker/.env.local")),
 };
 
-const PRODUCTION_PROJECT = "jsdmmskzwnqhmxboergf";
+const PRODUCTION_PROJECT = "ykrdwmbbieccfftierzc";
 const required = [
   "VITE_SUPABASE_URL",
   "VITE_SUPABASE_PUBLISHABLE_KEY",

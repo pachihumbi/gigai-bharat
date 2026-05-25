@@ -1,6 +1,6 @@
 # Supabase Auth — production redirect URLs for app.bharatgig.live
 
-Configure in **Supabase Dashboard → Authentication → URL Configuration** for project `jsdmmskzwnqhmxboergf`.
+Configure in **Supabase Dashboard → Authentication → URL Configuration** for project `ykrdwmbbieccfftierzc`.
 
 ## Site URL
 
@@ -26,7 +26,7 @@ http://localhost:8080/**
 **Authorized redirect URI in Google Cloud Console** (Supabase handles Google callback):
 
 ```
-https://jsdmmskzwnqhmxboergf.supabase.co/auth/v1/callback
+https://ykrdwmbbieccfftierzc.supabase.co/auth/v1/callback
 ```
 
 **Authorized JavaScript origins** (Google Cloud Console → OAuth client):

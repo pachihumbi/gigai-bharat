@@ -45,10 +45,10 @@ npm run db:types
 
 | Environment | Supabase project | Branch |
 |---------------|------------------|--------|
-| Development | local or `jsdmmskzwnqhmxboergf` | `develop` |
-| Staging | `jsdmmskzwnqhmxboergf` | `staging` |
-| Production | **`jsdmmskzwnqhmxboergf`** | `main` |
+| Development | local or `ykrdwmbbieccfftierzc` | `develop` |
+| Staging | `ykrdwmbbieccfftierzc` | `staging` |
+| Production | **`ykrdwmbbieccfftierzc`** | `main` |
 
-> **Single production project:** All apps (`worker`, `admin`) and `supabase/config.toml` must use `jsdmmskzwnqhmxboergf`. The legacy dev project `ykrdwmbbieccfftierzc` is retired — do not use in env or Vercel.
+> **Single production project:** All apps (`worker`, `admin`) and `supabase/config.toml` must use `ykrdwmbbieccfftierzc`.
 
 Never run destructive migrations against production without a reviewed PR.

@@ -2,7 +2,7 @@
 
 **Status:** Production-ready open stack — zero Google Maps dependency  
 **Live:** [www.bharatgig.live](https://www.bharatgig.live) · [app.bharatgig.live](https://app.bharatgig.live)  
-**Supabase project:** `jsdmmskzwnqhmxboergf`  
+**Supabase project:** `ykrdwmbbieccfftierzc`  
 **Last updated:** 2026-05-25
 
 This document is the single source of truth for Phases 1–9 of the open mobility infrastructure. No placeholders — every path, command, and env var maps to code in this repo.
@@ -185,7 +185,7 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 ### Apply migrations
 
 ```powershell
-supabase link --project-ref jsdmmskzwnqhmxboergf
+supabase link --project-ref ykrdwmbbieccfftierzc
 supabase db push
 supabase gen types typescript --linked > packages/types/src/database.ts
 ```
@@ -235,7 +235,7 @@ SELECT cron.schedule(
   '0 2 * * *',
   $$
   SELECT net.http_post(
-    url := 'https://jsdmmskzwnqhmxboergf.supabase.co/functions/v1/sync-chargers',
+    url := 'https://ykrdwmbbieccfftierzc.supabase.co/functions/v1/sync-chargers',
     headers := jsonb_build_object(
       'Authorization', 'Bearer ' || current_setting('app.settings.service_role_key', true),
       'Content-Type', 'application/json'
@@ -249,7 +249,7 @@ SELECT cron.schedule(
 Or invoke manually:
 
 ```powershell
-curl -X POST "https://jsdmmskzwnqhmxboergf.supabase.co/functions/v1/sync-chargers" `
+curl -X POST "https://ykrdwmbbieccfftierzc.supabase.co/functions/v1/sync-chargers" `
   -H "Authorization: Bearer YOUR_SERVICE_ROLE_KEY"
 ```
 
@@ -260,9 +260,9 @@ curl -X POST "https://jsdmmskzwnqhmxboergf.supabase.co/functions/v1/sync-charger
 ### Worker + Admin (Vercel + `.env.local`)
 
 ```bash
-VITE_SUPABASE_URL=https://jsdmmskzwnqhmxboergf.supabase.co
+VITE_SUPABASE_URL=https://ykrdwmbbieccfftierzc.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=eyJ...your_anon_key
-VITE_SUPABASE_PROJECT_ID=jsdmmskzwnqhmxboergf
+VITE_SUPABASE_PROJECT_ID=ykrdwmbbieccfftierzc
 
 VITE_MAP_STYLE_URL=https://tiles.openfreemap.org/styles/dark
 VITE_MAP_DEFAULT_LAT=12.9716

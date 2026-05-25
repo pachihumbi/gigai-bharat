@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
-$SupabaseUrl = "https://jsdmmskzwnqhmxboergf.supabase.co"
+$SupabaseUrl = "https://ykrdwmbbieccfftierzc.supabase.co"
 $SupabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpzZG1tc2t6d25xaG14Ym9yZ2YiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc3ODQ5OTc0NiwiZXhwIjoyMDk0MDc1NzQ2fQ.4KfC7z7XaBtXgU9nBNe2l_efewT1dMINR2P9QBTDBF8"
-$ProjectRef = "jsdmmskzwnqhmxboergf"
+$ProjectRef = "ykrdwmbbieccfftierzc"
 $MapsKey = "AIzaSyBmvJph4LmrbtW7skeczzpBIyb9WWzFKo4"
 $MapsTrack = "6886af4bc8d66430190b1df6e1fd0ed2"
 

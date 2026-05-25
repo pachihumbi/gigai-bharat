@@ -16,7 +16,7 @@ Production runbooks for **GigAI Bharat** (`bharatgig.live`). Copy-paste friendly
 |---------|-----|----------|
 | Marketing | https://www.bharatgig.live | Vercel (`gigai-bharat`) |
 | Worker app | https://app.bharatgig.live | Vercel (`gigai-bharat-worker`) |
-| Backend | https://jsdmmskzwnqhmxboergf.supabase.co | Supabase Cloud |
+| Backend | https://ykrdwmbbieccfftierzc.supabase.co | Supabase Cloud |
 
 Quick deploy:
 

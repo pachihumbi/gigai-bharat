@@ -105,7 +105,7 @@ GitHub → **pachihumbi/gigai-bharat** → Settings → Secrets → Actions:
 | `VERCEL_WORKER_PROJECT_ID` | `prj_td8bpmue2FlTHOqrZ1RkAfU7PAUY` |
 | `VITE_SUPABASE_URL` | Supabase dashboard |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key |
-| `VITE_SUPABASE_PROJECT_ID` | `jsdmmskzwnqhmxboergf` |
+| `VITE_SUPABASE_PROJECT_ID` | `ykrdwmbbieccfftierzc` |
 
 ---
 

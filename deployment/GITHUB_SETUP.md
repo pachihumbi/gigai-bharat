@@ -39,7 +39,7 @@ GitHub → Settings → Secrets and variables → Actions:
 | `VERCEL_WORKER_PROJECT_ID` | Worker project → Settings → General → **`prj_td8bpmue2FlTHOqrZ1RkAfU7PAUY`** (`gigai-bharat-worker`) |
 | `VITE_SUPABASE_URL` | Supabase → Settings → API |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key |
-| `VITE_SUPABASE_PROJECT_ID` | `jsdmmskzwnqhmxboergf` |
+| `VITE_SUPABASE_PROJECT_ID` | `ykrdwmbbieccfftierzc` |
 | `VITE_GOOGLE_MAPS_KEY` | Google Cloud Console |
 | `VITE_GOOGLE_MAPS_TRACKING_ID` | Google Maps tracking ID |
 

@@ -9,7 +9,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const PRODUCTION_PROJECT = "jsdmmskzwnqhmxboergf";
+const PRODUCTION_PROJECT = "ykrdwmbbieccfftierzc";
 
 function loadEnvFile(filePath) {
   if (!existsSync(filePath)) return {};

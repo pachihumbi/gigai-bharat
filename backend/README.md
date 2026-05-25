@@ -4,7 +4,7 @@ Server-side logic runs on **Supabase** (hosted Postgres, Auth, RLS, Edge Functio
 
 | Layer | Path | Production |
 |-------|------|------------|
-| **Database + Auth** | `supabase/migrations/` | `jsdmmskzwnqhmxboergf.supabase.co` |
+| **Database + Auth** | `supabase/migrations/` | `ykrdwmbbieccfftierzc.supabase.co` |
 | **Edge Functions (API)** | `supabase/functions/` | Deployed via Supabase CLI |
 | **AI prompts** | `infra/ai/` | Evals & prompt versions |
 
@@ -12,7 +12,7 @@ Server-side logic runs on **Supabase** (hosted Postgres, Auth, RLS, Edge Functio
 
 ```bash
 npx supabase login
-npx supabase link --project-ref jsdmmskzwnqhmxboergf
+npx supabase link --project-ref ykrdwmbbieccfftierzc
 npm run db:push              # apply migrations
 npm run functions:deploy     # deploy Edge Functions
 npm run db:types             # regenerate TS types
