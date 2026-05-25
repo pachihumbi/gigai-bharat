@@ -36,16 +36,19 @@ async function main() {
   const spf = flat.find((t) => t.startsWith("v=spf1"));
   if (spf) {
     const hasResend = spf.includes("amazonses.com");
-    const hasCloudflare = spf.includes("_spf.mx.cloudflare.net") || spf.includes("cloudflare");
-    if (hasResend && hasCloudflare) {
+    const hasCloudflare = spf.includes("_spf.mx.cloudflare.net");
+    const hasGoogle = spf.includes("_spf.google.com");
+    if (hasResend && (hasCloudflare || hasGoogle)) {
       pass("SPF", spf);
+    } else if (hasGoogle && !hasResend) {
+      fail("SPF", `${spf} — add include:amazonses.com for Resend outbound`);
     } else if (hasResend) {
-      pass("SPF (Resend only)", `${spf} — add include:_spf.mx.cloudflare.net for inbound routing`);
+      pass("SPF (Resend only)", `${spf} — add include:_spf.google.com if using Google Workspace`);
     } else {
-      fail("SPF", `Found but missing amazonses.com: ${spf}`);
+      fail("SPF", `Missing Resend: ${spf}`);
     }
   } else {
-    fail("SPF", "No v=spf1 TXT on apex — add merged SPF record");
+    fail("SPF", "No v=spf1 TXT on apex");
   }
 
   // DMARC
@@ -72,17 +75,20 @@ async function main() {
     }
   }
 
-  // MX (Cloudflare Email Routing)
+  // MX — Google Workspace OR Cloudflare Email Routing
   try {
     const mx = await dns.resolveMx(DOMAIN);
     const cloudflareMx = mx.filter((r) => r.exchange.includes("cloudflare.net"));
+    const googleMx = mx.filter((r) => r.exchange.includes("google.com"));
     if (cloudflareMx.length >= 1) {
-      pass("MX", cloudflareMx.map((m) => `${m.priority} ${m.exchange}`).join(", "));
+      pass("MX (Cloudflare)", cloudflareMx.map((m) => `${m.priority} ${m.exchange}`).join(", "));
+    } else if (googleMx.length >= 1) {
+      pass("MX (Google Workspace)", googleMx.map((m) => `${m.priority} ${m.exchange}`).join(", "));
     } else {
-      fail("MX", `No Cloudflare MX — found: ${mx.map((m) => m.exchange).join(", ") || "none"}`);
+      fail("MX", `Unexpected: ${mx.map((m) => m.exchange).join(", ") || "none"}`);
     }
   } catch {
-    fail("MX", "No MX records — enable Cloudflare Email Routing");
+    fail("MX", "No MX records");
   }
 
   // Resend API domain status (optional)

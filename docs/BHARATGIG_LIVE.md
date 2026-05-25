@@ -172,4 +172,4 @@ The domain currently serves an **older build** with broken SSR on sub-routes (`/
 
 **Public demo (no login):** https://app.bharatgig.live/demo
 
-**Full founder playbook:** [FOUNDER_LAUNCH.md](./FOUNDER_LAUNCH.md) · **DNS troubleshooting:** [../deployment/DNS_SETUP.md](../deployment/DNS_SETUP.md)
+**Full playbook:** [PRODUCTION_RUNBOOK.md](./PRODUCTION_RUNBOOK.md) · [EMAIL_SETUP.md](./EMAIL_SETUP.md)

@@ -75,6 +75,14 @@ flowchart TB
 
 **Outbound + auth (single merged SPF — one TXT on `@`):**
 
+Google Workspace + Resend (current live DNS pattern):
+
+| Type | Name | Content |
+|------|------|---------|
+| TXT | `@` | `v=spf1 include:_spf.google.com include:amazonses.com ~all` |
+
+Cloudflare Email Routing + Resend (alternative):
+
 | Type | Name | Content |
 |------|------|---------|
 | TXT | `@` | `v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all` |
@@ -93,9 +101,23 @@ flowchart TB
 |------|------|---------|
 | TXT | `_dmarc` | `v=DMARC1; p=quarantine; rua=mailto:legal@bharatgig.live; pct=100; adkim=s; aspf=s` |
 
-### 1.3 Cloudflare Email Routing rules
+### 1.3 Inbound mail routing
 
-**Email → Email Routing → Routing rules** — create catch-all or per-address:
+**Option A — Google Workspace (detected on live DNS):**
+
+Create users or aliases in Google Admin → `support@`, `investors@`, `careers@`, `partnerships@`, `hello@`, `founder@`, `press@`, `legal@`.
+
+MX (Google defaults):
+
+| Type | Name | Priority | Content |
+|------|------|----------|---------|
+| MX | `@` | 1 | `ASPMX.L.GOOGLE.COM` |
+| MX | `@` | 5 | `ALT1.ASPMX.L.GOOGLE.COM` |
+| MX | `@` | 5 | `ALT2.ASPMX.L.GOOGLE.COM` |
+| MX | `@` | 10 | `ALT3.ASPMX.L.GOOGLE.COM` |
+| MX | `@` | 10 | `ALT4.ASPMX.L.GOOGLE.COM` |
+
+**Option B — Cloudflare Email Routing (free forwarding):**
 
 | Alias | Action |
 |-------|--------|

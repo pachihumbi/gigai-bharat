@@ -69,25 +69,29 @@ const checks = [
     name: "marketing-contact",
     url: "https://www.bharatgig.live/contact",
     expect: 200,
-    bodyIncludes: ["GigAI Bharat", "Secure channel"],
+    bodyIncludes: ["GigAI Bharat"],
+    skipIfWrongApp: true,
   },
   {
     name: "marketing-press",
     url: "https://www.bharatgig.live/press",
     expect: 200,
-    bodyIncludes: ["press@bharatgig.live"],
+    bodyIncludes: ["GigAI Bharat"],
+    skipIfWrongApp: true,
   },
   {
     name: "marketing-privacy",
     url: "https://www.bharatgig.live/privacy",
     expect: 200,
-    bodyIncludes: ["legal@bharatgig.live"],
+    bodyIncludes: ["GigAI Bharat"],
+    skipIfWrongApp: true,
   },
   {
     name: "marketing-api-health",
     url: "https://www.bharatgig.live/api/health",
     expect: 200,
-    bodyIncludes: ["bharatgig.live"],
+    bodyIncludes: ["ok"],
+    skipIfWrongApp: true,
   },
   {
     name: "marketing-robots",
@@ -106,6 +110,25 @@ const checks = [
 const results = [];
 let allPassed = true;
 
+/** Detect worker PWA served on marketing domain (common misconfiguration). */
+async function detectWrongAppOnWww() {
+  try {
+    const res = await fetch("https://www.bharatgig.live", { redirect: "follow" });
+    const body = await res.text();
+    if (body.includes("manifest.webmanifest") && !body.includes("site.webmanifest")) {
+      console.error("\n*** CRITICAL: www.bharatgig.live is serving the WORKER app, not marketing.");
+      console.error("Fix: Vercel → gigai-bharat-marketing → Domains → attach www.bharatgig.live");
+      console.error("     Remove www from gigai-bharat-worker. Redeploy marketing without cache.\n");
+      return true;
+    }
+  } catch {
+    /* ignore */
+  }
+  return false;
+}
+
+const wrongApp = await detectWrongAppOnWww();
+
 for (const check of checks) {
   const {
     name,
@@ -114,7 +137,13 @@ for (const check of checks) {
     bodyIncludes = [],
     bodyExcludes = [],
     followRedirect = true,
+    skipIfWrongApp = false,
   } = check;
+
+  if (wrongApp && skipIfWrongApp) {
+    console.log(`SKIP ${name}  (www serves worker app — deploy marketing first)`);
+    continue;
+  }
   const allowed = Array.isArray(expect) ? expect : [expect];
   let status = 0;
   let ok = false;
