@@ -17,7 +17,7 @@ export function createGigMap(container: HTMLElement, opts: GigMapOptions): mapli
     style: opts.styleUrl ?? DEFAULT_STYLE,
     center: [opts.center.lng, opts.center.lat],
     zoom: opts.zoom ?? 12,
-    attributionControl: opts.attributionCompact ?? true,
+    attributionControl: opts.attributionCompact === false ? false : { compact: true },
     interactive: opts.interactive ?? true,
     pitch: 0,
     bearing: 0,

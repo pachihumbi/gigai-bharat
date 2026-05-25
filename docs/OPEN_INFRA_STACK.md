@@ -664,24 +664,25 @@ Ship these on **https://app.bharatgig.live/demo** (already exists — wire to li
 - [x] Add `useGeolocation` hook
 - [x] Remove `@types/google.maps` dependency
 - [x] Update `.env.example` (no Google keys)
+- [x] Worker CSP allows OSM/MapLibre only
 
 ### Phase 2 — EV (Week 2–3)
 
-- [ ] `sync-chargers` Edge Function + cron
-- [ ] `useEvChargers` hook
-- [ ] EV layer on map + heatmap
-- [ ] EV route planner (ORS with charging stops)
+- [x] `sync-chargers` Edge Function + cron docs
+- [x] `useEvChargers` hook
+- [x] EV layer on map
+- [ ] EV route planner (ORS with charging stops) — v2
 
 ### Phase 3 — Auth (mostly done)
 
 - [ ] Phone OTP via Supabase
 - [ ] Role assignment in `app_metadata` via admin function
-- [ ] RLS policies for operator/admin roles
+- [x] RLS policies for operator/admin roles (worker_locations, vehicles)
 
 ### Phase 4 — Database (extend)
 
-- [ ] PostGIS migration
-- [ ] Realtime on `worker_locations`
+- [x] PostGIS migration (`20260525180000`, `20260525190000`)
+- [x] Realtime on `worker_locations`
 - [ ] Storage bucket for OCR images
 
 ### Phase 5 — Gov data (Week 4)
@@ -692,9 +693,9 @@ Ship these on **https://app.bharatgig.live/demo** (already exists — wire to li
 
 ### Phase 6 — Dashboards (Week 4–5)
 
-- [ ] Admin OpsMapPage
-- [ ] ECharts in admin
-- [ ] Zustand map filter store
+- [x] Admin OpsMapPage
+- [x] ECharts in admin AnalyticsPage
+- [x] Zustand map filter store
 
 ### Phase 7 — Observability (Week 5)
 
@@ -711,16 +712,17 @@ Ship these on **https://app.bharatgig.live/demo** (already exists — wire to li
 
 ### Phase 9 — Production (ongoing)
 
-- [ ] CI deploy path verified
-- [ ] Cloudflare Turnstile on forms
-- [ ] Resend SMTP for auth emails
+- [x] CI deploy path verified
+- [x] Cloudflare Turnstile on forms
+- [x] Resend SMTP for auth emails
+- [x] Full runbook: `docs/OPEN_MAP_ARCHITECTURE.md`
 
 ### Phase 10 — Security (ongoing)
 
-- [ ] CSP headers (marketing already has `security-headers.server.ts`)
-- [ ] Edge Function rate limits
-- [ ] RLS audit all new tables
-- [ ] No service role in client
+- [x] CSP headers (marketing + worker vercel.json)
+- [x] Edge Function rate limits (geocode-proxy)
+- [x] RLS audit all new tables
+- [x] No service role in client
 
 ---
 

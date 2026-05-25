@@ -169,6 +169,122 @@ export type Database = {
           },
         ]
       }
+      ev_chargers: {
+        Row: {
+          connector_types: Json | null
+          id: number
+          name: string | null
+          ocm_raw: Json | null
+          operator: string | null
+          power_kw: number | null
+          updated_at: string
+        }
+        Insert: {
+          connector_types?: Json | null
+          id: number
+          name?: string | null
+          ocm_raw?: Json | null
+          operator?: string | null
+          power_kw?: number | null
+          updated_at?: string
+        }
+        Update: {
+          connector_types?: Json | null
+          id?: number
+          name?: string | null
+          ocm_raw?: Json | null
+          operator?: string | null
+          power_kw?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          payout_inr: number | null
+          status: string
+          title: string
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          id?: string
+          payout_inr?: number | null
+          status?: string
+          title: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          payout_inr?: number | null
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      worker_locations: {
+        Row: {
+          heading: number | null
+          on_shift: boolean
+          speed_mps: number | null
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          heading?: number | null
+          on_shift?: boolean
+          speed_mps?: number | null
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          heading?: number | null
+          on_shift?: boolean
+          speed_mps?: number | null
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "worker_locations_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: true
+            referencedRelation: "worker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      demand_heatmap: {
+        Row: {
+          city: string
+          demand_level: string
+          id: number
+          updated_at: string
+          weight: number
+          zone_name: string
+        }
+        Insert: {
+          city?: string
+          demand_level?: string
+          id?: number
+          updated_at?: string
+          weight?: number
+          zone_name: string
+        }
+        Update: {
+          city?: string
+          demand_level?: string
+          id?: number
+          updated_at?: string
+          weight?: number
+          zone_name?: string
+        }
+        Relationships: []
+      }
       welfare_tracker: {
         Row: {
           active_working_days: number
@@ -272,6 +388,55 @@ export type Database = {
           _worker_id: string
         }
         Returns: undefined
+      }
+      nearby_jobs: {
+        Args: { lat: number; lng: number; radius_m?: number }
+        Returns: {
+          distance_m: number
+          id: string
+          lat: number
+          lng: number
+          payout_inr: number | null
+          title: string
+        }[]
+      }
+      upsert_worker_location: {
+        Args: {
+          p_heading?: number | null
+          p_lat: number
+          p_lng: number
+          p_on_shift?: boolean
+          p_speed_mps?: number | null
+        }
+        Returns: undefined
+      }
+      workers_in_bbox: {
+        Args: {
+          max_lat: number
+          max_lng: number
+          min_lat: number
+          min_lng: number
+        }
+        Returns: {
+          heading: number | null
+          lat: number
+          lng: number
+          on_shift: boolean
+          speed_mps: number | null
+          updated_at: string
+          worker_id: string
+        }[]
+      }
+      hotspot_analytics: {
+        Args: { p_city?: string }
+        Returns: {
+          active_workers: number
+          demand_level: string
+          lat: number
+          lng: number
+          weight: number
+          zone_name: string
+        }[]
       }
       owns_worker: { Args: { _worker_id: string }; Returns: boolean }
       pay_smart_bill: {
