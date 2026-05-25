@@ -117,6 +117,7 @@ export const primaryNav: NavLink[] = [
   { to: "/infrastructure", label: "Infrastructure", short: "Infra" },
   { to: "/founder", label: "Founder", short: "Founder" },
   { to: "/investors", label: "Investor", short: "Investors" },
+  { to: "/contact", label: "Contact", short: "Contact" },
   { to: "/gurukul", label: "Gurukul AI", short: "Gurukul" },
   { to: "/join", label: "Join Workforce", short: "Join" },
 ];

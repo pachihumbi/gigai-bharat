@@ -111,6 +111,15 @@ export function SiteHeader() {
             ))}
             <li>
               <a
+                href="/contact"
+                className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
+                onClick={() => setOpen(false)}
+              >
+                Contact
+              </a>
+            </li>
+            <li>
+              <a
                 href="/manifesto"
                 className="block rounded-sm py-3 font-mono text-sm uppercase tracking-[0.2em] text-foreground/80"
                 onClick={() => setOpen(false)}

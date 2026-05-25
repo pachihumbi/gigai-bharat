@@ -24,3 +24,6 @@ jobs:
 
       - name: Run production health checks
         run: node scripts/health-check-production.mjs
+
+      - name: Contact API security smoke
+        run: node scripts/test-contact-api.mjs

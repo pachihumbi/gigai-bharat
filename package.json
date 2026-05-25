@@ -25,6 +25,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .gitignore",
     "vercel:worker": "npm run build -w @gigai/worker && node scripts/prepare-worker-vercel-output.cjs",
     "health:production": "node scripts/health-check-production.mjs",
+    "verify:email-dns": "node scripts/verify-email-dns.mjs",
+    "test:contact-api": "node scripts/test-contact-api.mjs",
     "verify:secrets": "node scripts/verify-secrets.mjs"
   },
   "engines": {

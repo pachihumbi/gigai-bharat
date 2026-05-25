@@ -91,19 +91,19 @@ export function HeroSection() {
               href="https://app.bharatgig.live/demo"
               className="cinematic-cta-primary flex items-center justify-center gap-2 rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
-              Install App <ArrowRight className="h-4 w-4" />
+              Live demo <ArrowRight className="h-4 w-4" />
             </a>
             <a
-              href="#gigpay"
+              href="/contact/investors"
               className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
-              Explore GigPay
+              Investor intro
             </a>
             <a
               href="/join"
               className="cinematic-cta-ghost flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-[color:var(--neon)]"
             >
-              Join Pilot
+              Join pilot
             </a>
           </div>
         </HeroReveal>

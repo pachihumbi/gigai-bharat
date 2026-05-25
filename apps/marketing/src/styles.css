@@ -318,6 +318,12 @@
     color: var(--background);
     transform: scale(1.02);
   }
+
+  .contact-form-glow {
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--neon) 15%, transparent),
+      0 32px 64px -32px color-mix(in oklch, var(--neon) 25%, transparent);
+  }
 }
 
 @media (max-width: 768px) {

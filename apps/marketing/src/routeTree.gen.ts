@@ -34,6 +34,7 @@ import { Route as ContactPressRouteImport } from './routes/contact/press'
 import { Route as ContactPartnershipsRouteImport } from './routes/contact/partnerships'
 import { Route as ContactInvestorsRouteImport } from './routes/contact/investors'
 import { Route as ContactCareersRouteImport } from './routes/contact/careers'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiContactRouteImport } from './routes/api/contact'
 
 const WorkersRoute = WorkersRouteImport.update({
@@ -161,6 +162,11 @@ const ContactCareersRoute = ContactCareersRouteImport.update({
   path: '/contact/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiContactRoute = ApiContactRouteImport.update({
   id: '/api/contact',
   path: '/api/contact',
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/health': typeof ApiHealthRoute
   '/contact/careers': typeof ContactCareersRoute
   '/contact/investors': typeof ContactInvestorsRoute
   '/contact/partnerships': typeof ContactPartnershipsRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/health': typeof ApiHealthRoute
   '/contact/careers': typeof ContactCareersRoute
   '/contact/investors': typeof ContactInvestorsRoute
   '/contact/partnerships': typeof ContactPartnershipsRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/health': typeof ApiHealthRoute
   '/contact/careers': typeof ContactCareersRoute
   '/contact/investors': typeof ContactInvestorsRoute
   '/contact/partnerships': typeof ContactPartnershipsRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/workers'
     | '/api/contact'
+    | '/api/health'
     | '/contact/careers'
     | '/contact/investors'
     | '/contact/partnerships'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/workers'
     | '/api/contact'
+    | '/api/health'
     | '/contact/careers'
     | '/contact/investors'
     | '/contact/partnerships'
@@ -332,6 +343,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/workers'
     | '/api/contact'
+    | '/api/health'
     | '/contact/careers'
     | '/contact/investors'
     | '/contact/partnerships'
@@ -361,6 +373,7 @@ export interface RootRouteChildren {
   StatusRoute: typeof StatusRoute
   WorkersRoute: typeof WorkersRoute
   ApiContactRoute: typeof ApiContactRoute
+  ApiHealthRoute: typeof ApiHealthRoute
   ContactCareersRoute: typeof ContactCareersRoute
   ContactInvestorsRoute: typeof ContactInvestorsRoute
   ContactPartnershipsRoute: typeof ContactPartnershipsRoute
@@ -545,6 +558,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactCareersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/contact': {
       id: '/api/contact'
       path: '/api/contact'
@@ -577,6 +597,7 @@ const rootRouteChildren: RootRouteChildren = {
   StatusRoute: StatusRoute,
   WorkersRoute: WorkersRoute,
   ApiContactRoute: ApiContactRoute,
+  ApiHealthRoute: ApiHealthRoute,
   ContactCareersRoute: ContactCareersRoute,
   ContactInvestorsRoute: ContactInvestorsRoute,
   ContactPartnershipsRoute: ContactPartnershipsRoute,

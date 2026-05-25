@@ -59,6 +59,12 @@ jobs:
           working-directory: apps/marketing
           vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}
 
+      - name: Smoke test marketing (post-deploy)
+        run: node scripts/health-check-production.mjs
+        env:
+          # Only marketing subset — full script validates worker too
+          SKIP_WORKER: "false"
+
   deploy-worker:
     name: Worker → app.bharatgig.live
     runs-on: ubuntu-latest

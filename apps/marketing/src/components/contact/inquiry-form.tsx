@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2, Send } from "lucide-react";
+import { Loader2, Send, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { GlassPanel } from "@/components/ui/glass-panel";
 import { Input } from "@/components/ui/input";
@@ -8,21 +8,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/cn";
 import { inquiryLabels, type InquiryType } from "@/data/emails";
 import type { InquiryPayload } from "@/lib/email/schemas";
+import { useTurnstile } from "@/hooks/use-turnstile";
 
 type InvestorStage = Extract<InquiryPayload, { type: "investor" }>["stage"];
 type PartnershipType = Extract<InquiryPayload, { type: "partnership" }>["partnershipType"];
-
-declare global {
-  interface Window {
-    turnstile?: {
-      render: (
-        el: HTMLElement,
-        opts: { sitekey: string; theme?: string; callback?: (token: string) => void; "expired-callback"?: () => void },
-      ) => string;
-      remove: (id: string) => void;
-    };
-  }
-}
 
 const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
@@ -97,35 +86,14 @@ export function InquiryForm({ type, className }: { type: InquiryType; className?
   const [mountedAt] = useState(() => Date.now());
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
-  const [turnstileId, setTurnstileId] = useState<string | null>(null);
+  const containerId = `turnstile-${type}`;
 
-  useEffect(() => {
-    if (!turnstileSiteKey) return;
+  const onTurnstileToken = useCallback((token: string | undefined) => {
+    setTurnstileToken(token);
+  }, []);
 
-    const script = document.createElement("script");
-    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-    script.async = true;
-    script.onload = () => {
-      const el = document.getElementById(`turnstile-${type}`);
-      if (el && window.turnstile && !turnstileId) {
-        const id = window.turnstile.render(el, {
-          sitekey: turnstileSiteKey,
-          theme: "dark",
-          callback: (token) => setTurnstileToken(token),
-          "expired-callback": () => setTurnstileToken(undefined),
-        });
-        setTurnstileId(id);
-      }
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      if (turnstileId && window.turnstile) {
-        window.turnstile.remove(turnstileId);
-      }
-      script.remove();
-    };
-  }, [type, turnstileId]);
+  const { ready: turnstileReady, error: turnstileError, required: turnstileRequired } =
+    useTurnstile(containerId, turnstileSiteKey, onTurnstileToken);
 
   function set<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -219,7 +187,7 @@ export function InquiryForm({ type, className }: { type: InquiryType; className?
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
-      <GlassPanel glow className="p-6 md:p-8">
+      <GlassPanel glow className="contact-form-glow p-6 md:p-8">
         <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--neon)]">
           Secure channel · {inquiryLabels[type]}
         </p>
@@ -474,13 +442,29 @@ export function InquiryForm({ type, className }: { type: InquiryType; className?
             />
           </Field>
 
-          {turnstileSiteKey ? (
-            <div id={`turnstile-${type}`} className="min-h-[65px]" />
+          {turnstileRequired ? (
+            <div className="space-y-2">
+              <div
+                id={containerId}
+                className={cn(
+                  "min-h-[65px] rounded-md border border-white/10 bg-black/30 p-2 transition-opacity",
+                  !turnstileReady && "animate-pulse opacity-60",
+                )}
+              />
+              {turnstileError ? (
+                <p className="font-mono text-[9px] uppercase tracking-wider text-[color:var(--saffron)]">
+                  Verification unavailable — refresh and retry
+                </p>
+              ) : null}
+            </div>
           ) : null}
 
           <button
             type="submit"
-            disabled={loading || (Boolean(turnstileSiteKey) && !turnstileToken)}
+            disabled={
+              loading ||
+              (turnstileRequired && (!turnstileReady || !turnstileToken))
+            }
             className={cn(
               "inline-flex min-h-12 w-full items-center justify-center gap-2 border border-[color:var(--neon)] bg-[color:var(--neon)] px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--accent-foreground)] transition-all",
               "hover:bg-transparent hover:text-[color:var(--neon)] disabled:cursor-not-allowed disabled:opacity-50",
@@ -500,6 +484,7 @@ export function InquiryForm({ type, className }: { type: InquiryType; className?
           </button>
 
           <p className="text-center font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground/80">
+            <ShieldCheck className="mr-1 inline h-3 w-3 opacity-70" />
             Encrypted transit · Rate limited · DPDP-aligned handling
           </p>
         </form>

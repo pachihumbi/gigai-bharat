@@ -66,6 +66,30 @@ const checks = [
     expect: 200,
   },
   {
+    name: "marketing-contact",
+    url: "https://www.bharatgig.live/contact",
+    expect: 200,
+    bodyIncludes: ["GigAI Bharat", "Secure channel"],
+  },
+  {
+    name: "marketing-press",
+    url: "https://www.bharatgig.live/press",
+    expect: 200,
+    bodyIncludes: ["press@bharatgig.live"],
+  },
+  {
+    name: "marketing-privacy",
+    url: "https://www.bharatgig.live/privacy",
+    expect: 200,
+    bodyIncludes: ["legal@bharatgig.live"],
+  },
+  {
+    name: "marketing-api-health",
+    url: "https://www.bharatgig.live/api/health",
+    expect: 200,
+    bodyIncludes: ["bharatgig.live"],
+  },
+  {
     name: "marketing-robots",
     url: "https://www.bharatgig.live/robots.txt",
     expect: 200,

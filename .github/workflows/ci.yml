@@ -50,3 +50,6 @@ jobs:
         env:
           VERCEL: "1"
           VITE_SITE_URL: https://www.bharatgig.live
+
+      - name: Lint marketing
+        run: npm run lint -w @gigai/marketing
