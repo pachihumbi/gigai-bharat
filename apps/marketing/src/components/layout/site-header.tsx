@@ -120,7 +120,7 @@ export function SiteHeader() {
             </li>
           </ul>
           <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
-            <ButtonLink href={contactLinks.investors} variant="primary" className="w-full">
+            <ButtonLink to={contactLinks.investors} variant="primary" className="w-full">
               Investor intro →
             </ButtonLink>
             <ButtonLink to="/join" variant="secondary" className="w-full">
@@ -145,7 +145,7 @@ export function MobileStickyCTA() {
   return (
     <div className="glass-nav fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--neon)]/30 p-3 sm:hidden">
       <div className="mx-auto flex max-w-lg gap-2">
-        <ButtonLink href={contactLinks.investors} variant="primary" className="flex-1 min-h-11 text-label">
+        <ButtonLink to={contactLinks.investors} variant="primary" className="flex-1 min-h-11 text-label">
           Investors →
         </ButtonLink>
         <ButtonLink to="/join" variant="secondary" className="flex-1 min-h-11 text-label">

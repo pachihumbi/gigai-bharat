@@ -31,12 +31,12 @@ In **Cloudflare → DNS → Records**, use **DNS only** (grey cloud) for Vercel 
 
 ## Step 3 — Vercel domain attachment
 
-### Marketing project (`gigai-bharat`)
+### Marketing project (`gigai-bharat-marketing`)
 
 **Settings → Domains:**
 
 - `www.bharatgig.live` (primary)
-- `bharatgig.live` (apex — Vercel issues cert + redirects to www via `vercel.json`)
+- `bharatgig.live` (apex — redirects to www via `vercel.json`)
 
 **Settings → General:**
 
@@ -48,6 +48,8 @@ In **Cloudflare → DNS → Records**, use **DNS only** (grey cloud) for Vercel 
 | Node | 20.x |
 | Install | `cd ../.. && npm install` |
 | Build | `cd ../.. && npm run build -w @gigai/marketing` |
+
+> **Do not** attach www to `gigai-bharat` (legacy misconfigured worker root) or `gigai-bharat-worker`.
 
 ### Worker project (`gigai-bharat-worker`)
 

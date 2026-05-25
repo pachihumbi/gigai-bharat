@@ -2,11 +2,12 @@
 
 Two projects, one monorepo. **Never merge into a single Vercel project.**
 
-## Marketing (`gigai-bharat`)
+## Marketing (`gigai-bharat-marketing`)
 
 ```
 Root: apps/marketing
 Domain: www.bharatgig.live, bharatgig.live
+Project ID: prj_8pk8D5inKD9wCnvmYG7bWklO6b55
 Build: VERCEL=1 npm run build -w @gigai/marketing
 Output: .vercel/output (Nitro — leave dashboard Output Directory EMPTY)
 ```
@@ -41,7 +42,7 @@ npx vercel deploy --prebuilt --prod
 ```powershell
 cd apps/marketing
 npx vercel link
-# Select gigai-bharat
+# Select gigai-bharat-marketing (NOT legacy gigai-bharat)
 
 cd ../worker
 npx vercel link

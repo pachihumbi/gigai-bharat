@@ -27,7 +27,10 @@ export const siteKeywords = [
   "mobility tech startup India",
 ].join(", ");
 
-export const contactEmail = "hello@bharatgig.live";
+import { businessEmails } from "@/data/emails";
+
+export const contactEmail = businessEmails.hello;
+export const supportEmail = businessEmails.support;
 
 /** Absolute OG image URL — must be HTTPS for LinkedIn/Twitter cards. */
 export const ogImage =
@@ -37,6 +40,13 @@ export const publicRoutes = [
   "/",
   "/join",
   "/hiring",
+  "/contact",
+  "/contact/investors",
+  "/contact/partnerships",
+  "/contact/careers",
+  "/contact/press",
+  "/press",
+  "/privacy",
   "/manifesto",
   "/workers",
   "/cities",

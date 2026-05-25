@@ -13,6 +13,8 @@ import {
   workerPainPoints,
 } from "@/data/cinematic";
 import { contactLinks } from "@/data/landing";
+import { publicEmailSurfaces } from "@/data/emails";
+import { EmailChipRow } from "@/components/contact/email-link";
 
 export function InvestorSection() {
   const [roiWorkers, setRoiWorkers] = useState(500000);
@@ -144,9 +146,10 @@ export function InvestorSection() {
               className="mt-3 h-1 w-full cursor-pointer rounded-lg accent-[color:var(--neon)]"
             />
           </div>
-          <ButtonLink href={contactLinks.investors} variant="primary" className="mt-8 w-full">
+          <ButtonLink to={contactLinks.investors} variant="primary" className="mt-8 w-full">
             Request investor intro →
           </ButtonLink>
+          <EmailChipRow emails={publicEmailSurfaces.investors} className="mt-6" />
         </GlassPanel>
 
         <div className="grid gap-4 sm:grid-cols-3 lg:col-span-7">

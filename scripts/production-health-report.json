@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-25T07:10:11.614Z",
+  "timestamp": "2026-05-25T07:55:16.986Z",
   "allPassed": true,
   "results": [
     {
@@ -9,16 +9,18 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
-      "name": "marketing-manifesto",
+      "name": "marketing-manifesto-ssr",
       "url": "https://www.bharatgig.live/manifesto",
       "status": 200,
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "marketing-workers",
@@ -27,7 +29,8 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "marketing-investors",
@@ -36,7 +39,8 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "marketing-gurukul",
@@ -45,7 +49,8 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "marketing-driver-app-redirect",
@@ -55,8 +60,25 @@
       "expect": [
         200,
         307,
+        308,
+        301,
+        302
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-apex",
+      "url": "https://bharatgig.live",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200,
+        301,
+        302,
+        307,
         308
-      ]
+      ],
+      "error": null
     },
     {
       "name": "worker-home",
@@ -65,7 +87,8 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "worker-demo",
@@ -74,7 +97,8 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
     },
     {
       "name": "worker-auth",
@@ -83,7 +107,28 @@
       "ok": true,
       "expect": [
         200
-      ]
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-robots",
+      "url": "https://www.bharatgig.live/robots.txt",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-sitemap",
+      "url": "https://www.bharatgig.live/sitemap.xml",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
     }
   ]
 }

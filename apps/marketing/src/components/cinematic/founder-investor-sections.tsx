@@ -121,7 +121,7 @@ export function JoinCtaSection() {
               Open driver app
             </a>
             <a
-              href="mailto:hello@bharatgig.live"
+              href="/contact"
               className="cinematic-cta-ghost inline-flex items-center justify-center rounded py-4 px-8 font-mono text-xs uppercase tracking-wider"
             >
               Contact Command Center

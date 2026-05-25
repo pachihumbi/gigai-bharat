@@ -48,7 +48,7 @@ export function InvestorMetricsSection() {
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
-              <ButtonLink href={contactLinks.investors} variant="primary">
+              <ButtonLink to={contactLinks.investors} variant="primary">
                 Request investor intro →
               </ButtonLink>
               <ButtonLink to="/infrastructure" variant="secondary">

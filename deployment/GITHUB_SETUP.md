@@ -35,8 +35,8 @@ GitHub → Settings → Secrets and variables → Actions:
 |--------|-----------------|
 | `VERCEL_TOKEN` | vercel.com → Account → Tokens |
 | `VERCEL_ORG_ID` | `.vercel/project.json` or Vercel team settings |
-| `VERCEL_MARKETING_PROJECT_ID` | Marketing project → Settings → General |
-| `VERCEL_WORKER_PROJECT_ID` | Worker project → Settings → General |
+| `VERCEL_MARKETING_PROJECT_ID` | Marketing project → Settings → General → **`prj_8pk8D5inKD9wCnvmYG7bWklO6b55`** (`gigai-bharat-marketing`) |
+| `VERCEL_WORKER_PROJECT_ID` | Worker project → Settings → General → **`prj_td8bpmue2FlTHOqrZ1RkAfU7PAUY`** (`gigai-bharat-worker`) |
 | `VITE_SUPABASE_URL` | Supabase → Settings → API |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon key |
 | `VITE_SUPABASE_PROJECT_ID` | `jsdmmskzwnqhmxboergf` |

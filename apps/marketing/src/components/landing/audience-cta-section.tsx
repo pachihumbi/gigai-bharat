@@ -50,7 +50,7 @@ export function AudienceCTASection() {
                   </ul>
                   <div className="mt-6">
                     <ButtonLink
-                      href={cta.href.startsWith("/") ? undefined : cta.href}
+                      href={cta.href.startsWith("http") ? cta.href : undefined}
                       to={cta.href.startsWith("/") ? cta.href : undefined}
                       variant={cta.primary ? "primary" : "ghost"}
                       external={cta.href.startsWith("http")}
@@ -58,6 +58,22 @@ export function AudienceCTASection() {
                     >
                       {cta.ctaLabel} →
                     </ButtonLink>
+                    {cta.audience === "fleet" && (
+                      <p className="mt-4 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                        Or email{" "}
+                        <a
+                          href="mailto:partnerships@bharatgig.live"
+                          className="text-[color:var(--neon)] hover:underline"
+                        >
+                          partnerships@bharatgig.live
+                        </a>
+                      </p>
+                    )}
+                    {cta.audience === "investors" && (
+                      <p className="mt-4 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                        investors@ · founder@bharatgig.live
+                      </p>
+                    )}
                   </div>
                 </article>
               </StaggerItem>

@@ -124,13 +124,21 @@ export const primaryNav: NavLink[] = [
 export const founderQuote =
   "Technology should increase worker sovereignty, not platform dependency.";
 
+import { businessEmails } from "./emails";
+
 export const contactLinks = {
   github: "https://github.com/pachihumbi/gigai-bharat",
-  email: "hello@bharatgig.live",
+  email: businessEmails.hello,
+  support: businessEmails.support,
   app: "https://app.bharatgig.live/demo",
   appAuth: "https://app.bharatgig.live/auth",
-  investors: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Investor%20Intro",
-  fleet: "mailto:hello@bharatgig.live?subject=GigAI%20Bharat%20-%20Fleet%20Partnership",
+  contact: "/contact",
+  investors: "/contact/investors",
+  partnerships: "/contact/partnerships",
+  careers: "/contact/careers",
+  press: "/contact/press",
+  /** @deprecated use contactLinks.partnerships */
+  fleet: "/contact/partnerships",
 } as const;
 
 export const audienceCTAs = [

@@ -1,4 +1,4 @@
-import { Play, FileText, Headphones, ExternalLink } from "lucide-react";
+import { Play, FileText, Headphones } from "lucide-react";
 import { GlassPanel, HudLabel } from "@/components/ui/glass-panel";
 import { SectionLabel, SectionTitle } from "@/components/ui/kicker";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -25,7 +25,8 @@ export function MediaShowcaseSection({ compact = false }: { compact?: boolean })
       <div className={`grid gap-6 sm:grid-cols-2 ${compact ? "mt-0" : "mt-12"} lg:grid-cols-4`}>
         {mediaAssets.map((asset, i) => {
           const Icon = icons[asset.type];
-          const external = asset.href.startsWith("mailto:") || asset.href.startsWith("http");
+          const external = asset.href.startsWith("http");
+          const internal = asset.href.startsWith("/");
           return (
             <FadeIn key={asset.id} delay={i * 0.05}>
               <GlassPanel className="group flex h-full flex-col overflow-hidden transition-colors hover:border-[color:var(--neon)]/40">
@@ -45,13 +46,13 @@ export function MediaShowcaseSection({ compact = false }: { compact?: boolean })
                   <h3 className="mt-2 font-serif text-lg">{asset.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">{asset.description}</p>
                   <ButtonLink
-                    href={asset.href}
+                    href={internal || external ? asset.href : undefined}
+                    to={internal ? asset.href : undefined}
                     variant="ghost"
                     external={external}
                     className="mt-4 w-fit px-0"
                   >
-                    {asset.cta} {external && asset.type === "presentation" ? "" : "→"}
-                    {!external && <ExternalLink className="ml-1 inline h-3 w-3" />}
+                    {asset.cta} →
                   </ButtonLink>
                 </div>
               </GlassPanel>

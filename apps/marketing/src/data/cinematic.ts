@@ -219,7 +219,7 @@ export const founderProfile = {
   links: {
     github: "https://github.com/pachihumbi/gigai-bharat",
     linkedin: "https://linkedin.com/in/pachihumbi",
-    email: "hello@bharatgig.live",
+    email: "founder@bharatgig.live",
   },
 } as const;
 

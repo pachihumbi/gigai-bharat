@@ -15,6 +15,8 @@ import { Route as SmartHubRouteImport } from './routes/smart-hub'
 import { Route as ShramsetuRouteImport } from './routes/shramsetu'
 import { Route as RoiRouteImport } from './routes/roi'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PressRouteImport } from './routes/press'
 import { Route as ManifestoRouteImport } from './routes/manifesto'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as InvestorsRouteImport } from './routes/investors'
@@ -24,8 +26,15 @@ import { Route as GurukulRouteImport } from './routes/gurukul'
 import { Route as FutureRouteImport } from './routes/future'
 import { Route as FounderRouteImport } from './routes/founder'
 import { Route as EvInfrastructureRouteImport } from './routes/ev-infrastructure'
+import { Route as DriverAppRouteImport } from './routes/driver-app'
 import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactIndexRouteImport } from './routes/contact/index'
+import { Route as ContactPressRouteImport } from './routes/contact/press'
+import { Route as ContactPartnershipsRouteImport } from './routes/contact/partnerships'
+import { Route as ContactInvestorsRouteImport } from './routes/contact/investors'
+import { Route as ContactCareersRouteImport } from './routes/contact/careers'
+import { Route as ApiContactRouteImport } from './routes/api/contact'
 
 const WorkersRoute = WorkersRouteImport.update({
   id: '/workers',
@@ -55,6 +64,16 @@ const RoiRoute = RoiRouteImport.update({
 const RoadmapRoute = RoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ManifestoRoute = ManifestoRouteImport.update({
@@ -102,6 +121,11 @@ const EvInfrastructureRoute = EvInfrastructureRouteImport.update({
   path: '/ev-infrastructure',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DriverAppRoute = DriverAppRouteImport.update({
+  id: '/driver-app',
+  path: '/driver-app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CitiesRoute = CitiesRouteImport.update({
   id: '/cities',
   path: '/cities',
@@ -112,10 +136,41 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactIndexRoute = ContactIndexRouteImport.update({
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactPressRoute = ContactPressRouteImport.update({
+  id: '/contact/press',
+  path: '/contact/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactPartnershipsRoute = ContactPartnershipsRouteImport.update({
+  id: '/contact/partnerships',
+  path: '/contact/partnerships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactInvestorsRoute = ContactInvestorsRouteImport.update({
+  id: '/contact/investors',
+  path: '/contact/investors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactCareersRoute = ContactCareersRouteImport.update({
+  id: '/contact/careers',
+  path: '/contact/careers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -125,16 +180,25 @@ export interface FileRoutesByFullPath {
   '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
+  '/api/contact': typeof ApiContactRoute
+  '/contact/careers': typeof ContactCareersRoute
+  '/contact/investors': typeof ContactInvestorsRoute
+  '/contact/partnerships': typeof ContactPartnershipsRoute
+  '/contact/press': typeof ContactPressRoute
+  '/contact/': typeof ContactIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -144,17 +208,26 @@ export interface FileRoutesByTo {
   '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
+  '/api/contact': typeof ApiContactRoute
+  '/contact/careers': typeof ContactCareersRoute
+  '/contact/investors': typeof ContactInvestorsRoute
+  '/contact/partnerships': typeof ContactPartnershipsRoute
+  '/contact/press': typeof ContactPressRoute
+  '/contact': typeof ContactIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
+  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -164,18 +237,27 @@ export interface FileRoutesById {
   '/investors': typeof InvestorsRoute
   '/join': typeof JoinRoute
   '/manifesto': typeof ManifestoRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/roadmap': typeof RoadmapRoute
   '/roi': typeof RoiRoute
   '/shramsetu': typeof ShramsetuRoute
   '/smart-hub': typeof SmartHubRoute
   '/status': typeof StatusRoute
   '/workers': typeof WorkersRoute
+  '/api/contact': typeof ApiContactRoute
+  '/contact/careers': typeof ContactCareersRoute
+  '/contact/investors': typeof ContactInvestorsRoute
+  '/contact/partnerships': typeof ContactPartnershipsRoute
+  '/contact/press': typeof ContactPressRoute
+  '/contact/': typeof ContactIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/cities'
+    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -185,16 +267,25 @@ export interface FileRouteTypes {
     | '/investors'
     | '/join'
     | '/manifesto'
+    | '/press'
+    | '/privacy'
     | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
     | '/status'
     | '/workers'
+    | '/api/contact'
+    | '/contact/careers'
+    | '/contact/investors'
+    | '/contact/partnerships'
+    | '/contact/press'
+    | '/contact/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cities'
+    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -204,16 +295,25 @@ export interface FileRouteTypes {
     | '/investors'
     | '/join'
     | '/manifesto'
+    | '/press'
+    | '/privacy'
     | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
     | '/status'
     | '/workers'
+    | '/api/contact'
+    | '/contact/careers'
+    | '/contact/investors'
+    | '/contact/partnerships'
+    | '/contact/press'
+    | '/contact'
   id:
     | '__root__'
     | '/'
     | '/cities'
+    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -223,17 +323,26 @@ export interface FileRouteTypes {
     | '/investors'
     | '/join'
     | '/manifesto'
+    | '/press'
+    | '/privacy'
     | '/roadmap'
     | '/roi'
     | '/shramsetu'
     | '/smart-hub'
     | '/status'
     | '/workers'
+    | '/api/contact'
+    | '/contact/careers'
+    | '/contact/investors'
+    | '/contact/partnerships'
+    | '/contact/press'
+    | '/contact/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CitiesRoute: typeof CitiesRoute
+  DriverAppRoute: typeof DriverAppRoute
   EvInfrastructureRoute: typeof EvInfrastructureRoute
   FounderRoute: typeof FounderRoute
   FutureRoute: typeof FutureRoute
@@ -243,12 +352,20 @@ export interface RootRouteChildren {
   InvestorsRoute: typeof InvestorsRoute
   JoinRoute: typeof JoinRoute
   ManifestoRoute: typeof ManifestoRoute
+  PressRoute: typeof PressRoute
+  PrivacyRoute: typeof PrivacyRoute
   RoadmapRoute: typeof RoadmapRoute
   RoiRoute: typeof RoiRoute
   ShramsetuRoute: typeof ShramsetuRoute
   SmartHubRoute: typeof SmartHubRoute
   StatusRoute: typeof StatusRoute
   WorkersRoute: typeof WorkersRoute
+  ApiContactRoute: typeof ApiContactRoute
+  ContactCareersRoute: typeof ContactCareersRoute
+  ContactInvestorsRoute: typeof ContactInvestorsRoute
+  ContactPartnershipsRoute: typeof ContactPartnershipsRoute
+  ContactPressRoute: typeof ContactPressRoute
+  ContactIndexRoute: typeof ContactIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -293,6 +410,20 @@ declare module '@tanstack/react-router' {
       path: '/roadmap'
       fullPath: '/roadmap'
       preLoaderRoute: typeof RoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/manifesto': {
@@ -358,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvInfrastructureRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/driver-app': {
+      id: '/driver-app'
+      path: '/driver-app'
+      fullPath: '/driver-app'
+      preLoaderRoute: typeof DriverAppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cities': {
       id: '/cities'
       path: '/cities'
@@ -372,12 +510,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact/': {
+      id: '/contact/'
+      path: '/contact'
+      fullPath: '/contact/'
+      preLoaderRoute: typeof ContactIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/press': {
+      id: '/contact/press'
+      path: '/contact/press'
+      fullPath: '/contact/press'
+      preLoaderRoute: typeof ContactPressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/partnerships': {
+      id: '/contact/partnerships'
+      path: '/contact/partnerships'
+      fullPath: '/contact/partnerships'
+      preLoaderRoute: typeof ContactPartnershipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/investors': {
+      id: '/contact/investors'
+      path: '/contact/investors'
+      fullPath: '/contact/investors'
+      preLoaderRoute: typeof ContactInvestorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/careers': {
+      id: '/contact/careers'
+      path: '/contact/careers'
+      fullPath: '/contact/careers'
+      preLoaderRoute: typeof ContactCareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CitiesRoute: CitiesRoute,
+  DriverAppRoute: DriverAppRoute,
   EvInfrastructureRoute: EvInfrastructureRoute,
   FounderRoute: FounderRoute,
   FutureRoute: FutureRoute,
@@ -387,12 +568,20 @@ const rootRouteChildren: RootRouteChildren = {
   InvestorsRoute: InvestorsRoute,
   JoinRoute: JoinRoute,
   ManifestoRoute: ManifestoRoute,
+  PressRoute: PressRoute,
+  PrivacyRoute: PrivacyRoute,
   RoadmapRoute: RoadmapRoute,
   RoiRoute: RoiRoute,
   ShramsetuRoute: ShramsetuRoute,
   SmartHubRoute: SmartHubRoute,
   StatusRoute: StatusRoute,
   WorkersRoute: WorkersRoute,
+  ApiContactRoute: ApiContactRoute,
+  ContactCareersRoute: ContactCareersRoute,
+  ContactInvestorsRoute: ContactInvestorsRoute,
+  ContactPartnershipsRoute: ContactPartnershipsRoute,
+  ContactPressRoute: ContactPressRoute,
+  ContactIndexRoute: ContactIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

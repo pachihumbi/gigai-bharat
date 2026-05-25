@@ -45,5 +45,8 @@ jobs:
           VITE_SUPABASE_URL: https://placeholder.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: placeholder
 
-      - name: Build marketing
+      - name: Build marketing (Nitro Vercel SSR)
         run: npm run build -w @gigai/marketing
+        env:
+          VERCEL: "1"
+          VITE_SITE_URL: https://www.bharatgig.live

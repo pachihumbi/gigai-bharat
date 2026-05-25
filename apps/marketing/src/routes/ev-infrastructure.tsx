@@ -39,7 +39,7 @@ function EvInfrastructurePage() {
             AI fleet orchestration. The sustainable worker transportation network.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <ButtonLink href={contactLinks.fleet} variant="primary">
+            <ButtonLink to={contactLinks.partnerships} variant="primary">
               Fleet partnership →
             </ButtonLink>
             <ButtonLink href="/investors" variant="secondary">

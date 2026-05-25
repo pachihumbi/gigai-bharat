@@ -26,7 +26,7 @@ gigai-bharat/
 └── supabase/          → migrations + Edge Functions
 ```
 
-**Start here:** [docs/FOUNDER_LAUNCH.md](./docs/FOUNDER_LAUNCH.md) — copy-paste deploy & DNS commands.
+**Start here:** [deployment/PRODUCTION_FIX_NOW.md](./deployment/PRODUCTION_FIX_NOW.md) — **fix DNS + Vercel in 10 min**
 
 ---
 

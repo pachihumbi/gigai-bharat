@@ -11,6 +11,7 @@ import {
 import { ProductionAnalytics } from "@/components/analytics/production-analytics";
 import { MobileStickyCTA, SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/error-boundary";
 import {
   absoluteUrl,
@@ -196,6 +197,7 @@ function RootComponent() {
           <SiteFooter />
           <MobileStickyCTA />
           <ProductionAnalytics />
+          <Toaster position="top-center" richColors closeButton theme="dark" />
         </div>
       </QueryClientProvider>
     </ErrorBoundary>

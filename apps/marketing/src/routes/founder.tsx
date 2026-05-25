@@ -103,7 +103,7 @@ function FounderPage() {
               <ButtonLink to="/manifesto" variant="primary">
                 Read full manifesto →
               </ButtonLink>
-              <ButtonLink href={contactLinks.investors} variant="ghost">
+              <ButtonLink to={contactLinks.investors} variant="ghost">
                 Investor intro
               </ButtonLink>
             </div>

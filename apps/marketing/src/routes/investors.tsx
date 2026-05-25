@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { RoiCalculatorSection } from "@/components/flagship/roi-calculator-section";
 import { MediaShowcaseSection } from "@/components/landing/media-showcase-section";
+import { InquiryForm } from "@/components/contact/inquiry-form";
+import { EmailChipRow } from "@/components/contact/email-link";
 import { ButtonLink } from "@/components/ui/button-link";
 import { SectionLabel, SectionTitle } from "@/components/ui/kicker";
 import { SectionShell } from "@/components/ui/section-shell";
 import { FadeIn } from "@/components/motion/fade-in";
 import { contactLinks } from "@/data/landing";
+import { publicEmailSurfaces } from "@/data/emails";
 import { routeHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/investors")({
@@ -33,12 +36,16 @@ function InvestorsPage() {
             GigAI Bharat transforms fragmented labor activity into a sovereign financial identity layer — unlocking
             embedded finance, neo-bank rails, and compounding data network effects.
           </p>
-          <ButtonLink href={contactLinks.investors} variant="primary" className="mt-6">
+          <EmailChipRow emails={publicEmailSurfaces.investors} className="mt-6" />
+          <ButtonLink to={contactLinks.investors} variant="primary" className="mt-6">
             Request full data room →
           </ButtonLink>
         </FadeIn>
       </SectionShell>
       <RoiCalculatorSection />
+      <SectionShell className="border-t border-border">
+        <InquiryForm type="investor" className="max-w-2xl" />
+      </SectionShell>
       <MediaShowcaseSection compact />
     </main>
   );

@@ -27,7 +27,7 @@ export function SmartHubBlueprint() {
             kiosks, and AI dispatch centers designed for nation-scale deployment.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <ButtonLink href={contactLinks.investors} variant="primary">
+            <ButtonLink to={contactLinks.investors} variant="primary">
               Infrastructure investment intro →
             </ButtonLink>
             <ButtonLink href="/investors" variant="ghost">
@@ -169,7 +169,7 @@ export function SmartHubBlueprint() {
               &ldquo;GigAI Bharat is building the operating system for the future of labor civilization.&rdquo;
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <ButtonLink href={contactLinks.investors} variant="primary">
+              <ButtonLink to={contactLinks.investors} variant="primary">
                 Request infrastructure deck →
               </ButtonLink>
               <ButtonLink href="/join" variant="ghost">

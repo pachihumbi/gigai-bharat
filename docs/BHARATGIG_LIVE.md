@@ -9,7 +9,7 @@
 
 ## Vercel project settings (exact values)
 
-In **Vercel Dashboard → Project → Settings → General**:
+In **Vercel Dashboard → Project `gigai-bharat-marketing` → Settings → General**:
 
 | Setting | Value | Why |
 |---------|-------|-----|
@@ -26,11 +26,18 @@ In **Vercel Dashboard → Project → Settings → General**:
 
 ## Environment variables
 
-**Production — set exactly one optional var:**
+**Production — marketing project (`gigai-bharat-marketing`):**
 
 | Name | Value | Required |
 |------|-------|----------|
-| `VITE_SITE_URL` | `https://www.bharatgig.live` | Optional (also in `vercel.json` + `.env.production`) |
+| `VITE_SITE_URL` | `https://www.bharatgig.live` | Yes |
+| `RESEND_API_KEY` | From [resend.com](https://resend.com) | Yes (contact forms) |
+| `EMAIL_FROM` | `GigAI Bharat <no-reply@bharatgig.live>` | Recommended |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile | Recommended |
+| `VITE_TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key | If using Turnstile |
+| `CONTACT_ADMIN_NOTIFY` | Hidden BCC inbox | Optional |
+
+Full DNS + email routing: **[EMAIL_SETUP.md](./EMAIL_SETUP.md)**
 
 **Do NOT add to this project:**
 
@@ -108,7 +115,8 @@ Run through this checklist on mobile (4G) and desktop:
 - [ ] `/sitemap.xml` — all 6 routes listed
 - [ ] View source — `<title>GigAI Bharat`
 - [ ] LinkedIn Post Inspector — OG title + image render
-- [ ] No Supabase keys in page source or Network tab
+- [ ] `/contact`, `/contact/investors`, `/press`, `/privacy` — forms render
+- [ ] Test form submit → email at support@ / investors@ (requires RESEND_API_KEY)
 
 ---
 
@@ -120,7 +128,8 @@ Run through this checklist on mobile (4G) and desktop:
 | Investors | https://www.bharatgig.live → investor CTA |
 | Hiring | https://www.bharatgig.live/manifesto |
 | GitHub | https://github.com/pachihumbi/gigai-bharat |
-| Email | hello@bharatgig.live |
+| Email (public) | hello@bharatgig.live · support@bharatgig.live |
+| Contact forms | https://www.bharatgig.live/contact |
 
 ---
 
@@ -152,8 +161,10 @@ The domain currently serves an **older build** with broken SSR on sub-routes (`/
 
 | Domain | Vercel project | Root Directory |
 |--------|----------------|----------------|
-| `www.bharatgig.live` | `gigai-bharat` (marketing) | `apps/marketing` |
-| `app.bharatgig.live` | `gigai-bharat-worker` (worker) | `apps/worker` |
+| `www.bharatgig.live` | `gigai-bharat-marketing` | `apps/marketing` |
+| `app.bharatgig.live` | `gigai-bharat-worker` | `apps/worker` |
+
+> **Never** attach www to legacy `gigai-bharat` (was misconfigured with worker root).
 
 1. Open the **marketing** project → Settings → Domains → ensure `www.bharatgig.live` is listed (remove it from the worker project if duplicated).
 2. Open the **worker** project → Domains → only `app.bharatgig.live`.

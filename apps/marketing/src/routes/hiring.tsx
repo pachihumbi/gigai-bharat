@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Prose, Section } from "@/components/editorial";
+import { InquiryForm } from "@/components/contact/inquiry-form";
+import { EmailChipRow } from "@/components/contact/email-link";
 import { ButtonLink } from "@/components/ui/button-link";
 import { contactLinks } from "@/data/landing";
+import { publicEmailSurfaces } from "@/data/emails";
 import { routeHead } from "@/lib/seo";
 
 const roles = [
@@ -59,6 +62,7 @@ function HiringPage() {
       />
 
       <Section label="Open roles" title="Founding team positions">
+        <EmailChipRow emails={publicEmailSurfaces.careers} className="mb-8" />
         <div className="grid gap-4 md:grid-cols-2">
           {roles.map((role) => (
             <article
@@ -70,11 +74,7 @@ function HiringPage() {
               </p>
               <h3 className="mt-3 font-serif text-2xl">{role.title}</h3>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/70">{role.body}</p>
-              <ButtonLink
-                href={`mailto:${contactLinks.email}?subject=GigAI%20Bharat%20-%20${encodeURIComponent(role.title)}`}
-                variant="ghost"
-                className="mt-6 w-fit px-0"
-              >
+              <ButtonLink to={contactLinks.careers} variant="ghost" className="mt-6 w-fit px-0">
                 Apply →
               </ButtonLink>
             </article>
@@ -94,13 +94,7 @@ function HiringPage() {
             hear from you — even if no role above fits exactly.
           </p>
         </Prose>
-        <ButtonLink
-          href={`mailto:${contactLinks.email}?subject=GigAI%20Bharat%20-%20General%20Application`}
-          variant="primary"
-          className="mt-10"
-        >
-          Send your profile →
-        </ButtonLink>
+        <InquiryForm type="careers" className="mt-10 max-w-2xl" />
       </Section>
     </main>
   );

@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { primaryNav, contactLinks, founderQuote } from "@/data/landing";
+import { publicEmailSurfaces, businessEmails } from "@/data/emails";
+import { EmailChipRow } from "@/components/contact/email-link";
 import { ButtonLink } from "@/components/ui/button-link";
 
 export function SiteFooter() {
@@ -20,9 +22,10 @@ export function SiteFooter() {
             Worker-owned intelligence. AI as public infrastructure. Built for Bharat scale — starting
             Bengaluru, designed for 23.5M gig workers.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href={`mailto:${contactLinks.email}`} variant="ghost" className="min-h-10 px-0">
-              {contactLinks.email}
+          <EmailChipRow emails={publicEmailSurfaces.footer} className="mt-8" />
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink to={contactLinks.contact} variant="ghost" className="min-h-10">
+              Contact →
             </ButtonLink>
             <ButtonLink href={contactLinks.github} variant="ghost" external className="min-h-10">
               GitHub →
@@ -53,6 +56,11 @@ export function SiteFooter() {
                 Manifesto
               </Link>
             </li>
+            <li>
+              <Link to="/press" className="text-muted-foreground transition-colors hover:text-foreground">
+                Press
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -67,6 +75,15 @@ export function SiteFooter() {
             <li>Pilot: Bengaluru · Mumbai · Delhi · Hyderabad</li>
             <li>Tier-2: Lucknow · Surat · Coimbatore</li>
           </ul>
+          <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            <Link to="/privacy" className="text-[color:var(--neon)] hover:underline">
+              Privacy
+            </Link>
+            {" · "}
+            <a href={`mailto:${businessEmails.legal}`} className="hover:text-foreground">
+              {businessEmails.legal}
+            </a>
+          </p>
         </div>
       </div>
 
