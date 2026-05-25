@@ -160,6 +160,22 @@
       radial-gradient(ellipse 80% 50% at 20% 40%, color-mix(in oklch, var(--saffron) 8%, transparent), transparent),
       radial-gradient(ellipse 60% 40% at 80% 60%, color-mix(in oklch, var(--neon) 6%, transparent), transparent);
   }
+  .hero-mesh-animated {
+    animation: mesh-drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes mesh-drift {
+    0% {
+      filter: hue-rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      filter: hue-rotate(12deg);
+      opacity: 0.92;
+    }
+  }
+  .glow-card-hover:hover {
+    box-shadow: 0 0 48px -16px color-mix(in oklch, var(--neon) 45%, transparent);
+  }
   .hero-panel {
     contain: layout paint;
   }

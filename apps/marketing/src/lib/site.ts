@@ -8,10 +8,10 @@ export const siteUrl = (
 
 export const siteName = "GigAI Bharat";
 
-export const siteTagline = "India's Worker-Owned Mobility Operating System";
+export const siteTagline = "India's AI Operating System For Gig Workers";
 
 export const siteDescription =
-  "AI-powered infrastructure for gig workers, EV fleets, mobility finance, and digital labor ecosystems. GigPay, GigEV, GigPods, FleetOS, and ShramSetu — the digital public infrastructure layer for India's workforce economy.";
+  "GigAI Bharat — India's AI-powered worker operating system. GigPay wallet, EV marketplace, smart co-living, ShramSetu welfare, and AI co-pilot. Bengaluru pilot. Install the super app at app.bharatgig.live.";
 
 export const siteKeywords = [
   "GigAI Bharat",

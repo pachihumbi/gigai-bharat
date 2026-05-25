@@ -40,6 +40,10 @@ const Onboarding = lazy(() => import("./pages/Onboarding.tsx"));
 const SmartHub = lazy(() => import("./pages/SmartHub.tsx"));
 const MapPage = lazy(() => import("./pages/MapPage.tsx"));
 const Offline = lazy(() => import("./pages/Offline.tsx"));
+const Community = lazy(() => import("./pages/Community.tsx"));
+const Leaderboard = lazy(() => import("./pages/Leaderboard.tsx"));
+const Insurance = lazy(() => import("./pages/Insurance.tsx"));
+const FleetHub = lazy(() => import("./pages/FleetHub.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -92,6 +96,10 @@ const App = () => (
             <Route path="/ocr" element={withAuth(<OCR />)} />
             <Route path="/pitch" element={withAuth(<Pitch />)} />
             <Route path="/offline" element={<Offline />} />
+            <Route path="/community" element={withAuth(<Community />)} />
+            <Route path="/leaderboard" element={withAuth(<Leaderboard />)} />
+            <Route path="/insurance" element={withAuth(<Insurance />)} />
+            <Route path="/fleet" element={withAuth(<FleetHub />)} />
             <Route path="*" element={<NotFound />} />
           </Routes>
             <Toaster />

@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { isSupabaseConfigured } from "@/lib/env";
 import { isDemoWorkspace } from "@/lib/demo-session";
 import { Loader2 } from "lucide-react";
 
@@ -10,9 +11,14 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const [onboarded, setOnboarded] = useState<boolean | null>(null);
 
+  const demoAccess = isDemoWorkspace();
+
   useEffect(() => {
     let cancelled = false;
-    if (!session) { setOnboarded(null); return; }
+    if (!session || !isSupabaseConfigured() || demoAccess) {
+      setOnboarded(session || demoAccess ? true : null);
+      return;
+    }
     (async () => {
       const { data } = await supabase
         .from("worker_profiles")
@@ -22,17 +28,15 @@ export const RequireAuth = ({ children }: { children: ReactNode }) => {
       if (!cancelled) setOnboarded(data?.onboarded ?? false);
     })();
     return () => { cancelled = true; };
-  }, [session]);
+  }, [session, demoAccess]);
 
-  if (loading || (session && onboarded === null)) {
+  if (loading || (session && onboarded === null && isSupabaseConfigured() && !demoAccess)) {
     return (
       <div className="min-h-screen grid place-items-center bg-gradient-hero">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
-  const demoAccess = isDemoWorkspace();
-
   if (!session) {
     if (demoAccess) return <>{children}</>;
     return <Navigate to="/auth" replace />;

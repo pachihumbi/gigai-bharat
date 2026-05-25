@@ -39,6 +39,9 @@ const JoinCtaSection = lazy(() =>
     default: m.JoinCtaSection,
   })),
 );
+const LiveDemoShowcase = lazy(() =>
+  import("@/components/cinematic/live-demo-showcase").then((m) => ({ default: m.LiveDemoShowcase })),
+);
 const InvestorSection = lazy(() =>
   import("@/components/cinematic/investor-section").then((m) => ({ default: m.InvestorSection })),
 );
@@ -83,6 +86,7 @@ function HomePage() {
         </Suspense>
         <Suspense fallback={<SectionFallback />}>
           <HomeSectionNav />
+          <LiveDemoShowcase />
           <GigPaySection />
           <GigEvSection />
           <GigPodsSection />

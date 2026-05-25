@@ -1,0 +1,1 @@
+import{s as t}from"./index-DJFKtba9.js";import{a as r}from"./vendor-p0EkUgUF.js";import"./charts-CqHArnfO.js";import"./supabase-CFt2K6vU.js";function p(){return t.jsx(r,{to:"/dispatch",replace:!0})}export{p as default};

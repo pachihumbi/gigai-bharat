@@ -11,7 +11,7 @@ export const AppShell = ({ children, title, kn }: { children: ReactNode; title?:
     <div className="relative min-h-screen overflow-x-hidden bg-gradient-hero">
       <div className="pointer-events-none fixed -top-32 -left-32 h-96 w-96 rounded-full bg-primary/15 blur-3xl" />
       <div className="pointer-events-none fixed -bottom-40 -right-32 h-96 w-96 rounded-full bg-secondary/10 blur-3xl" />
-      <div className="relative mx-auto max-w-md animate-fade-in px-4 pb-36 pt-5 sm:px-5 sm:pt-6">
+      <div className="relative mx-auto max-w-md animate-page-enter px-4 pb-36 pt-5 sm:px-5 sm:pt-6">
         <div className="mb-4 flex items-center justify-end gap-2">
           <LanguageSwitcher />
           <button

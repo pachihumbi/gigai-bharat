@@ -13,9 +13,10 @@ export function isProductionHost(): boolean {
   return PRODUCTION_HOSTS.has(window.location.hostname);
 }
 
-/** Investor demo telemetry — opt-in only via env or /demo session. */
+/** Public demo workspace — production hosts, env flag, or /demo session. */
 export function allowInvestorDemo(): boolean {
   if (getWorkerEnv().allowInvestorDemo) return true;
+  if (isProductionHost()) return true;
   if (typeof window !== "undefined") {
     try {
       return sessionStorage.getItem("gigai:demo-workspace") === "1";
@@ -23,5 +24,5 @@ export function allowInvestorDemo(): boolean {
       return false;
     }
   }
-  return false;
+  return import.meta.env.DEV;
 }

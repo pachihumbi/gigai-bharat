@@ -1,8 +1,8 @@
 /** Cinematic homepage data — GigAI Bharat infrastructure platform */
 
-export const heroHeadline = "India's Worker-Owned Mobility Operating System";
+export const heroHeadline = "India's AI Operating System For Gig Workers";
 export const heroSubheadline =
-  "AI-powered infrastructure for gig workers, EV fleets, mobility finance, and digital labor ecosystems.";
+  "Earn, travel, recharge, learn, and build financial identity in one installable super app — GigPay, GigEV, GigPods, and AI co-pilot for 23.5M workers.";
 
 export const gigPayMetrics = [
   { label: "Instant payouts", value: "T+0", sub: "UPI rail · 24/7 settlement" },
@@ -262,7 +262,30 @@ export const investorThesis = [
   },
 ] as const;
 
+export const workerPainPoints = [
+  { title: "Platform rent extraction", body: "15–30% commissions and opaque surge pricing drain ₹100 earned before it reaches families." },
+  { title: "No portable identity", body: "Ratings and earnings trapped inside apps — zero credit history for loans or insurance." },
+  { title: "EV transition friction", body: "High upfront EV costs, charging anxiety, and no worker-owned fleet financing." },
+  { title: "Rest & safety gaps", body: "12+ hour shifts without mandated rest infrastructure or vernacular safety rails." },
+] as const;
+
+export const revenueStreams = [
+  { stream: "GigPay rails", model: "UPI + wallet interchange", margin: "0.3–0.8%" },
+  { stream: "EV fleet OS", model: "Subscription + charge margin", margin: "₹2.4K/unit/mo" },
+  { stream: "GigPods", model: "Co-living + charge hubs", margin: "₹899/night avg" },
+  { stream: "Embedded finance", model: "Credit + insurance", margin: "2.5% NIM" },
+  { stream: "AI copilot", model: "B2B fleet licensing", margin: "₹49/driver/mo" },
+] as const;
+
+export const launchRoadmap = [
+  { phase: "Now", label: "Bengaluru pilot", status: "Live" },
+  { phase: "Q3 2026", label: "Android APK + Play Store", status: "Build" },
+  { phase: "Q4 2026", label: "Tier-1 city expansion", status: "Plan" },
+  { phase: "2027", label: "National worker OS", status: "Scale" },
+] as const;
+
 export const homeNavAnchors = [
+  { id: "live-demo", label: "Demos" },
   { id: "gigpay", label: "GigPay" },
   { id: "gigev", label: "GigEV" },
   { id: "gigpods", label: "GigPods" },

@@ -127,6 +127,7 @@ npm run functions:serve     # test parse-earning locally
 |-----|----------|
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Engineers, investors (technical diligence) |
 | [docs/CTO_ROADMAP.md](./docs/CTO_ROADMAP.md) | **Engineering roadmap** — Phases 1–4 |
+| [docs/PRODUCTION_DEMO.md](./docs/PRODUCTION_DEMO.md) | **Public demo** — URLs, PWA, APK, Lighthouse |
 | [docs/BHARATGIG_LIVE.md](./docs/BHARATGIG_LIVE.md) | Production domain — bharatgig.live |
 | [docs/DEPLOY_VERCEL.md](./docs/DEPLOY_VERCEL.md) | Vercel deployment guide |
 | [docs/MIGRATION.md](./docs/MIGRATION.md) | Legacy folder merge |

@@ -32,6 +32,29 @@ export function getMissingEnvKeys(): string[] {
   });
 }
 
+function isValidSupabaseUrl(url: string): boolean {
+  if (!url.trim()) return false;
+  try {
+    const parsed = new URL(url.trim());
+    return (
+      parsed.protocol === "https:" &&
+      (parsed.hostname.endsWith(".supabase.co") || parsed.hostname === "127.0.0.1")
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isValidAnonKey(key: string): boolean {
+  const k = key.trim();
+  return k.length >= 20 && k !== "your_supabase_anon_or_publishable_key" && k !== "placeholder-anon-key";
+}
+
 export function isSupabaseConfigured(): boolean {
-  return getMissingEnvKeys().length === 0;
+  const env = readEnv();
+  return (
+    getMissingEnvKeys().length === 0 &&
+    isValidSupabaseUrl(env.supabaseUrl) &&
+    isValidAnonKey(env.supabaseAnonKey)
+  );
 }

@@ -9,7 +9,7 @@ export const locales: { id: Locale; label: string }[] = [
 ];
 
 const en = {
-  nav: { home: "Command", gurukul: "Gurukul", dispatch: "Dispatch", ledger: "Ledger", gigpay: "GigPay", welfare: "ShramSetu" },
+  nav: { home: "Command", gurukul: "Gurukul", dispatch: "AI", ledger: "Ledger", gigpay: "GigPay", welfare: "ShramSetu" },
   home: {
     tagline: "EV workforce mobility OS",
     greeting: "Namaste",

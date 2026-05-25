@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 import { AlertTriangle } from "lucide-react";
+import { allowInvestorDemo } from "@/lib/app-config";
 import { getMissingEnvKeys, isSupabaseConfigured } from "@/lib/env";
 
 export function ConfigGuard({ children }: { children: ReactNode }) {
-  if (isSupabaseConfigured()) return <>{children}</>;
+  if (isSupabaseConfigured() || allowInvestorDemo()) return <>{children}</>;
 
   const missing = getMissingEnvKeys();
 

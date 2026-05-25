@@ -1,10 +1,11 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Cpu, Zap } from "lucide-react";
 import { Kicker } from "@/components/ui/kicker";
 import { LiveMetricsPanel } from "@/components/viz/live-metrics-panel";
+import { FloatingParticles } from "@/components/motion/floating-particles";
+import { AnimatedCounter } from "@/components/motion/animated-counter";
 import { heroHeadline, heroSubheadline } from "@/data/cinematic";
-import { contactLinks } from "@/data/landing";
 import { useSafeMotion } from "@/hooks/use-safe-motion";
 
 function HeroReveal({ children, className = "", delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
@@ -47,51 +48,62 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section id="hero" className="relative flex min-h-[92vh] items-center border-b border-white/5">
-      {/* Cinematic lighting orbs */}
+    <section id="hero" className="relative flex min-h-[92vh] items-center border-b border-white/5 overflow-hidden">
+      <div className="hero-mesh hero-mesh-animated pointer-events-none absolute inset-0" aria-hidden />
+      <FloatingParticles count={28} />
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="orb orb-saffron absolute -left-32 top-1/4 h-96 w-96" />
         <div className="orb orb-neon absolute -right-24 bottom-1/4 h-80 w-80" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(0,82,255,0.12),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(255,69,0,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(0,82,255,0.14),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(255,69,0,0.1),transparent_50%)]" />
       </div>
 
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 px-5 py-16 md:px-12 lg:grid-cols-12">
         <HeroReveal className="space-y-6 lg:col-span-7">
-          <Kicker>National Infrastructure · Live Network</Kicker>
-          <h1 className="font-serif text-[2.5rem] leading-[0.95] tracking-tight text-white sm:text-display-lg md:text-[4.25rem] lg:text-[5rem]">
-            {heroHeadline.split("Mobility Operating System")[0]}
+          <div className="flex flex-wrap items-center gap-3">
+            <Kicker>AI · EV · Worker OS</Kicker>
+            <span className="inline-flex items-center gap-2 border border-[color:var(--neon)]/30 bg-[color:var(--neon)]/5 px-3 py-1.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--neon)]">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[color:var(--neon)]" />
+              Bengaluru pilot live
+            </span>
+          </div>
+          <h1 className="font-serif text-[2.35rem] leading-[0.95] tracking-tight text-white sm:text-display-lg md:text-[4rem] lg:text-[4.75rem]">
+            {heroHeadline.split("Gig Workers")[0]}
             <span className="bg-gradient-to-r from-[color:var(--saffron)] via-[color:var(--neon)] to-[color:var(--neon)] bg-clip-text font-medium italic text-transparent">
-              Mobility Operating System
+              Gig Workers
             </span>
           </h1>
-          <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-            {heroSubheadline}
-          </p>
+          <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">{heroSubheadline}</p>
+
+          <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              <Cpu className="h-4 w-4 text-[color:var(--neon)]" />
+              <AnimatedCounter value={23.5} suffix="M workers" />
+            </div>
+            <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              <Zap className="h-4 w-4 text-[color:var(--saffron)]" />
+              <AnimatedCounter value={18840} suffix=" EV units" />
+            </div>
+          </div>
+
           <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:flex-wrap">
             <a
-              href="/join"
+              href="https://app.bharatgig.live/demo"
               className="cinematic-cta-primary flex items-center justify-center gap-2 rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
-              Join Workforce <ArrowRight className="h-4 w-4" />
+              Install App <ArrowRight className="h-4 w-4" />
             </a>
             <a
-              href="/founder"
+              href="#gigpay"
               className="cinematic-cta-secondary flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider"
             >
-              Founder Vision
+              Explore GigPay
             </a>
             <a
-              href="#gigev"
+              href="/join"
               className="cinematic-cta-ghost flex items-center justify-center rounded py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-[color:var(--neon)]"
             >
-              Explore Infrastructure
-            </a>
-            <a
-              href={contactLinks.app}
-              className="cinematic-cta-ghost flex items-center justify-center rounded border border-white/10 py-3.5 px-5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground"
-            >
-              Driver app →
+              Join Pilot
             </a>
           </div>
         </HeroReveal>
@@ -99,10 +111,10 @@ export function HeroSection() {
         <HeroReveal delay={0.15} className="lg:col-span-5">
           <div className="space-y-4">
             <LiveMetricsPanel compact />
-            <div className="glass-panel overflow-hidden rounded-lg shadow-2xl shadow-[color:var(--neon)]/10">
+            <div className="glass-panel overflow-hidden rounded-lg shadow-2xl shadow-[color:var(--neon)]/10 transition-shadow hover:shadow-[color:var(--neon)]/20">
               <div className="flex items-center justify-between border-b border-white/5 bg-white/5 px-4 py-3">
                 <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                  AI Network Visualization
+                  AI + EV + Worker mesh
                 </span>
                 <span className="border border-[color:var(--neon)]/25 bg-[color:var(--neon)]/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--neon)]">
                   Live

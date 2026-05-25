@@ -1,0 +1,28 @@
+{
+	"appId": "live.bharatgig.worker",
+	"appName": "GigAI Bharat",
+	"webDir": "dist",
+	"server": {
+		"androidScheme": "https",
+		"hostname": "app.bharatgig.live"
+	},
+	"android": {
+		"backgroundColor": "#020810",
+		"allowMixedContent": false
+	},
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 2000,
+			"backgroundColor": "#020810",
+			"showSpinner": false,
+			"androidSplashResourceName": "splash"
+		},
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		}
+	}
+}
