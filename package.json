@@ -27,6 +27,8 @@
     "health:production": "node scripts/health-check-production.mjs",
     "verify:email-dns": "node scripts/verify-email-dns.mjs",
     "test:contact-api": "node scripts/test-contact-api.mjs",
+    "go-live": "node scripts/go-live.mjs",
+    "lockdown": "node scripts/lockdown-report.mjs",
     "verify:secrets": "node scripts/verify-secrets.mjs"
   },
   "engines": {

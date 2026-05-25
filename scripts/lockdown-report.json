@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-05-25T11:24:14.282Z",
+  "health": true,
+  "emailDns": false,
+  "contactApi": false,
+  "resendConfigured": false,
+  "turnstileConfigured": false
+}

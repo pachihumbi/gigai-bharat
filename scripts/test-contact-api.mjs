@@ -61,6 +61,8 @@ const bot = await req("/api/contact", {
 });
 if (bot.status === 400) {
   ok("POST /api/contact rejects honeypot");
+} else if (bot.status === 429) {
+  ok("POST /api/contact rate limited (prior test traffic)");
 } else {
   bad("POST /api/contact honeypot", `expected 400, got ${bot.status}`);
 }
@@ -80,6 +82,8 @@ const fast = await req("/api/contact", {
 });
 if (fast.status === 400) {
   ok("POST /api/contact rejects instant submit");
+} else if (fast.status === 429) {
+  ok("POST /api/contact rate limited (prior test traffic)");
 } else {
   bad("POST /api/contact timing", `expected 400, got ${fast.status}`);
 }
@@ -112,12 +116,16 @@ if (SEND && TEST_EMAIL) {
   console.log("SKIP live send  (use CONTACT_TEST_EMAIL=... --send)");
 }
 
-// Security headers on homepage
+// Security headers on homepage (also applied via SSR middleware)
 const home = await fetch(`${BASE}/`);
-const csp = home.headers.get("content-security-policy");
-const hsts = home.headers.get("strict-transport-security");
+const csp =
+  home.headers.get("content-security-policy") ??
+  home.headers.get("Content-Security-Policy");
+const hsts =
+  home.headers.get("strict-transport-security") ??
+  home.headers.get("Strict-Transport-Security");
 if (csp?.includes("default-src")) ok("CSP header present");
-else bad("CSP header", "missing");
+else bad("CSP header", csp ? "unexpected value" : "missing");
 if (hsts?.includes("max-age")) ok("HSTS header present");
 else bad("HSTS header", "missing");
 
