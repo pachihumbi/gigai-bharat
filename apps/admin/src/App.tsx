@@ -3,8 +3,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { RequireAdmin } from "./components/RequireAdmin";
 import { Layout } from "./components/Layout";
 import { AuditPage } from "./pages/AuditPage";
+import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPage } from "./pages/LoginPage";
+import { OpsMapPage } from "./pages/OpsMapPage";
 import { WorkersPage } from "./pages/WorkersPage";
 
 const queryClient = new QueryClient();
@@ -22,6 +24,8 @@ const App = () => (
           }
         >
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/map" element={<OpsMapPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/workers" element={<WorkersPage />} />
           <Route path="/audit" element={<AuditPage />} />
         </Route>

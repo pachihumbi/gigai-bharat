@@ -80,6 +80,29 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
   );
 
+  const rateLimitPerMin = Number(Deno.env.get("RATE_LIMIT_GEO_PER_MIN") ?? 30);
+  const windowStart = new Date();
+  windowStart.setSeconds(0, 0);
+  const windowIso = windowStart.toISOString();
+
+  const { data: rateRow } = await service
+    .from("geocode_rate_limits")
+    .select("request_count")
+    .eq("user_id", userData.user.id)
+    .eq("window_start", windowIso)
+    .maybeSingle();
+
+  const count = (rateRow?.request_count ?? 0) + 1;
+  if (count > rateLimitPerMin) {
+    return json({ error: "Rate limit exceeded", retryAfterSec: 60 }, 429);
+  }
+
+  await service.from("geocode_rate_limits").upsert({
+    user_id: userData.user.id,
+    window_start: windowIso,
+    request_count: count,
+  });
+
   const { data: cached } = await service
     .from("geocode_cache")
     .select("payload")

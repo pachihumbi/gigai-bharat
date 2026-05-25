@@ -1,6 +1,8 @@
 // Route optimization proxy — OpenRouteService with OSRM fallback.
 // POST { origin: { lat, lng }, destination: { lat, lng } }
 
+import { createClient } from "npm:@supabase/supabase-js@2";
+
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -75,13 +77,36 @@ Deno.serve(async (req) => {
 
   const orsKey = Deno.env.get("OPENROUTESERVICE_API_KEY");
 
+  const service = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+  );
+
+  const cacheKey = `route:${origin.lat.toFixed(5)},${origin.lng.toFixed(5)}:${destination.lat.toFixed(5)},${destination.lng.toFixed(5)}`;
+
+  const { data: cached } = await service
+    .from("route_cache")
+    .select("payload")
+    .eq("cache_key", cacheKey)
+    .gt("expires_at", new Date().toISOString())
+    .maybeSingle();
+
+  if (cached?.payload) {
+    return json({ ...(cached.payload as Record<string, unknown>), cached: true });
+  }
+
   try {
-    if (orsKey) {
-      const route = await routeOrs(origin, destination, orsKey);
-      return json({ ...route, provider: "openrouteservice" });
-    }
-    const route = await routeOsrm(origin, destination);
-    return json({ ...route, provider: "osrm" });
+    const route = orsKey
+      ? await routeOrs(origin, destination, orsKey)
+      : await routeOsrm(origin, destination);
+
+    await service.from("route_cache").upsert({
+      cache_key: cacheKey,
+      payload: route,
+      expires_at: new Date(Date.now() + 604_800_000).toISOString(),
+    });
+
+    return json({ ...route, provider: orsKey ? "openrouteservice" : "osrm", cached: false });
   } catch (e) {
     return json({ error: e instanceof Error ? e.message : "Route failed" }, 502);
   }

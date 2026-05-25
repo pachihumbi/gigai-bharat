@@ -1,11 +1,13 @@
 import { cn } from "@gigai/ui";
-import { Activity, LayoutDashboard, LogOut, Shield, Users } from "lucide-react";
+import { Activity, BarChart3, LayoutDashboard, LogOut, Map, Shield, Users } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { signOutAdmin } from "@/lib/auth";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 const nav = [
   { to: "/", label: "Overview", icon: LayoutDashboard },
+  { to: "/map", label: "Ops map", icon: Map },
+  { to: "/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/workers", label: "Workers", icon: Users },
   { to: "/audit", label: "Audit log", icon: Shield },
 ];

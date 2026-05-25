@@ -59,11 +59,20 @@ if (!env.VITE_SUPABASE_URL.includes(PRODUCTION_PROJECT)) {
 
 const workerExtras = [
   "VITE_MAP_STYLE_URL",
+  "VITE_MAP_DEFAULT_LAT",
+  "VITE_MAP_DEFAULT_LNG",
+  "VITE_MAP_DEFAULT_ZOOM",
+];
+
+const adminExtras = [
+  "VITE_MAP_STYLE_URL",
+  "VITE_MAP_DEFAULT_LAT",
+  "VITE_MAP_DEFAULT_LNG",
 ];
 
 const projects = [
   { name: "gigai-bharat-worker", cwd: resolve(repoRoot, "apps/worker"), keys: [...required, ...workerExtras] },
-  { name: "gigai-bharat-admin", cwd: resolve(repoRoot, "apps/admin"), keys: required },
+  { name: "gigai-bharat-admin", cwd: resolve(repoRoot, "apps/admin"), keys: [...required, ...adminExtras] },
 ];
 
 function vercelEnvAdd(cwd, name, value) {

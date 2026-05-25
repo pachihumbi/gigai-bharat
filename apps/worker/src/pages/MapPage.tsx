@@ -66,7 +66,7 @@ const MapPage = () => {
       waitForMapLoad(map).then(() => {
         if (cancelled) return;
 
-        addHeatmapLayer(map, BLR_HOTSPOTS.map((h) => ({ lat: h.lat, lng: h.lng })));
+        addHeatmapLayer(map, "blr-demand", BLR_HOTSPOTS.map((h) => ({ lat: h.lat, lng: h.lng })));
         addCircleMarker(
           map,
           "hotspots",

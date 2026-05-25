@@ -17,6 +17,7 @@ export const MiniMap = ({ homeLat, homeLng }: Props) => {
 
   useEffect(() => {
     let cancelled = false;
+    let map: ReturnType<typeof createGigMap> | null = null;
     if (!ref.current) return;
 
     const center =
@@ -25,7 +26,7 @@ export const MiniMap = ({ homeLat, homeLng }: Props) => {
         : mapConfig.defaultCenter;
 
     try {
-      const map = createGigMap(ref.current, {
+      map = createGigMap(ref.current, {
         styleUrl: mapConfig.styleUrl,
         center,
         zoom: 11,
@@ -33,7 +34,7 @@ export const MiniMap = ({ homeLat, homeLng }: Props) => {
       });
 
       waitForMapLoad(map).then(() => {
-        if (cancelled) return;
+        if (cancelled || !map) return;
         addCircleMarker(
           map,
           "mini-hotspots",
@@ -54,6 +55,7 @@ export const MiniMap = ({ homeLat, homeLng }: Props) => {
 
     return () => {
       cancelled = true;
+      map?.remove();
     };
   }, [homeLat, homeLng, mapConfig.defaultCenter, mapConfig.styleUrl]);
 
