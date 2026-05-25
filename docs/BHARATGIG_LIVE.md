@@ -160,3 +160,5 @@ The domain currently serves an **older build** with broken SSR on sub-routes (`/
 3. Redeploy both without build cache.
 
 **Public demo (no login):** https://app.bharatgig.live/demo
+
+**Full founder playbook:** [FOUNDER_LAUNCH.md](./FOUNDER_LAUNCH.md) · **DNS troubleshooting:** [../deployment/DNS_SETUP.md](../deployment/DNS_SETUP.md)

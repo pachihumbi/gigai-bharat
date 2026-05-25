@@ -13,8 +13,8 @@ export function GlassPanel({
   return (
     <div
       className={cn(
-        "relative border border-border bg-card/60 backdrop-blur-sm",
-        glow && "shadow-[0_0_60px_-20px] shadow-[color:var(--neon)]/25",
+        "glass-panel relative overflow-hidden transition-shadow duration-300",
+        glow && "glass-card-premium glow-card-hover",
         className,
       )}
     >

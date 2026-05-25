@@ -18,6 +18,7 @@ import {
   PwaProvider,
 } from "@/components/pwa";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { ProductionAnalytics } from "@/components/ProductionAnalytics";
 
 const PwaShell = lazy(() =>
   import("@/components/pwa/PwaShell").then((m) => ({ default: m.PwaShell })),
@@ -104,6 +105,7 @@ const App = () => (
           </Routes>
             <Toaster />
             <Sonner />
+            <ProductionAnalytics />
           </BrowserRouter>
           </PwaProvider>
         </TooltipProvider>

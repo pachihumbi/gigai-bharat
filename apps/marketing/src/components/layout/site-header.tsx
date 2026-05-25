@@ -37,7 +37,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 md:bg-background/90 md:backdrop-blur-lg md:supports-[backdrop-filter]:bg-background/80">
+    <header className="glass-nav sticky top-0 z-50 border-b border-border">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-12">
         <Link to="/" className="group flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center border border-[color:var(--neon)]/50 bg-[color:var(--neon)]/5">
@@ -143,7 +143,7 @@ export function SiteHeader() {
 
 export function MobileStickyCTA() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--neon)]/30 bg-background/95 p-3 sm:hidden">
+    <div className="glass-nav fixed inset-x-0 bottom-0 z-40 border-t border-[color:var(--neon)]/30 p-3 sm:hidden">
       <div className="mx-auto flex max-w-lg gap-2">
         <ButtonLink href={contactLinks.investors} variant="primary" className="flex-1 min-h-11 text-label">
           Investors →

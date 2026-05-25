@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 
+import { ProductionAnalytics } from "@/components/analytics/production-analytics";
 import { MobileStickyCTA, SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ErrorBoundary } from "@/components/error-boundary";
@@ -189,9 +190,12 @@ function RootComponent() {
       <QueryClientProvider client={queryClient}>
         <div className="min-h-screen bg-background text-foreground">
           <SiteHeader />
-          <Outlet />
+          <main className="page-enter">
+            <Outlet />
+          </main>
           <SiteFooter />
           <MobileStickyCTA />
+          <ProductionAnalytics />
         </div>
       </QueryClientProvider>
     </ErrorBoundary>

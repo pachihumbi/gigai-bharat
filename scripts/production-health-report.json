@@ -1,65 +1,89 @@
 {
-  "generatedAt": "2026-05-24T18:04:14.981Z",
-  "productionSupabaseProject": "jsdmmskzwnqhmxboergf",
-  "productionUrls": {
-    "marketing": "https://www.bharatgig.live",
-    "workerApp": "https://app.bharatgig.live",
-    "workerAuth": "https://app.bharatgig.live/auth",
-    "driverApp": "https://app.bharatgig.live/driver-app",
-    "driverAppMarketing": "https://www.bharatgig.live/driver-app",
-    "admin": "https://gigai-bharat-admin-pachihumbis-projects.vercel.app"
-  },
-  "checks": [
+  "timestamp": "2026-05-25T07:06:00.058Z",
+  "allPassed": true,
+  "results": [
     {
-      "name": "supabase/config.toml",
+      "name": "marketing-home",
+      "url": "https://www.bharatgig.live",
+      "status": 200,
       "ok": true,
-      "detail": "jsdmmskzwnqhmxboergf"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "local env project",
+      "name": "marketing-manifesto",
+      "url": "https://www.bharatgig.live/manifesto",
+      "status": 200,
       "ok": true,
-      "detail": "jsdmmskzwnqhmxboergf"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "supabase connection",
+      "name": "marketing-workers",
+      "url": "https://www.bharatgig.live/workers",
+      "status": 200,
       "ok": true,
-      "detail": "https://jsdmmskzwnqhmxboergf.supabase.co"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "supabase auth API",
+      "name": "marketing-investors",
+      "url": "https://www.bharatgig.live/investors",
+      "status": 200,
       "ok": true,
-      "detail": "HTTP 200"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "Marketing home",
+      "name": "marketing-gurukul",
+      "url": "https://www.bharatgig.live/gurukul",
+      "status": 200,
       "ok": true,
-      "detail": "https://www.bharatgig.live/ → HTTP 200"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "Driver app (marketing)",
-      "ok": false,
-      "detail": "https://www.bharatgig.live/driver-app → HTTP 500"
+      "name": "marketing-driver-app-redirect",
+      "url": "https://www.bharatgig.live/driver-app",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200,
+        307,
+        308
+      ]
     },
     {
-      "name": "Worker app",
+      "name": "worker-home",
+      "url": "https://app.bharatgig.live",
+      "status": 200,
       "ok": true,
-      "detail": "https://app.bharatgig.live/ → HTTP 200"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "Worker auth",
+      "name": "worker-demo",
+      "url": "https://app.bharatgig.live/demo",
+      "status": 200,
       "ok": true,
-      "detail": "https://app.bharatgig.live/auth → HTTP 200"
+      "expect": [
+        200
+      ]
     },
     {
-      "name": "Worker driver-app (SPA)",
+      "name": "worker-auth",
+      "url": "https://app.bharatgig.live/auth",
+      "status": 200,
       "ok": true,
-      "detail": "https://app.bharatgig.live/driver-app → HTTP 200"
-    },
-    {
-      "name": "live worker bundle",
-      "ok": true,
-      "detail": "uses jsdmmskzwnqhmxboergf"
+      "expect": [
+        200
+      ]
     }
-  ],
-  "allPassed": false
+  ]
 }

@@ -24,7 +24,6 @@ import { Route as GurukulRouteImport } from './routes/gurukul'
 import { Route as FutureRouteImport } from './routes/future'
 import { Route as FounderRouteImport } from './routes/founder'
 import { Route as EvInfrastructureRouteImport } from './routes/ev-infrastructure'
-import { Route as DriverAppRouteImport } from './routes/driver-app'
 import { Route as CitiesRouteImport } from './routes/cities'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -103,11 +102,6 @@ const EvInfrastructureRoute = EvInfrastructureRouteImport.update({
   path: '/ev-infrastructure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DriverAppRoute = DriverAppRouteImport.update({
-  id: '/driver-app',
-  path: '/driver-app',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CitiesRoute = CitiesRouteImport.update({
   id: '/cities',
   path: '/cities',
@@ -122,7 +116,6 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
-  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -142,7 +135,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
-  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -163,7 +155,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cities': typeof CitiesRoute
-  '/driver-app': typeof DriverAppRoute
   '/ev-infrastructure': typeof EvInfrastructureRoute
   '/founder': typeof FounderRoute
   '/future': typeof FutureRoute
@@ -185,7 +176,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cities'
-    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -205,7 +195,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cities'
-    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -225,7 +214,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/cities'
-    | '/driver-app'
     | '/ev-infrastructure'
     | '/founder'
     | '/future'
@@ -246,7 +234,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CitiesRoute: typeof CitiesRoute
-  DriverAppRoute: typeof DriverAppRoute
   EvInfrastructureRoute: typeof EvInfrastructureRoute
   FounderRoute: typeof FounderRoute
   FutureRoute: typeof FutureRoute
@@ -371,13 +358,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EvInfrastructureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/driver-app': {
-      id: '/driver-app'
-      path: '/driver-app'
-      fullPath: '/driver-app'
-      preLoaderRoute: typeof DriverAppRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/cities': {
       id: '/cities'
       path: '/cities'
@@ -398,7 +378,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CitiesRoute: CitiesRoute,
-  DriverAppRoute: DriverAppRoute,
   EvInfrastructureRoute: EvInfrastructureRoute,
   FounderRoute: FounderRoute,
   FutureRoute: FutureRoute,

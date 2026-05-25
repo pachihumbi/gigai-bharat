@@ -8,7 +8,8 @@ Thank you for helping build infrastructure for India's gig workers. This guide i
 
 1. Read [ARCHITECTURE.md](./ARCHITECTURE.md) — understand boundaries between apps and `supabase/`.
 2. Read [SECURITY.md](./SECURITY.md) — never commit secrets.
-3. Copy `.env.example` → `.env.local` (root + relevant app).
+3. Read [docs/FOUNDER_LAUNCH.md](./docs/FOUNDER_LAUNCH.md) — production deploy & DNS.
+4. Copy `.env.example` → `.env.local` (root + relevant app).
 
 ---
 

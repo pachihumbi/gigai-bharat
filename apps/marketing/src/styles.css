@@ -233,8 +233,56 @@
 
   .glass-panel {
     border: 1px solid color-mix(in oklch, var(--foreground) 10%, transparent);
-    background: color-mix(in oklch, var(--card) 60%, transparent);
-    backdrop-filter: blur(12px);
+    background: color-mix(in oklch, var(--card) 55%, transparent);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    box-shadow:
+      0 1px 0 color-mix(in oklch, var(--foreground) 6%, transparent),
+      0 24px 48px -24px color-mix(in oklch, var(--midnight) 80%, transparent);
+  }
+
+  .glass-nav {
+    background: color-mix(in oklch, var(--background) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(1.15);
+    -webkit-backdrop-filter: blur(20px) saturate(1.15);
+  }
+  @supports (backdrop-filter: blur(1px)) {
+    .glass-nav {
+      background: color-mix(in oklch, var(--background) 65%, transparent);
+    }
+  }
+
+  .glass-card-premium {
+    border: 1px solid color-mix(in oklch, var(--neon) 12%, transparent);
+    background: linear-gradient(
+      145deg,
+      color-mix(in oklch, var(--card) 70%, transparent),
+      color-mix(in oklch, var(--graphite) 40%, transparent)
+    );
+    backdrop-filter: blur(14px);
+    transition:
+      border-color 0.35s ease,
+      box-shadow 0.35s ease,
+      transform 0.35s ease;
+  }
+  .glass-card-premium:hover {
+    border-color: color-mix(in oklch, var(--neon) 28%, transparent);
+    box-shadow: 0 0 40px -12px color-mix(in oklch, var(--neon) 35%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .page-enter {
+    animation: page-fade-in 0.5s ease-out both;
+  }
+  @keyframes page-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .cinematic-cta-primary {

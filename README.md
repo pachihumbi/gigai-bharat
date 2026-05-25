@@ -2,9 +2,31 @@
 
 **India's worker-owned AI operating system** for mobility and gig workforce infrastructure.
 
-**Live:** [www.bharatgig.live](https://www.bharatgig.live)
+| | |
+|---|---|
+| **Live site** | [www.bharatgig.live](https://www.bharatgig.live) |
+| **Worker app** | [app.bharatgig.live/demo](https://app.bharatgig.live/demo) |
+| **Contact** | hello@bharatgig.live |
+| **CI** | [![CI](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml/badge.svg)](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml) |
 
-[![CI](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml/badge.svg)](https://github.com/pachihumbi/gigai-bharat/actions/workflows/ci.yml)
+---
+
+## Repository map (founder-friendly)
+
+```
+gigai-bharat/
+├── frontend/          → apps/marketing, apps/worker, apps/admin
+├── backend/           → supabase/ (Postgres, Auth, RLS)
+├── api/               → supabase/functions/
+├── assets/            → apps/*/public/
+├── deployment/        → DNS, Vercel, checklists, monitoring
+├── docs/              → runbooks + FOUNDER_LAUNCH.md
+├── apps/              → actual application code (monorepo)
+├── packages/          → shared UI, types, tsconfig
+└── supabase/          → migrations + Edge Functions
+```
+
+**Start here:** [docs/FOUNDER_LAUNCH.md](./docs/FOUNDER_LAUNCH.md) — copy-paste deploy & DNS commands.
 
 ---
 
@@ -12,100 +34,52 @@
 
 A platform where gig workers own their data, earnings intelligence, and economic outcomes — starting with Bengaluru, scaling across Bharat.
 
-| Surface | Package | Purpose |
-|---------|---------|---------|
-| **Worker app** | `@gigai/worker` | Earnings OCR, wallet, welfare, maps, safety |
-| **Admin console** | `@gigai/admin` | City ops, audit, compliance |
-| **Marketing site** | `@gigai/marketing` | Public narrative & investor story |
-| **Backend** | `supabase/` | Postgres, Auth, RLS, Edge Functions, AI |
+| Surface | Package | URL |
+|---------|---------|-----|
+| **Marketing** | `@gigai/marketing` | https://www.bharatgig.live |
+| **Worker app** | `@gigai/worker` | https://app.bharatgig.live |
+| **Admin** | `@gigai/admin` | Internal (staging) |
+| **Backend** | `supabase/` | Hosted Supabase |
 
 ---
 
-## Repository structure
-
-```
-gigai-bharat/
-├── apps/
-│   ├── worker/          # React + Vite — worker product
-│   ├── admin/           # React + Vite — internal ops
-│   └── marketing/       # TanStack Start — public site
-├── packages/
-│   ├── ui/              # Shared design system (extracting)
-│   ├── types/           # Shared TS + generated DB types
-│   └── tsconfig/        # Shared compiler config
-├── supabase/
-│   ├── migrations/      # Schema + RLS
-│   └── functions/       # AI & server logic (Deno)
-├── infra/
-│   └── ai/              # Prompts, evals, AI roadmap
-├── docs/
-│   ├── MIGRATION.md
-│   └── DEPLOYMENT.md
-├── ARCHITECTURE.md
-├── CONTRIBUTING.md
-└── SECURITY.md
-```
-
-Full system design → **[ARCHITECTURE.md](./ARCHITECTURE.md)**
-
----
-
-## Quick start
-
-### Prerequisites
-
-- Node.js **20+**
-- npm **10+**
-- [Supabase CLI](https://supabase.com/docs/guides/cli) (for backend)
-
-### Install
+## Quick start (developers)
 
 ```bash
 git clone https://github.com/pachihumbi/gigai-bharat.git
 cd gigai-bharat
 npm install
-```
-
-### Environment
-
-```bash
 cp .env.example .env.local
 cp .env.example apps/worker/.env.local
-# Edit with your Supabase + Maps keys (see .env.example)
-```
-
-### Run apps
-
-```bash
+# Edit Supabase + Maps keys
+npm run dev:marketing   # http://localhost:5173
 npm run dev:worker      # http://localhost:8080
-npm run dev:marketing   # TanStack dev server
-npm run dev:admin       # http://localhost:8081
-```
-
-### Supabase (from repo root)
-
-```bash
-npx supabase login
-npx supabase link --project-ref YOUR_REF
-npx supabase start          # optional local stack
-npm run functions:serve     # test parse-earning locally
 ```
 
 ---
 
-## Scripts
+## Production commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev:worker` | Worker app dev server |
-| `npm run dev:marketing` | Marketing site |
-| `npm run dev:admin` | Admin console |
-| `npm run build` | Build all apps (Turbo) |
-| `npm run lint` | Lint all workspaces |
-| `npm run test` | Run tests |
-| `npm run db:push` | Apply migrations |
-| `npm run db:types` | Generate TS types → `packages/types` |
-| `npm run functions:deploy` | Deploy Edge Functions |
+```bash
+npm run build                 # build all apps
+npm run health:production     # smoke test live URLs
+npm run verify:secrets        # check local env files
+git push origin main          # triggers CI + Vercel deploy
+```
+
+---
+
+## Documentation
+
+| Doc | Purpose |
+|-----|---------|
+| [docs/FOUNDER_LAUNCH.md](./docs/FOUNDER_LAUNCH.md) | **Launch playbook** — deploy, DNS, checklist |
+| [deployment/DNS_SETUP.md](./deployment/DNS_SETUP.md) | Cloudflare + Vercel DNS |
+| [deployment/PRODUCTION_CHECKLIST.md](./deployment/PRODUCTION_CHECKLIST.md) | Pre-launch boxes |
+| [docs/BHARATGIG_LIVE.md](./docs/BHARATGIG_LIVE.md) | Marketing Vercel settings |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | System design |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Git workflow |
+| [SECURITY.md](./SECURITY.md) | Security policy |
 
 ---
 
@@ -113,30 +87,16 @@ npm run functions:serve     # test parse-earning locally
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | React, TypeScript, Vite, Tailwind, shadcn/ui |
-| Marketing SSR | TanStack Start, Vercel (Nitro) or Cloudflare Workers |
+| Marketing | TanStack Start, Nitro, Vercel SSR |
+| Worker | React 19, Vite, PWA, Capacitor Android |
 | Backend | Supabase (Postgres, Auth, RLS, Edge Functions) |
-| AI | Gemini Vision via `parse-earning` Edge Function |
+| AI | Gemini via `parse-earning` Edge Function |
 | Monorepo | npm workspaces + Turborepo |
-
----
-
-## Documentation
-
-| Doc | Audience |
-|-----|----------|
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Engineers, investors (technical diligence) |
-| [docs/CTO_ROADMAP.md](./docs/CTO_ROADMAP.md) | **Engineering roadmap** — Phases 1–4 |
-| [docs/PRODUCTION_DEMO.md](./docs/PRODUCTION_DEMO.md) | **Public demo** — URLs, PWA, APK, Lighthouse |
-| [docs/BHARATGIG_LIVE.md](./docs/BHARATGIG_LIVE.md) | Production domain — bharatgig.live |
-| [docs/DEPLOY_VERCEL.md](./docs/DEPLOY_VERCEL.md) | Vercel deployment guide |
-| [docs/MIGRATION.md](./docs/MIGRATION.md) | Legacy folder merge |
-| [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md) | Full directory reference |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | Contributors |
-| [SECURITY.md](./SECURITY.md) | Security policy & reporting |
+| Deploy | Vercel (frontend) + Supabase (backend) |
+| DNS | Cloudflare → Vercel |
 
 ---
 
 ## License
 
-Proprietary — All rights reserved. Contact founders for partnership inquiries.
+[MIT](./LICENSE) — see file for terms.
