@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+dist-spaceship
 dist-ssr
 .output
 .vinxi

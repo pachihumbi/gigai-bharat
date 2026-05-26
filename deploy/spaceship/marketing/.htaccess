@@ -1,0 +1,47 @@
+# GigAI Bharat — marketing site (www.bharatgig.live)
+# Upload this file to the document root for www (public_html or domain folder).
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS (works on LiteSpeed when SSL is issued for this hostname)
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,L]
+
+  # Apex → canonical www
+  RewriteCond %{HTTP_HOST} ^bharatgig\.live$ [NC]
+  RewriteRule ^ https://www.bharatgig.live%{REQUEST_URI} [L,R=301]
+
+  # Driver app lives on app subdomain
+  RewriteRule ^driver-app/?$ https://app.bharatgig.live/driver-app [L,R=302]
+
+  # Legacy path
+  RewriteRule ^roi/?$ https://www.bharatgig.live/investors [L,R=301]
+
+  # Static assets — serve as files
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Prerendered HTML (TanStack Start static export)
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.+?)/?$ $1/index.html [L]
+
+  # TanStack Start SPA shell (DEPLOY_TARGET=spaceship build)
+  RewriteRule ^ _shell.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+</IfModule>
+
+<FilesMatch "^\.ht">
+  Require all denied
+</FilesMatch>

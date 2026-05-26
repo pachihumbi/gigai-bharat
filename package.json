@@ -29,7 +29,9 @@
     "test:contact-api": "node scripts/test-contact-api.mjs",
     "go-live": "node scripts/go-live.mjs",
     "lockdown": "node scripts/lockdown-report.mjs",
-    "verify:secrets": "node scripts/verify-secrets.mjs"
+    "verify:secrets": "node scripts/verify-secrets.mjs",
+    "build:spaceship": "node scripts/build-spaceship-marketing.mjs",
+    "verify:domain-ssl": "node scripts/verify-domain-ssl.mjs"
   },
   "engines": {
     "node": ">=20.0.0",
