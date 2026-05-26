@@ -1,0 +1,1 @@
+import{w as t}from"./index-BpTRnMd8.js";import{a as e}from"./use-safe-motion--1q8x7rj.js";function m({children:o,className:r,delay:s=0,...a}){return e(),t.jsx("div",{className:r,children:o})}export{m as F};

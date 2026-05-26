@@ -4,7 +4,9 @@ Production runbooks for **GigAI Bharat** (`bharatgig.live`). Copy-paste friendly
 
 | Doc | Use when |
 |-----|----------|
-| [DNS_SETUP.md](./DNS_SETUP.md) | Custom domain broken, SSL pending, www vs apex |
+| [SPACESHIP_CHECKLIST.md](./SPACESHIP_CHECKLIST.md) | **Launch checklist** — DNS, SSL, deploy, smoke test |
+| [SPACESHIP.md](./SPACESHIP.md) | **Spaceship hosting** — SSL, DNS, `.htaccess`, static deploy |
+| [DNS_SETUP.md](./DNS_SETUP.md) | Legacy Vercel DNS (worker `app` subdomain only) |
 | [PRODUCTION_CHECKLIST.md](./PRODUCTION_CHECKLIST.md) | Pre-launch & post-deploy verification |
 | [GITHUB_SETUP.md](./GITHUB_SETUP.md) | Branches, secrets, CI/CD |
 | [VERCEL.md](./VERCEL.md) | Vercel project settings (marketing + worker) |
@@ -14,7 +16,7 @@ Production runbooks for **GigAI Bharat** (`bharatgig.live`). Copy-paste friendly
 
 | Surface | URL | Platform |
 |---------|-----|----------|
-| Marketing | https://www.bharatgig.live | Vercel (`gigai-bharat`) |
+| Marketing | https://www.bharatgig.live | Spaceship shared hosting (migrating from Vercel) |
 | Worker app | https://app.bharatgig.live | Vercel (`gigai-bharat-worker`) |
 | Backend | https://ykrdwmbbieccfftierzc.supabase.co | Supabase Cloud |
 

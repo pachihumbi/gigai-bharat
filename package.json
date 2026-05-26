@@ -29,7 +29,8 @@
     "test:contact-api": "node scripts/test-contact-api.mjs",
     "go-live": "node scripts/go-live.mjs",
     "lockdown": "node scripts/lockdown-report.mjs",
-    "verify:secrets": "node scripts/verify-secrets.mjs"
+    "verify:secrets": "node scripts/verify-secrets.mjs",
+    "deploy:spaceship": "powershell -ExecutionPolicy Bypass -File scripts/deploy-spaceship.ps1"
   },
   "engines": {
     "node": ">=20.0.0",

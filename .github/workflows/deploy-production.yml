@@ -1,5 +1,8 @@
 name: Deploy Production
 
+# Marketing (www.bharatgig.live) → Spaceship shared hosting — see deployment/SPACESHIP.md
+# Worker (app.bharatgig.live) → Vercel — this workflow deploys worker only
+
 on:
   workflow_dispatch:
     inputs:
@@ -14,7 +17,6 @@ on:
   push:
     branches: [main]
     paths:
-      - "apps/marketing/**"
       - "apps/worker/**"
       - "package-lock.json"
       - "scripts/prepare-worker-vercel-output.cjs"
@@ -28,45 +30,8 @@ env:
   VERCEL_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_cache == 'true' && '--force' || '' }}
 
 jobs:
-  deploy-marketing:
-    name: Marketing → www.bharatgig.live
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install
-        run: npm ci
-
-      - name: Build marketing (Nitro Vercel SSR)
-        run: npm run build -w @gigai/marketing
-        env:
-          VERCEL: "1"
-          VITE_SITE_URL: https://www.bharatgig.live
-          DEPLOY_TARGET: vercel
-
-      - name: Deploy marketing → www.bharatgig.live
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          # gigai-bharat-marketing — NOT legacy gigai-bharat (was misconfigured worker root)
-          vercel-project-id: ${{ secrets.VERCEL_MARKETING_PROJECT_ID }}
-          working-directory: apps/marketing
-          vercel-args: --prebuilt --prod ${{ env.VERCEL_FORCE }}
-
-      - name: Smoke test marketing (post-deploy)
-        run: node scripts/health-check-production.mjs
-        env:
-          # Only marketing subset — full script validates worker too
-          SKIP_WORKER: "false"
-
   deploy-worker:
-    name: Worker → app.bharatgig.live
+    name: Worker → app.bharatgig.live (Vercel)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

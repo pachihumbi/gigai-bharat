@@ -45,10 +45,10 @@ jobs:
           VITE_SUPABASE_URL: https://placeholder.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: placeholder
 
-      - name: Build marketing (Nitro Vercel SSR)
-        run: npm run build -w @gigai/marketing
+      - name: Build marketing (Spaceship static)
+        run: npm run build:spaceship -w @gigai/marketing
         env:
-          VERCEL: "1"
+          DEPLOY_TARGET: spaceship
           VITE_SITE_URL: https://www.bharatgig.live
 
       - name: Lint marketing

@@ -10,14 +10,36 @@ import { nitro } from "nitro/vite";
 /** Vercel sets VERCEL=1 automatically; override with DEPLOY_TARGET=cloudflare for Wrangler. */
 const isVercel =
   process.env.DEPLOY_TARGET === "vercel" || process.env.VERCEL === "1";
+const isSpaceship = process.env.DEPLOY_TARGET === "spaceship";
 
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    ...(isSpaceship
+      ? {
+          prerender: {
+            enabled: true,
+            crawlLinks: true,
+            autoStaticPathsDiscovery: true,
+            failOnError: false,
+            concurrency: 8,
+          },
+        }
+      : {}),
   },
-  cloudflare: isVercel ? false : undefined,
-  plugins: isVercel ? [nitro({ preset: "vercel" })] : [],
+  cloudflare: isVercel || isSpaceship ? false : undefined,
+  plugins: isVercel
+    ? [nitro({ preset: "vercel" })]
+/** Spaceship: node-server preset enables prerender; deploy `.output/public` only (static HTML). */
+    : isSpaceship
+      ? [nitro({ preset: "node-server" })]
+      : [],
   vite: {
+    preview: {
+      host: "127.0.0.1",
+      strictPort: true,
+      port: 4173,
+    },
     server: {
       port: 5173,
       strictPort: false,

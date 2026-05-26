@@ -152,6 +152,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     scripts: [
       {
         type: "text/javascript",
+        children: `(function(){if(typeof window==="undefined"||!("serviceWorker"in navigator))return;var k="gigai-www-sw-cleanup";try{if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,"1")}catch(e){}navigator.serviceWorker.getRegistrations().then(function(r){if(!r.length)return;Promise.all(r.map(function(x){return x.unregister()})).then(function(){if("caches"in window){caches.keys().then(function(keys){keys.forEach(function(key){if(/gigai|workbox|precache|worker/i.test(key))caches.delete(key)})})}location.reload()})})})();`,
+      },
+      {
+        type: "text/javascript",
         src: "/sw-cleanup.js",
       },
       {

@@ -1,0 +1,1 @@
+import{w as x,f as a}from"./index-BpTRnMd8.js";function l({id:s,children:t,className:e,bleed:o=!1}){return x.jsx("section",{id:s,className:a(o?"w-full":"mx-auto max-w-7xl px-5 py-section md:px-12",e),children:t})}export{l as S};

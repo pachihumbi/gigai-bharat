@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "_archived": "2026-05-26 — Marketing migrated to Spaceship. Rules ported to deployment/spaceship/public/.htaccess",
   "installCommand": "cd ../.. && npm install",
   "buildCommand": "cd ../.. && npm run build -w @gigai/marketing",
   "framework": null,
