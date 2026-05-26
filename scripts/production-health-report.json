@@ -1,36 +1,36 @@
 {
-  "timestamp": "2026-05-25T14:03:49.351Z",
-  "allPassed": false,
+  "timestamp": "2026-05-25T14:20:59.910Z",
+  "allPassed": true,
   "results": [
     {
       "name": "marketing-home",
       "url": "https://www.bharatgig.live",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200
       ],
-      "error": "unexpected body fragment (wrong app?): manifest.webmanifest"
+      "error": null
     },
     {
       "name": "marketing-manifesto-ssr",
       "url": "https://www.bharatgig.live/manifesto",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200
       ],
-      "error": "unexpected body fragment (wrong app?): manifest.webmanifest"
+      "error": null
     },
     {
       "name": "marketing-workers",
       "url": "https://www.bharatgig.live/workers",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200
       ],
-      "error": "unexpected body fragment (wrong app?): manifest.webmanifest"
+      "error": null
     },
     {
       "name": "marketing-investors",
@@ -70,7 +70,7 @@
       "name": "marketing-apex",
       "url": "https://bharatgig.live",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200,
         301,
@@ -78,7 +78,7 @@
         307,
         308
       ],
-      "error": "unexpected body fragment (wrong app?): manifest.webmanifest"
+      "error": null
     },
     {
       "name": "worker-home",
@@ -111,24 +111,64 @@
       "error": null
     },
     {
-      "name": "marketing-robots",
-      "url": "https://www.bharatgig.live/robots.txt",
+      "name": "marketing-contact",
+      "url": "https://www.bharatgig.live/contact",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200
       ],
-      "error": "missing body fragment: www.bharatgig.live"
+      "error": null
+    },
+    {
+      "name": "marketing-press",
+      "url": "https://www.bharatgig.live/press",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-privacy",
+      "url": "https://www.bharatgig.live/privacy",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-api-health",
+      "url": "https://www.bharatgig.live/api/health",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
+    },
+    {
+      "name": "marketing-robots",
+      "url": "https://www.bharatgig.live/robots.txt",
+      "status": 200,
+      "ok": true,
+      "expect": [
+        200
+      ],
+      "error": null
     },
     {
       "name": "marketing-sitemap",
       "url": "https://www.bharatgig.live/sitemap.xml",
       "status": 200,
-      "ok": false,
+      "ok": true,
       "expect": [
         200
       ],
-      "error": "missing body fragment: www.bharatgig.live"
+      "error": null
     }
   ]
 }
